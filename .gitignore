@@ -110,3 +110,6 @@ staticfiles/
 log/
 
 .idea/
+
+*.REM
+*.xlsx
