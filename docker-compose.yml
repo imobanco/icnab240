@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+  cnab:
+    build: .
+    volumes:
+      - .:/code
+    working_dir: /code

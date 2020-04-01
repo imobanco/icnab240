@@ -1,0 +1,90 @@
+{
+    "013q_codigo_do_banco_na_compensacao": [
+        "1",
+        "3"
+    ],
+    "023q_lote_de_servico": [
+        "4",
+        "7"
+    ],
+    "033q_tipo_de_registro": [
+        "8",
+        "8"
+    ],
+    "043q_numero_sequencial_do_registro_no_lote": [
+        "9",
+        "13"
+    ],
+    "053q_cod_segmento_do_registro_detalhe": [
+        "14",
+        "14"
+    ],
+    "063q_uso_exclusivo_febraban_cnab": [
+        "15",
+        "15"
+    ],
+    "073q_codigo_de_movimento_remessa": [
+        "16",
+        "17"
+    ],
+    "083q_tipo_de_inscricao": [
+        "18",
+        "18"
+    ],
+    "093q_numero_de_inscricao": [
+        "19",
+        "33"
+    ],
+    "103q_nome": [
+        "34",
+        "73"
+    ],
+    "113q_endereco": [
+        "74",
+        "113"
+    ],
+    "123q_bairro": [
+        "114",
+        "128"
+    ],
+    "133q_cep": [
+        "129",
+        "133"
+    ],
+    "143q_sufixo_do_cep": [
+        "134",
+        "136"
+    ],
+    "153q_cidade": [
+        "137",
+        "151"
+    ],
+    "163q_unidade_da_federacao": [
+        "152",
+        "153"
+    ],
+    "173q_tipo_de_inscricao": [
+        "154",
+        "154"
+    ],
+    "183q_numero_de_inscricao": [
+        "155",
+        "169"
+    ],
+    "193q_nome_do_sacador_avalista": [
+        "170",
+        "209"
+    ],
+    "203q_cod_bco_corresp_na_compensacao": [
+        "210",
+        "212"
+    ],
+    "213q_nosso_numero_no_banco_correspondente": [
+        "213",
+        "232"
+    ],
+    "223q_uso_exclusivo_febraban_cnab": [
+        "233",
+        "240"
+    ]
+}

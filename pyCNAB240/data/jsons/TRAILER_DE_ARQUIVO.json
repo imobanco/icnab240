@@ -1,0 +1,34 @@
+{
+    "019_codigo_do_banco_na_compensacao": [
+        "1",
+        "3"
+    ],
+    "029_lote_de_servico": [
+        "4",
+        "7"
+    ],
+    "039_tipo_de_registro": [
+        "8",
+        "8"
+    ],
+    "049_uso_exclusivo_febraban_cnab": [
+        "9",
+        "17"
+    ],
+    "059_quantidade_de_lotes_do_arquivo": [
+        "18",
+        "23"
+    ],
+    "069_quantidade_de_registros_do_arquivo": [
+        "24",
+        "29"
+    ],
+    "079_qtde_de_contas_p_conc_lotes": [
+        "30",
+        "35"
+    ],
+    "089_uso_exclusivo_febraban_cnab": [
+        "36",
+        "240"
+    ]
+}
