@@ -1,0 +1,39 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branchs:
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'release/**'
+
+jobs:
+  black:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: pip install black
+      - name: Lint with black
+        run: black --check .
+
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: make pip.install
+      - name: Config .env file
+        run: make config.env
+      - name: Test with pytest
+        run: make test
