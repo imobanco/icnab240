@@ -515,30 +515,43 @@ def set_reasonable_default(fields, identifier):
     return fields
 
 
-def set_cpf_or_cnpj(fields):
+def inscription_type(cpf_or_cnpj):
+    """Calculates if string is cpf or cnpj
+
+    Campos: 05.0,
+    Descrição: G005
+
+    :param cpf_or_cnpj: str cpf or cnpj
+    :return: int, 1 if is cpf, 2 if is cnpj, otherwise raise
     """
 
+    if cpfcnpj.validate(cpf_or_cnpj):
+        if len(cpf_or_cnpj) == 11:
+            return 1
+        else:
+            return 2
+    else:
+        raise ValueError(f'The number is not a valid cpf or cnpj: {cpf_or_cnpj}')
+
+
+def set_cpf_or_cnpj(fields, identifier_inscription_type,
+                    identifier_cpf_or_cnpj):
+    """
+    Campos: 06.0, 09.1
+    DEscrição: G005, problema muitos casos diferentes desse campo
     Randomly generated using gen.cpf() from pycpfcnpj:
     00140154558, 00002238490226
 
-    :param field:
+    :param fields:
     :return: a Field with value setted tha mathcs if it is cpf (1) or cnpj (2)
     """
     for field in fields:
-        if field.identifier == '06.0':
+        if field.identifier == identifier_cpf_or_cnpj:
             cpf_or_cnpj = field.value
-            break
 
     for field in fields:
-        if field.identifier == '05.0':
-
-            if cpfcnpj.validate(cpf_or_cnpj):
-                if len(cpf_or_cnpj) == 11:
-                    field.value = 1
-                else:
-                    field.value = 2
-            else:
-                raise ValueError(f'The number is not a valid cpf or cnpj: {cpf_or_cnpj}')
+        if field.identifier == identifier_inscription_type:
+            field.value = inscription_type(cpf_or_cnpj)
 
     return fields
 
@@ -565,7 +578,7 @@ def set_header_de_arquivo(fields, file_name):
 
     data = build_dict_from_csv(file_name)
     fields = set_given_data_to_header_de_arquivo(fields, data)
-    fields = set_cpf_or_cnpj(fields)
+    fields = set_cpf_or_cnpj(fields, '05.0', '06.0')
 
     fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
     fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
@@ -578,6 +591,30 @@ def set_header_de_arquivo(fields, file_name):
 path_to_diretory = os.path.dirname(__file__)
 csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
 fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
+
+
+def set_header_de_lote(fields, file_name):
+
+    fields = set_reasonable_default(fields, '04.1')
+
+    data = build_dict_from_csv(file_name)
+
+    fields = set_given_data_to_header_de_arquivo(fields, data)
+
+    fields = set_cpf_or_cnpj(fields, '09.1', '10.1')
+
+    fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
+    fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
+
+    fields = set_white_spaces_reasonable_default(fields)
+
+    return fields
+
+
+path_to_diretory = os.path.dirname(__file__)
+csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
+fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
+
 
 CPF_OR_CNPJ = '1'
 CNPJ = '06126497000175'
@@ -617,7 +654,7 @@ set_header_de_lote = compose(
                             (set_generic_field, 'identifier', '22.1', 'value', Data_do_Crédito),
                             )
 
-fields = set_header_de_lote(fields)
+# fields = set_header_de_lote(fields)
 
 
 
