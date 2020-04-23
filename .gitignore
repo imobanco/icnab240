@@ -115,3 +115,5 @@ log/
 *.xlsx
 cnabs/
 Santander_cnab_reader/
+*.zip
+*.ods
