@@ -29,22 +29,23 @@ class CNABLinesTestCase(unittest.TestCase):
 
         self.assertEqual(expected, result)
 
-    # def test_set_header_de_lote(self):
-    #     expected = '03300011R01##030#1123456789123456#####12345999991234566666234567891245624#########################Pedro####################################### ####################################### 999999990203300401022003#################################\n'
-    #
-    #     file_name = 'header_de_arquivo_lote.csv'
-    #     path_to_diretory = os.path.dirname(__file__)
-    #     full_file_name = os.path.join(path_to_diretory, file_name)
-    #
-    #     fields = filter_segment(main_fields, '.1')
-    #
-    #     fields = set_header_de_arquivo(fields, full_file_name)
-    #
-    #     fields = fill_value_to_cnab(fields)
-    #     pieces = build_pieces_of_value_to_cnab(fields)
-    #     result = build_cnab_lines(pieces)[0]
-    #
-    #     self.assertEqual(expected, result)
+    def test_set_header_de_lote(self):
+        expected = '03300011E01##030#1000000140154558###################300004500000000000678############Um nome de empresa################################################################################999999992304202000000000#################################\n'
+
+        file_name = 'header_de_arquivo_lote_fields.csv'
+        path_to_diretory = os.path.dirname(__file__)
+        full_file_name = os.path.join(path_to_diretory, file_name)
+
+        fields = filter_segment(main_fields, '.1')
+
+        with freeze_time('2020-04-23'):
+            fields = set_header_de_lote(fields, full_file_name)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0]
+
+        self.assertEqual(expected, result)
 
 if __name__ == '__main__':
     unittest.main()

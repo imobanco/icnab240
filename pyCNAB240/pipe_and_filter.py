@@ -167,7 +167,6 @@ def set_zeros_reasonable_default(fields):
     """
     for field in fields:
         if field.num_or_str == 'Num' and field.reasonable_default == 'Vazio':
-            print(field.identifier)
             field.value_to_cnab = '0'*field.length
             field.value = field.value_to_cnab
     return fields
@@ -255,9 +254,9 @@ def set_spaces_if_it_is_not_retorno(fields):
             field.value = field.value_to_cnab
             continue
 
-        if field.identifier == '22.1':
-            field.value_to_cnab = '@'*(field.length + default_decimals(field))
-            field.value = field.value_to_cnab
+        # if field.identifier == '22.1':
+        #     field.value_to_cnab = '@'*(field.length + default_decimals(field))
+        #     field.value = field.value_to_cnab
 
     return fields
 
@@ -651,7 +650,7 @@ Data_do_Crédito = '01022003'
 
 
 
-set_header_de_lote = compose(
+_set_header_de_lote = compose(
                             (set_generic_field, 'identifier', '04.1', 'value', TYPE_OF_OPERATION),
                             # (set_generic_field, 'identifier', '07.1', 'value', N_da_Versão_do_Layout_do_Arquivo),
                             (set_generic_field, 'identifier', '09.1', 'value', CPF_OR_CNPJ),
