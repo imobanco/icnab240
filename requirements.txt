@@ -4,3 +4,4 @@ pycpfcnpj==1.5.1
 ruamel.yaml==0.16.10
 pydantic==1.4
 mock==4.0.2
+freezegun==0.3.15
