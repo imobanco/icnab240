@@ -1,6 +1,10 @@
 # pyCNAB240
 
 
+- página 11 na tabela "Para Tipo de Impressão 1" existe um erro, 10.3S 
+está duplicado. A minha solução por hora foi corrigir nos `.csv`s.
+
+ 
 ## Docker + docker-compose
 
 Install [docker-ce](https://docs.docker.com/install/) and 
