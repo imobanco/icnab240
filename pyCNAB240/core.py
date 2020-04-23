@@ -54,7 +54,10 @@ def build_list_of_fields(lines):
     fields = []
     for line in lines:
         # Ugly, but only here, and only once, we can survive it ...
-        f = Field(line[7], line[3], line[0], line[1], line[4], line[5], line[6], line[8], line[2])
+        f = Field(default=line[7], end=line[3], identifier=line[0],
+                  full_name=line[1], length=line[4], num_decimals=line[5],
+                  num_or_str=line[6], reasonable_default=line[8], start=line[2])
+        
         fields.append(f)
     return fields
 
