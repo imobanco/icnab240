@@ -156,6 +156,23 @@ def set_white_spaces_reasonable_default(fields):
     return fields
 
 
+def set_zeros_reasonable_default(fields):
+    """Sets value_to_cnab to spaces if is Alfa and Vazio
+
+    :param fields: a list that each element is type Field
+    :return: a list that each element is type Field with value_to_cnab
+             set to spaces
+
+    TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
+    """
+    for field in fields:
+        if field.num_or_str == 'Num' and field.reasonable_default == 'Vazio':
+            print(field.identifier)
+            field.value_to_cnab = '0'*field.length
+            field.value = field.value_to_cnab
+    return fields
+
+
 def set_reasonable_default_given_values(fields):
     """
 
@@ -596,17 +613,16 @@ fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
 def set_header_de_lote(fields, file_name):
 
     fields = set_reasonable_default(fields, '04.1')
-
     data = build_dict_from_csv(file_name)
-
     fields = set_given_data_to_header_de_arquivo(fields, data)
 
     fields = set_cpf_or_cnpj(fields, '09.1', '10.1')
 
-    fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
-    fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
+    fields = set_field(fields, '21.1', datetime.today().strftime('%d%m%Y'))
 
+    # TODO: talvez fazer uma função só que faz ambas as coisas
     fields = set_white_spaces_reasonable_default(fields)
+    fields = set_zeros_reasonable_default(fields)
 
     return fields
 
