@@ -567,12 +567,8 @@ def set_header_de_arquivo(fields, file_name):
     fields = set_given_data_to_header_de_arquivo(fields, data)
     fields = set_cpf_or_cnpj(fields)
 
-    # TODO: mock this
-    # fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
-    # fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
-
-    fields = set_field(fields, '17.0', '22042020')
-    fields = set_field(fields, '18.0', 182133)
+    fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
+    fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
 
     fields = set_white_spaces_reasonable_default(fields)
 
