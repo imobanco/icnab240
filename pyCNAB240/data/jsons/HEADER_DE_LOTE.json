@@ -1,97 +1,97 @@
 {
-    "010_codigo_do_banco_na_compensacao": [
+    "011_codigo_do_banco_na_compensacao": [
         "1",
         "3"
     ],
-    "020_lote_de_servico": [
+    "021_lote_de_servico": [
         "4",
         "7"
     ],
-    "030_tipo_de_registro": [
+    "031_tipo_de_registro": [
         "8",
         "8"
     ],
-    "040_uso_exclusivo_febraban_cnab": [
+    "041_uso_exclusivo_febraban_cnab": [
         "9",
         "17"
     ],
-    "050_tipo_de_inscricao_da_empresa": [
+    "051_tipo_de_inscricao_da_empresa": [
         "18",
         "18"
     ],
-    "060_numero_de_inscricao_da_empresa": [
+    "061_numero_de_inscricao_da_empresa": [
         "19",
         "32"
     ],
-    "070_codigo_do_convenio_no_banco": [
+    "071_codigo_do_convenio_no_banco": [
         "33",
         "52"
     ],
-    "080_agencia_mantenedora_da_conta": [
+    "081_agencia_mantenedora_da_conta": [
         "53",
         "57"
     ],
-    "090_digito_verificador_da_agencia": [
+    "091_digito_verificador_da_agencia": [
         "58",
         "58"
     ],
-    "100_numero_da_conta_corrente": [
+    "101_numero_da_conta_corrente": [
         "59",
         "70"
     ],
-    "110_digito_verificador_da_conta": [
+    "111_digito_verificador_da_conta": [
         "71",
         "71"
     ],
-    "120_digito_verificador_da_ag_conta": [
+    "121_digito_verificador_da_ag_conta": [
         "72",
         "72"
     ],
-    "130_nome_da_empresa": [
+    "131_nome_da_empresa": [
         "73",
         "102"
     ],
-    "140_nome_do_banco": [
+    "141_nome_do_banco": [
         "103",
         "132"
     ],
-    "150_uso_exclusivo_febraban_cnab": [
+    "151_uso_exclusivo_febraban_cnab": [
         "133",
         "142"
     ],
-    "160_codigo_remessa_retorno": [
+    "161_codigo_remessa_retorno": [
         "143",
         "143"
     ],
-    "170_data_de_geracao_do_arquivo": [
+    "171_data_de_geracao_do_arquivo": [
         "144",
         "151"
     ],
-    "180_hora_de_geracao_do_arquivo": [
+    "181_hora_de_geracao_do_arquivo": [
         "152",
         "157"
     ],
-    "190_numero_sequencial_do_arquivo": [
+    "191_numero_sequencial_do_arquivo": [
         "158",
         "163"
     ],
-    "200_numero_da_versao_do_layout_do_arquivo": [
+    "201_numero_da_versao_do_layout_do_arquivo": [
         "164",
         "166"
     ],
-    "210_densidade_de_gravacao_do_arquivo": [
+    "211_densidade_de_gravacao_do_arquivo": [
         "167",
         "171"
     ],
-    "220_para_uso_reservado_do_banco": [
+    "221_para_uso_reservado_do_banco": [
         "172",
         "191"
     ],
-    "230_para_uso_reservado_da_empresa": [
+    "231_para_uso_reservado_da_empresa": [
         "192",
         "211"
     ],
-    "240_uso_exclusivo_febraban_cnab": [
+    "241_uso_exclusivo_febraban_cnab": [
         "212",
         "240"
     ]
