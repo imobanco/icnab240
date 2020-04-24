@@ -131,6 +131,7 @@ def set_bank_number(fields, bank_number):
 def set_white_spaces(fields):
     """Sets value_to_cnab to spaces if is Alfa and Brancos
 
+    TODO: listar todos os campos que essa função modifica
     :param fields: a list that each element is type Field
     :return: a list that each element is type Field with value_to_cnab
              set to spaces
@@ -601,22 +602,25 @@ def set_header_de_lote(fields, file_name):
     return fields
 
 
-BANK_NUMBER = '033'
-NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
-
-
 def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
 
     fields = check_start_and_end(main_fields)
     fields = check_duplicated_identifiers(fields)
 
     fields = set_defaults(fields)
+    fields = set_registry_type(fields)
 
     fields = set_bank_number(fields, BANK_NUMBER)
 
     fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
 
     fields = set_numero_do_lote_de_servico_not_header_footer(fields)
+
+    # TODO: documentar essa função melhor
+    # tanto faz onde for chamado
+    fields = set_spaces_if_it_is_not_retorno(fields)
+
+    fields = set_white_spaces(fields)
 
     return fields
 
@@ -636,39 +640,30 @@ def set_trailer_de_arquivo(fields):
     return fields
 
 
-fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
-
+BANK_NUMBER = '033'
+NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
 
 path_to_diretory = os.path.dirname(__file__)
 csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
+csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
+
+
+fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+
 fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
 
-path_to_diretory = os.path.dirname(__file__)
-csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
 fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
 
 
-
-
-
 fields = set_trailer_de_arquivo(fields)
-
-
-# tanto faz onde for chamado
-fields = set_spaces_if_it_is_not_retorno(fields)
-
-fields = set_registry_type(fields)
-
-fields = set_white_spaces(fields)
-# print(generic_filter(fields, 'identifier', '04.9'))
 
 
 # Act in all P, Q and R
 fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
 fields = set_P_forma_de_cadastr_do_titulo_no_banco(fields, '1')
 
-fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
-         + filter_segment(fields, '.5') + filter_segment(fields, '.9')
+# fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
+#          + filter_segment(fields, '.5') + filter_segment(fields, '.9')
 
 
 fields = fill_value_to_cnab(fields)
