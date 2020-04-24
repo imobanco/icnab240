@@ -99,8 +99,6 @@ class CNABTestCase(unittest.TestCase):
 
         self.assertEqual(expected_value, result)
 
-
-
     def test_count_cnab_lines_E(self):
 
         fields = [Field(start=9, end=9, value='E'),
@@ -183,7 +181,23 @@ class CNABTestCase(unittest.TestCase):
 
         self.assertEqual(expected_value, result)
 
+    def test_inscription_type_cpf(self):
+        cpf = '00140154558'
+        expected_value = 1
+        result = inscription_type(cpf)
 
+        self.assertEqual(expected_value, result)
+
+    def test_inscription_type_cnpj(self):
+        cnpj = '00002238490226'
+        expected_value = 2
+        result = inscription_type(cnpj)
+
+        self.assertEqual(expected_value, result)
+
+    def test_inscription_type_not_cpf_or_cnpj_raise(self):
+        with self.assertRaises(ValueError):
+            inscription_type(None)
 
 
 if __name__ == '__main__':
