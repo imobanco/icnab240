@@ -47,5 +47,22 @@ class CNABLinesTestCase(unittest.TestCase):
 
         self.assertEqual(expected, result)
 
+    def test_set_trailer_de_arquivo(self):
+        expected = '03399999#########000001000010000002#############################################################################################################################################################################################################\n'
+
+        fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
+                 + filter_segment(main_fields, '.5') + filter_segment(main_fields, '.9')
+
+        set_trailer_de_arquivo(fields)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0]
+        print(expected)
+        print(result)
+        print(expected == result)
+
+        self.assertEqual(expected, result)
+
 if __name__ == '__main__':
     unittest.main()

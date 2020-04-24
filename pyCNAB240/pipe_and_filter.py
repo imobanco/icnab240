@@ -508,6 +508,7 @@ fields = check_duplicated_identifiers(fields)
 
 fields = set_defaults(fields)
 
+fields = set_bank_number(fields, BANK_NUMBER)
 
 fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
 
@@ -631,6 +632,24 @@ csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_
 fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
 
 
+def set_trailer_de_arquivo(fields):
+
+    total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
+    total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
+    total_lines_1 = str(count_cnab_lines_1(fields))
+    total_lines_1_and_E_type = str(count_cnab_lines_1_and_E_type(fields))
+
+    fields = set_field(fields, '05.9', total_lines_1)
+    fields = set_field(fields, '06.9', total_lines_0_1_3_5_9)
+    fields = set_field(fields, '07.9', total_lines_1_and_E_type)
+    fields = set_field(fields, '05.5', total_lines_1_2_3_4_5)
+
+    return fields
+
+
+fields = set_trailer_de_arquivo(fields)
+
+
 total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
 total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
 total_lines_1 = str(count_cnab_lines_1(fields))
@@ -651,7 +670,7 @@ set_many = compose(
 # tanto faz onde for chamado
 fields = set_spaces_if_it_is_not_retorno(fields)
 
-fields = set_many(fields)
+# fields = set_many(fields)
 
 fields = set_registry_type(fields)
 
