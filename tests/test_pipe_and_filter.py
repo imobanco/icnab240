@@ -50,8 +50,13 @@ class CNABLinesTestCase(unittest.TestCase):
     def test_set_trailer_de_arquivo(self):
         expected = '03399999#########000001000010000002#############################################################################################################################################################################################################\n'
 
-        fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
-                 + filter_segment(main_fields, '.5') + filter_segment(main_fields, '.9')
+        BANK_NUMBER = '033'
+        NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
+
+        fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+
+        fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
+                 + filter_segment(fields, '.5') + filter_segment(fields, '.9')
 
         set_trailer_de_arquivo(fields)
 

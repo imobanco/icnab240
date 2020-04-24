@@ -494,28 +494,6 @@ def set_P_forma_de_cadastr_do_titulo_no_banco(fields, value):
     return fields
 
 
-
-
-BANK_NUMBER = '033'
-# Use set_bank_number(fields, bank_number)
-
-TYPE_OF_OPERATION = 'R' # Tipo de Operação, G028
-NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
-
-
-fields = check_start_and_end(main_fields)
-fields = check_duplicated_identifiers(fields)
-
-fields = set_defaults(fields)
-
-fields = set_bank_number(fields, BANK_NUMBER)
-
-fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
-
-
-fields = set_numero_do_lote_de_servico_not_header_footer(fields)
-
-
 def set_field(fields, value_to_search, value_to_set):
     for field in fields:
         if field.identifier == value_to_search:
@@ -605,14 +583,10 @@ def set_header_de_arquivo(fields, file_name):
     return fields
 
 
-path_to_diretory = os.path.dirname(__file__)
-csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
-fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
-
-
 def set_header_de_lote(fields, file_name):
 
-    fields = set_reasonable_default(fields, '04.1')
+    # TODO: remover para receber como parâmetro?
+    fields = set_reasonable_default(fields, '04.1') # G028 04.1
     data = build_dict_from_csv(file_name)
     fields = set_given_data_to_header_de_arquivo(fields, data)
 
@@ -626,6 +600,33 @@ def set_header_de_lote(fields, file_name):
 
     return fields
 
+
+BANK_NUMBER = '033'
+NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
+
+
+def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
+
+    fields = check_start_and_end(main_fields)
+    fields = check_duplicated_identifiers(fields)
+
+    fields = set_defaults(fields)
+
+    fields = set_bank_number(fields, BANK_NUMBER)
+
+    fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
+
+    fields = set_numero_do_lote_de_servico_not_header_footer(fields)
+
+    return fields
+
+
+fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+
+
+path_to_diretory = os.path.dirname(__file__)
+csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
+fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
 
 path_to_diretory = os.path.dirname(__file__)
 csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
