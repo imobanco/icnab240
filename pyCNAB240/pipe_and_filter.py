@@ -621,18 +621,6 @@ def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
     return fields
 
 
-fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
-
-
-path_to_diretory = os.path.dirname(__file__)
-csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
-fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
-
-path_to_diretory = os.path.dirname(__file__)
-csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
-fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
-
-
 def set_trailer_de_arquivo(fields):
 
     total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
@@ -646,6 +634,21 @@ def set_trailer_de_arquivo(fields):
     fields = set_field(fields, '05.5', total_lines_1_2_3_4_5)
 
     return fields
+
+
+fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+
+
+path_to_diretory = os.path.dirname(__file__)
+csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
+fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
+
+path_to_diretory = os.path.dirname(__file__)
+csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
+fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
+
+
+
 
 
 fields = set_trailer_de_arquivo(fields)
@@ -662,7 +665,6 @@ fields = set_white_spaces(fields)
 
 # Act in all P, Q and R
 fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
-
 fields = set_P_forma_de_cadastr_do_titulo_no_banco(fields, '1')
 
 fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
@@ -671,12 +673,9 @@ fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
 
 fields = fill_value_to_cnab(fields)
 
-
 # fields = filter_segment(fields, '.0')
-
 # for field in fields:
 #     print(field.identifier, 'length =', field.length, len(field.value_to_cnab), len(field.value), 'value =', field.value, 'value_to_cnab =', field.value_to_cnab)
-
 
 path_to_diretory = os.path.dirname(__file__)
 full_cnab_file_name = os.path.join(path_to_diretory, 'test.REM')
