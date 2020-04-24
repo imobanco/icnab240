@@ -297,22 +297,6 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
     return fields
 
 
-# TODO: test and check and remove
-def set_lote_de_servico(fields, total_lines):
-    """
-
-    06.9 Quantidade de Registros do Arquivo
-
-    :param fields:
-    :param total_lines:
-    :return: list of Fields
-    """
-    for field in fields:
-        if field.identifier == '06.9':
-            field.value = total_lines
-    return fields
-
-
 def count_cnab_lines(fields):
     """Calculates the number of lines the CNABs_retorno has
 
