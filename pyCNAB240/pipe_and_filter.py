@@ -282,8 +282,8 @@ def set_numero_do_lote_de_servico_header_and_footer(fields, value):
 
 def set_numero_do_lote_de_servico_not_header_footer(fields):
     """
-    Campo: 02.3P, 02.3Q, 02.3R, 02.3S, 02.3T, 02.3U, 02.5
-    Descrição: G002
+    Campo: 04.3P, 04.3Q, 04.3R, 04.3S, 04.3T, 04.3U
+    Descrição: G038
 
     :param fields:
     :return:
@@ -467,7 +467,7 @@ def filter_segment_and_value_none(fields, segment):
 
 def set_P_Q_R_codigo_de_movimento_remessa(fields, value):
     """
-    Campo:
+    Campos: 07.3P, 07.3Q, 07.3R. Poderia incluir o 07.3S
     Código de Movimento Remessa: C004
     :return:
     """
