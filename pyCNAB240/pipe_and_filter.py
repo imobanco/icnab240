@@ -625,17 +625,24 @@ def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
     return fields
 
 
+def set_trailer_de_lote(fields):
+
+    total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
+
+    fields = set_field(fields, '05.5', total_lines_1_2_3_4_5)
+
+    return fields
+
+
 def set_trailer_de_arquivo(fields):
 
     total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
-    total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
     total_lines_1 = str(count_cnab_lines_1(fields))
     total_lines_1_and_E_type = str(count_cnab_lines_1_and_E_type(fields))
 
     fields = set_field(fields, '05.9', total_lines_1)
     fields = set_field(fields, '06.9', total_lines_0_1_3_5_9)
     fields = set_field(fields, '07.9', total_lines_1_and_E_type)
-    fields = set_field(fields, '05.5', total_lines_1_2_3_4_5)
 
     return fields
 
@@ -654,6 +661,7 @@ fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
 
 fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
 
+fields = set_trailer_de_lote(fields)
 
 fields = set_trailer_de_arquivo(fields)
 
