@@ -631,48 +631,6 @@ csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_
 fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
 
 
-CPF_OR_CNPJ = '1'
-CNPJ = '06126497000175'
-
-Dígito_Verificador_da_Conta = '3'
-Dígito_Verificador_da_Ag_Conta = '4'
-N_de_Inscrição_da_Empresa = '123456789123456'
-Código_do_Convênio_no_Banco = '123459999912345' # 15 digits
-Agência_Mantenedora_da_Conta = '66666'
-Dígito_Verificador_da_Conta = '2'
-Número_da_Conta_Corrente = '345678912456'
-Nome_da_Empresa = 'Pedro'
-Mensagem_1 = ' '
-Mensagem_2 = ' '
-Número_Remessa_Retorno = '99999999'
-Data_de_Gravação_Remessa_Retorno = '02033004'
-Data_do_Crédito = '01022003'
-
-
-
-_set_header_de_lote = compose(
-                            (set_generic_field, 'identifier', '04.1', 'value', TYPE_OF_OPERATION),
-                            # (set_generic_field, 'identifier', '07.1', 'value', N_da_Versão_do_Layout_do_Arquivo),
-                            (set_generic_field, 'identifier', '09.1', 'value', CPF_OR_CNPJ),
-                            (set_generic_field, 'identifier', '10.1', 'value', N_de_Inscrição_da_Empresa),
-                            (set_generic_field, 'identifier', '11.1', 'value', Código_do_Convênio_no_Banco),
-                            (set_generic_field, 'identifier', '12.1', 'value', Agência_Mantenedora_da_Conta),
-                            (set_generic_field, 'identifier', '13.1', 'value', Dígito_Verificador_da_Conta),
-                            (set_generic_field, 'identifier', '14.1', 'value', Número_da_Conta_Corrente),
-                            (set_generic_field, 'identifier', '15.1', 'value', Dígito_Verificador_da_Conta),
-                            (set_generic_field, 'identifier', '16.1', 'value', Dígito_Verificador_da_Ag_Conta),
-                            (set_generic_field, 'identifier', '17.1', 'value', Nome_da_Empresa),
-                            (set_generic_field, 'identifier', '18.1', 'value', Mensagem_1),
-                            (set_generic_field, 'identifier', '19.1', 'value', Mensagem_2),
-                            (set_generic_field, 'identifier', '20.1', 'value', Número_Remessa_Retorno),
-                            (set_generic_field, 'identifier', '21.1', 'value', Data_de_Gravação_Remessa_Retorno),
-                            (set_generic_field, 'identifier', '22.1', 'value', Data_do_Crédito),
-                            )
-
-# fields = set_header_de_lote(fields)
-
-
-
 total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
 total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
 total_lines_1 = str(count_cnab_lines_1(fields))
