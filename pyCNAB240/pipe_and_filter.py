@@ -651,27 +651,8 @@ def set_trailer_de_arquivo(fields):
 fields = set_trailer_de_arquivo(fields)
 
 
-total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
-total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
-total_lines_1 = str(count_cnab_lines_1(fields))
-total_lines_1_and_E_type = str(int(total_lines_1) + count_cnab_lines_E(fields))
-# total_lines_1_and_E_type = str(count_cnab_lines_1_and_E_type(fields))
-
-set_many = compose(
-                   (set_generic_field, 'start', 1, 'value', BANK_NUMBER),
-                   (set_generic_field, 'identifier', '02.9', 'value', '9999'),
-                   (set_generic_field, 'identifier', '03.9', 'value', '9'),
-                   (set_generic_field, 'identifier', '05.9', 'value', total_lines_1),
-                   (set_generic_field, 'identifier', '06.9', 'value', total_lines_0_1_3_5_9),
-                   (set_generic_field, 'identifier', '07.9', 'value', total_lines_1_and_E_type),
-                   (set_generic_field, 'identifier', '05.5', 'value', total_lines_1_2_3_4_5),
-                   )
-
-
 # tanto faz onde for chamado
 fields = set_spaces_if_it_is_not_retorno(fields)
-
-# fields = set_many(fields)
 
 fields = set_registry_type(fields)
 
