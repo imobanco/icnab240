@@ -197,16 +197,50 @@ class CNABLinesTestCase(unittest.TestCase):
 
             self.assertEqual(expected, result)
 
-    def test_set_trailer_de_lote(self):
-        expected = '03300015#########000008@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#####################################################################################################################\n'
+    def test_set_trailer_de_lote_1(self):
+        expected = '03300015#########000008@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
 
         fields = set_trailer_de_lote(main_fields)
 
         fields = fill_value_to_cnab(fields)
         pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-2]
+        result = build_cnab_lines(pieces)[-2][:51]
 
         self.assertEqual(expected, result)
+
+    def test_set_trailer_de_lote_2(self):
+        expected = '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+
+        fields = set_trailer_de_lote(main_fields)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[-2][51:104]
+
+        self.assertEqual(expected, result)
+
+    def test_set_trailer_de_lote_3(self):
+        expected = '@@@@@@@@@@@@@@@@@@@######################################'
+
+        fields = set_trailer_de_lote(main_fields)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[-2][104:161]
+
+        self.assertEqual(expected, result)
+
+    def test_set_trailer_de_lote_4(self):
+            expected = '###############################################################################\n'
+
+            fields = set_trailer_de_lote(main_fields)
+
+            fields = fill_value_to_cnab(fields)
+            pieces = build_pieces_of_value_to_cnab(fields)
+            result = build_cnab_lines(pieces)[-2][161:]
+
+            self.assertEqual(expected, result)
+
 
     def test_set_trailer_de_arquivo(self):
         expected = '03399999#########000001000010000002#############################################################################################################################################################################################################\n'
