@@ -206,21 +206,6 @@ def generic_filter(fields, atribute_to_search, value_to_search):
             return field
 
 
-def set_total_lines(fields, total_lines):
-    """
-
-    06.9 Quantidade de Registros do Arquivo
-
-    :param fields:
-    :param total_lines:
-    :return: list of Fields
-    """
-    for field in fields:
-        if field.identifier == '06.9':
-            field.value = total_lines
-    return fields
-
-
 def set_registry_type(fields):
     for field in fields:
         if field.start == 8 and field.end == 8:
