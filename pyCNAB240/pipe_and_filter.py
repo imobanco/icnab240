@@ -285,8 +285,8 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
     Campo: 04.3P, 04.3Q, 04.3R, 04.3S, 04.3T, 04.3U
     Descrição: G038
 
-    :param fields:
-    :return:
+    :param fields: a list that each element is type Field
+    :return: a list that each element is type Field
     """
     count = 1
     for field in fields:
