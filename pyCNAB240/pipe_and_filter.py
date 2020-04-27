@@ -10,12 +10,17 @@ from pyCNAB240.csv_reader import build_dict_from_csv
 
 
 def check_start_and_end(fields):
-    """
-    Sanity check for start and end values loaded.
+    """Sanity check for start and end values loaded.
+
+    Checks if all star and end are present, it means
+    for all start - end must differ only by 1,
+    if end different of 240 and start different of 1
+
+    About the iter and next usage here:
     https://stackoverflow.com/a/16789817
 
     :param fields: a list that each element is type Field
-    :return: a list that each element is type Field
+    :return: a list that each element is type Field (just for keep the pattern)
     """
     _fields = iter(fields)
     field_old = next(_fields)
@@ -25,9 +30,10 @@ def check_start_and_end(fields):
             continue
 
         if field.start - field_old.end != 1:
-            raise ValueError(f'Start = {field_old.start} of {field_old.identifier} '
-                                f'and end = {field.start} '
-                                f'of {field.identifier} are wrong, must differ by 1.')
+            raise ValueError(f'Start = {field_old.start} of '
+                             f'{field_old.identifier} and '
+                             f'end = {field.start} of {field.identifier}'
+                             f'are wrong, must differ by 1.')
 
         field_old = field
     return fields
