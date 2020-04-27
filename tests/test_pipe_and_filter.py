@@ -11,8 +11,9 @@ from pyCNAB240.pipe_and_filter import *
 
 
 class CNABLinesTestCase(unittest.TestCase):
-    def test_set_header_de_arquivo(self):
-        expected = '03300000#########200002238490226###################300004500000000000678#############################9############################10##########12204202018213300001401501600#####################################################################\n'
+
+    def test_set_header_de_arquivo_1(self):
+        expected = '03300000#########200002238490226###################'
 
         file_name = 'header_de_arquivo_fields.csv'
         path_to_diretory = os.path.dirname(__file__)
@@ -25,9 +26,83 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = fill_value_to_cnab(fields)
         pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0]
+        result = build_cnab_lines(pieces)[0][:51]
 
         self.assertEqual(expected, result)
+
+    def test_set_header_de_arquivo_2(self):
+        expected = '300004500000000000678#############################9'
+
+        file_name = 'header_de_arquivo_fields.csv'
+        path_to_diretory = os.path.dirname(__file__)
+        full_file_name = os.path.join(path_to_diretory, file_name)
+
+        fields = filter_segment(main_fields, '.0')
+
+        with freeze_time('2020-04-22 18:21:33'):
+            fields = set_header_de_arquivo(fields, full_file_name)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0][51:102]
+
+        self.assertEqual(expected, result)
+
+    def test_set_header_de_arquivo_3(self):
+        expected = '############################10##########'
+
+        file_name = 'header_de_arquivo_fields.csv'
+        path_to_diretory = os.path.dirname(__file__)
+        full_file_name = os.path.join(path_to_diretory, file_name)
+
+        fields = filter_segment(main_fields, '.0')
+
+        with freeze_time('2020-04-22 18:21:33'):
+            fields = set_header_de_arquivo(fields, full_file_name)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0][102:142]
+
+        self.assertEqual(expected, result)
+
+
+    def test_set_header_de_arquivo_4(self):
+        expected = '12204202018213300001401501600'
+
+        file_name = 'header_de_arquivo_fields.csv'
+        path_to_diretory = os.path.dirname(__file__)
+        full_file_name = os.path.join(path_to_diretory, file_name)
+
+        fields = filter_segment(main_fields, '.0')
+
+        with freeze_time('2020-04-22 18:21:33'):
+            fields = set_header_de_arquivo(fields, full_file_name)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0][142:171]
+
+        self.assertEqual(expected, result)
+
+    def test_set_header_de_arquivo_5(self):
+        expected = '#####################################################################\n'
+
+        file_name = 'header_de_arquivo_fields.csv'
+        path_to_diretory = os.path.dirname(__file__)
+        full_file_name = os.path.join(path_to_diretory, file_name)
+
+        fields = filter_segment(main_fields, '.0')
+
+        with freeze_time('2020-04-22 18:21:33'):
+            fields = set_header_de_arquivo(fields, full_file_name)
+
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)[0][171:]
+
+        self.assertEqual(expected, result)
+
 
     def test_set_header_de_lote(self):
         expected = '03300011E01##030#1000000140154558###################300004500000000000678############Um nome de empresa################################################################################999999992304202000000000#################################\n'
