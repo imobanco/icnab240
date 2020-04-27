@@ -57,22 +57,21 @@ def check_duplicated_identifiers(fields):
 
 
 def build_pieces_of_value_to_cnab(fields):
-    """Extracts the value in the value_to_cnab field and adds \n as a delimiter
+    """Extracts the value in the value_to_cnab field and adds \n as a hook
      when field.end == 240, therefore the end of a line
 
-    :param fields: a list that each element is type Field
-    :return: a list that each element is a string
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is a string with at least value_to_cnab
 
-    #TODO: check if is necessary convert to str here
     #TODO: trow exception if it has None values? Note str(None) == 'None'
     """
     lines = []
 
     for field in fields:
         if field.end == 240:
-            lines.append(str(field.value_to_cnab) + '\n')
+            lines.append(field.value_to_cnab + '\n')
         else:
-            lines.append(str(field.value_to_cnab))
+            lines.append(field.value_to_cnab)
 
     return lines
 
