@@ -119,6 +119,10 @@ def write_cnab(cnab_file_name, fields):
 
 def set_bank_number(fields, bank_number):
     """
+
+    TODO: checar como será a construção do arquivo, pois se essa função for
+    chamada antes dos segmentos do meio serem criados dará problema.
+
     Campo: 01.0, ..., 01.9. All first elements must be set to the bank number.
     Descrição: G001. Sets for all segments, headers and footers
     the same given bank number.
@@ -240,8 +244,8 @@ def set_spaces_if_it_is_not_retorno(fields):
     Campos: 05.5
     Seta no Registro Trailer de Lote se não for do tipo retorno espaços
     em campos que não são usados
-    :param fields:
-    :return:
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field
     """
     for field in fields:
         if field.start == 9 and field.end == 9 and field.value == 'T':
@@ -269,9 +273,9 @@ def set_numero_do_lote_de_servico_header_and_footer(fields, value):
     Campo: 02.1, 02.9
     Descrição: G002
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :param value:
-    :return: a list that each element is type Field with value field set
+    :return: a list in that each element is type Field with value field set
              to the given value
     """
     for field in fields:
@@ -286,7 +290,7 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
     Campo: 04.3P, 04.3Q, 04.3R, 04.3S, 04.3T, 04.3U
     Descrição: G038
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: a list that each element is type Field
     """
     count = 1
@@ -301,7 +305,7 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
 def count_cnab_lines(fields):
     """Calculates the number of lines the CNABs_retorno has
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines that the CNABs_retorno has
     """
     return sum([1 for field in fields if field.end == 240])
@@ -312,7 +316,7 @@ def count_cnab_lines_0_1_3_5_9(fields):
     Campo: 06.9
     Descrição: G056 (ver G003 para ver todos tipos de registro)
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines 0, 1, 3, 5 and 9 that the CNABs_retorno has
     """
     # Check if it fails ...
@@ -328,7 +332,7 @@ def count_cnab_lines_1_2_3_4_5(fields):
     Campo: 05.5
     Descrição: G057 (ver G003 para ver todos tipos de registro)
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines 1, 2, 3, 4, and 5 that the CNABs_retorno has
     """
     return sum([1 for field in fields
@@ -344,7 +348,7 @@ def count_cnab_lines_1(fields):
     Campo: 05.9
     Descrição: G049 (ver G003 para ver todos tipos de registro)
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines of type 1 that the CNABs_retorno has
     """
     return sum([1 for field in fields
@@ -357,7 +361,7 @@ def count_cnab_lines_1(fields):
 def count_cnab_lines_E(fields):
     """Counts the CNABs lines of type E
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines of type E that the CNABs_retorno has
     """
     return sum([1 for field in fields
@@ -371,7 +375,7 @@ def count_cnab_lines_1_and_E_type(fields):
     """
     Campo: 07.9, uses two other functions to compute all lines type 1 and E
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :return: int representing the total of lines of type 1 and E that the CNABs_retorno has
     """
     return count_cnab_lines_1(fields) + count_cnab_lines_E(fields)
@@ -422,9 +426,9 @@ def compose(*args):
 def filter_segment(fields, segment):
     """Filters segments given a string to filter check if on identifier
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :param segment: str to used in the filter
-    :return: a list that each element is type Field and was filtered
+    :return: a list in that each element is type Field and was filtered
     """
     fields_filtered = [field for field in fields if segment in field.identifier]
     return fields_filtered
@@ -442,9 +446,9 @@ def filter_none(fields):
 def filter_segment_and_value_none(fields, segment):
     """Filters segments given a string to filter check if on identifier
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :param segment: str to used in the filter
-    :return: a list that each element is type Field and was filtered
+    :return: a list in that each element is type Field and was filtered
     """
     fields_filtered = [field for field in fields if segment in field.identifier and field.value is None]
     return fields_filtered
@@ -454,7 +458,9 @@ def set_P_Q_R_codigo_de_movimento_remessa(fields, value):
     """
     Campos: 07.3P, 07.3Q, 07.3R. Poderia incluir o 07.3S
     Código de Movimento Remessa: C004
-    :return:
+
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field
     """
     for field in fields:
         if field.start == 16 and field.end == 17 \
@@ -469,9 +475,9 @@ def set_P_forma_de_cadastr_do_titulo_no_banco(fields, value):
 
     Forma de Cadastr. do Título no Banco: *C007
 
-    :param fields:
+    :param fields: a list in that each element is type Field
     :param value:
-    :return: List of Fields
+    :return: a list in that each element is type Field
     """
     for field in fields:
         if field.identifier == '15.3P':
@@ -481,6 +487,13 @@ def set_P_forma_de_cadastr_do_titulo_no_banco(fields, value):
 
 
 def set_field(fields, value_to_search, value_to_set):
+    """
+
+    :param fields: a list in that each element is type Field
+    :param value_to_search:
+    :param value_to_set:
+    :return: a list in that each element is type Field
+    """
     for field in fields:
         if field.identifier == value_to_search:
             field.value = value_to_set
@@ -523,7 +536,7 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type,
     Randomly generated using gen.cpf() from pycpfcnpj:
     00140154558, 00002238490226
 
-    :param fields:
+    :param fields: a list in that each element is type Field
     :return: a Field with value setted tha mathcs if it is cpf (1) or cnpj (2)
     """
     for field in fields:
@@ -540,10 +553,10 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type,
 def set_given_data_to_header_de_arquivo(fields, data):
     """
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :param data: dict with keys as identifier and values are the ones provided by
               the user in the .csv file
-    :return: a list that each element is type Field with value set to data value
+    :return: a list in that each element is type Field with value set to data value
     """
     for key in data:
         for field in fields:
@@ -602,7 +615,6 @@ def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
     fields = set_numero_do_lote_de_servico_not_header_footer(fields)
 
     # TODO: documentar essa função melhor
-    # tanto faz onde for chamado
     fields = set_spaces_if_it_is_not_retorno(fields)
 
     fields = set_white_spaces(fields)
