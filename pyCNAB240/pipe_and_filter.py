@@ -138,8 +138,8 @@ def set_white_spaces(fields):
     """Sets value_to_cnab to spaces if is Alfa and Brancos
 
     TODO: listar todos os campos que essa função modifica
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field with value_to_cnab
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field with value_to_cnab
              set to spaces
     """
     for field in fields:
@@ -152,8 +152,8 @@ def set_white_spaces(fields):
 def set_white_spaces_reasonable_default(fields):
     """Sets value_to_cnab to spaces if is Alfa and Vazio
 
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field with value_to_cnab
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field with value_to_cnab
              set to spaces
     """
     for field in fields:
@@ -166,8 +166,8 @@ def set_white_spaces_reasonable_default(fields):
 def set_zeros_reasonable_default(fields):
     """Sets value_to_cnab to spaces if is Alfa and Vazio
 
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field with value_to_cnab
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field with value_to_cnab
              set to spaces
 
     TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
@@ -182,8 +182,9 @@ def set_zeros_reasonable_default(fields):
 def set_reasonable_default_given_values(fields):
     """
 
-    :param fields:
-    :return:
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field with value set to
+             reasonable_default
     """
     for field in fields:
         if field.reasonable_default != 'Vazio' \
@@ -207,6 +208,15 @@ def generic_filter(fields, atribute_to_search, value_to_search):
 
 
 def set_registry_type(fields):
+    """
+    Campos: 03.0, 03.1, 03.P, 03.Q, 03.R, 03.S, 03.T, 03.U, 03.5, 03.9
+    # TODO: checar se 03.T, 03.U são escritos em algum momento, ou se são so lidos.
+    Descrição: G003
+
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field with
+             value_to_cnab set to default
+    """
     for field in fields:
         if field.start == 8 and field.end == 8:
             field.value_to_cnab = field.default
@@ -216,8 +226,8 @@ def set_registry_type(fields):
 def set_defaults(fields):
     """
 
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field
     """
     for field in fields:
         if field.default != '' and field.default != 'Brancos':
@@ -227,7 +237,7 @@ def set_defaults(fields):
 
 def set_spaces_if_it_is_not_retorno(fields):
     """
-    05.5
+    Campos: 05.5
     Seta no Registro Trailer de Lote se não for do tipo retorno espaços
     em campos que não são usados
     :param fields:
