@@ -19,8 +19,8 @@ def check_start_and_end(fields):
     About the iter and next usage here:
     https://stackoverflow.com/a/16789817
 
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field (just for keep the pattern)
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field (just for keep the pattern)
     """
     _fields = iter(fields)
     field_old = next(_fields)
@@ -42,9 +42,10 @@ def check_start_and_end(fields):
 def check_duplicated_identifiers(fields):
     """Checks duplicated identifiers
 
-    It in fact happened, look 10.3S in the pdf was wrongly repeated.
-    :param fields: a list that each element is type Field
-    :return: a list that each element is type Field
+    It in fact had happened, look 10.3S in the pdf was clearly wrongly repeated.
+
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field (just for keep the pattern)
     """
     set_identifiers = set()
     for field in fields:
