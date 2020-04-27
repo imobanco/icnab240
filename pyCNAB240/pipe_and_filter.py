@@ -79,8 +79,8 @@ def build_pieces_of_value_to_cnab(fields):
 def build_cnab_lines(pieces):
     """Glues strings finding each \n and form a element of a list of lines
 
-    :param pieces: a list that each element is a string that some are with \n
-    :return: a list that each element is a string that ands in \n
+    :param pieces: a list in that each element is a string that some are with \n
+    :return: a list in that each element is a string that ands in \n
     """
     glued_lines = []
     line = ''
@@ -95,7 +95,7 @@ def build_cnab_lines(pieces):
 def _write_cnab(cnab_file_name, lines, mode='w'):
     """Helper function that opens and writes a list to a given file name
 
-    :param cnab_file_name: str with the name of the written cnab
+    :param cnab_file_name: str with the name of the cnab to be written
     :param lines: list in which each element is a string ending in \n
     :param mode: default mode is write
     :return: None
@@ -106,11 +106,11 @@ def _write_cnab(cnab_file_name, lines, mode='w'):
 
 
 def write_cnab(cnab_file_name, fields):
-    """Given a cnab file name and a list of elements type Field write a CNABs_retorno
+    """Given a cnab file name and a list of elements type Field write a CNAB
 
-    :param cnab_file_name: str with the CNABs_retorno file name
-    :param fields: a list that each element is type Field
-    :return: none
+    :param cnab_file_name: str with the CNAB file name
+    :param fields: a list in that each element is type Field
+    :return: None
     """
     pieces = build_pieces_of_value_to_cnab(fields)
     lines = build_cnab_lines(pieces)
@@ -123,9 +123,9 @@ def set_bank_number(fields, bank_number):
     Descrição: G001. Sets for all segments, headers and footers
     the same given bank number.
 
-    :param fields: a list that each element is type Field
+    :param fields: a list in that each element is type Field
     :param bank_number: the bank number
-    :return: a list that each element is type Field with value
+    :return: a list in that each element is type Field with value
              set to given bank_number
     """
     for field in fields:
