@@ -1,5 +1,6 @@
 import os
 
+import copy
 from datetime import datetime
 from pprint import pprint
 
@@ -640,6 +641,42 @@ def set_trailer_de_arquivo(fields):
     fields = set_field(fields, '05.9', total_lines_1)
     fields = set_field(fields, '06.9', total_lines_0_1_3_5_9)
     fields = set_field(fields, '07.9', total_lines_1_and_E_type)
+
+    return fields
+
+
+def index_to_insert(fields, identifier):
+    """
+
+    :param fields: a list in that each element is type Field
+    :param identifier: str of the identifier of field
+    :return: integer representing the index of the given identifier in fields
+    """
+    index = None
+    for i, field in enumerate(fields):
+        if field.identifier == identifier:
+            index = i
+            break
+    return index + 1
+
+
+def insert_segments(fields, number_of_segments, identifier, patterns):
+
+    # ('.3P', '.3Q', '.3R')
+    # '29.3R'
+    if number_of_segments >= 2:
+
+        filtered_copied_base = []
+        for pattern in patterns:
+            filtered_copied_base.extend(copy.deepcopy(filter_segment(fields, pattern)))
+
+        filtered_copied = []
+        for _ in range(number_of_segments - 1):
+            filtered_copied.extend(copy.deepcopy(filtered_copied_base))
+
+        index = index_to_insert(fields, identifier)
+        fields[index:index] = filtered_copied
+        return fields
 
     return fields
 

@@ -199,6 +199,86 @@ class CNABTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             inscription_type(None)
 
+    def test_index_to_insert(self):
+
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d')]
+        expected_value = 3
+        result = index_to_insert(fields, 'c')
+        self.assertEqual(expected_value, result)
+
+    def test_insert_segments_no_change(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
+
+        fields_result = insert_segments(fields, 1, 'b', None)
+
+        self.assertEqual(fields, fields_result)
+
+    def test_insert_segments_only_one(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
+
+        patterns = ('b')
+
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='b'), Field(identifier='c')]
+
+        result = insert_segments(fields, 2, 'b', patterns)
+        self.assertEqual(expected, result)
+
+
+    def test_insert_segments_only_two(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
+
+        patterns = ('b')
+
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='b'), Field(identifier='b'),
+                    Field(identifier='c')]
+
+        result = insert_segments(fields, 3, 'b', patterns)
+        self.assertEqual(expected, result)
+
+    def test_insert_segments_more_than_one_pattern(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
+
+        patterns = ('b', 'c')
+
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='c'), Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='e'), Field(identifier='f')]
+
+        result = insert_segments(fields, 2, 'd', patterns)
+        self.assertEqual(expected, result)
+
+    def test_insert_segments_realistic(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
+
+        patterns = ('b', 'c', 'd')
+
+        expected = [Field(identifier='a'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='e'), Field(identifier='f')]
+
+        result = insert_segments(fields, 4, 'd', patterns)
+        self.assertEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()
