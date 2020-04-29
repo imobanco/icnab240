@@ -646,7 +646,9 @@ def set_trailer_de_arquivo(fields):
 
 
 def index_to_insert(fields, identifier):
-    """
+    """Helper function to find a index given a identifier in a list of fields
+
+    Note: the + 1 is for not insert before the item, but after it
 
     :param fields: a list in that each element is type Field
     :param identifier: str of the identifier of field
@@ -660,21 +662,33 @@ def index_to_insert(fields, identifier):
     return index + 1
 
 
-def insert_segments(fields, number_of_segments, identifier, patterns):
+def insert_segments(fields, number_of_replications, identifier_for_insertion,
+                    patterns):
+    """Insert segments in fields
 
-    # ('.3P', '.3Q', '.3R')
-    # '29.3R'
-    if number_of_segments >= 2:
+    Note: it assumes that the given list fields has the replication fields and
+          that it appears only once
+
+    :param fields: a list in that each element is type Field
+    :param number_of_replications: int representing the number of replications
+    :param identifier_for_insertion: str of identifier to the replicated part
+                                     be inserted
+    :param patterns: iterable with all pattern to be filtered
+    :return: a list in that each element is type Field
+    """
+
+    if number_of_replications >= 2:
 
         filtered_copied_base = []
         for pattern in patterns:
-            filtered_copied_base.extend(copy.deepcopy(filter_segment(fields, pattern)))
+            aux = copy.deepcopy(filter_segment(fields, pattern))
+            filtered_copied_base.extend(aux)
 
         filtered_copied = []
-        for _ in range(number_of_segments - 1):
+        for _ in range(number_of_replications - 1):
             filtered_copied.extend(copy.deepcopy(filtered_copied_base))
 
-        index = index_to_insert(fields, identifier)
+        index = index_to_insert(fields, identifier_for_insertion)
         fields[index:index] = filtered_copied
         return fields
 
