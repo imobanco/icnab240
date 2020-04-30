@@ -5,9 +5,9 @@ from freezegun import freeze_time
 
 from pyCNAB240.core import main_fields
 
-from pyCNAB240.pipe_and_filter import filter_segment, \
+from pyCNAB240.pipe_and_filter import filter_segment, generic, \
     set_header_de_arquivo, fill_value_to_cnab, \
-    build_pieces_of_value_to_cnab, build_cnab_lines, set_header_de_lote,\
+    build_pieces_of_value_to_cnab, build_cnab_lines, set_header_de_lote, \
     set_trailer_de_lote, set_trailer_de_arquivo
 
 
@@ -15,6 +15,11 @@ class CNABLinesTestCase(unittest.TestCase):
     def setUp(self):
         self.header_de_arquivo = self.full_file_name('header_de_arquivo.csv')
         self.header_de_lote = self.full_file_name('header_de_arquivo_lote.csv')
+
+        BANK_NUMBER = '033'
+        NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
+        # TODO: fatorar a dependencia do BANK_NUMBER
+        self._fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
 
     def full_file_name(self, file_name):
         return os.path.join(os.path.dirname(__file__), file_name)
@@ -31,7 +36,7 @@ class CNABLinesTestCase(unittest.TestCase):
         fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+            fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
         result = self.build_result(fields)[0][:51]
 
@@ -43,7 +48,7 @@ class CNABLinesTestCase(unittest.TestCase):
         fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+            fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
         result = self.build_result(fields)[0][51:102]
 
@@ -55,7 +60,7 @@ class CNABLinesTestCase(unittest.TestCase):
         fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+            fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
         result = self.build_result(fields)[0][102:142]
 
@@ -67,7 +72,7 @@ class CNABLinesTestCase(unittest.TestCase):
         fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+            fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
         result = self.build_result(fields)[0][142:171]
 
@@ -79,7 +84,7 @@ class CNABLinesTestCase(unittest.TestCase):
         fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+            fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
         result = self.build_result(fields)[0][171:]
 

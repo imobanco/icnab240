@@ -721,7 +721,7 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
 
 
 def get_identifiers_from_input_data(data: dict):
-    pass
+    return set(data.keys())
 
 
 def check_given_data_identifiers(fields):
