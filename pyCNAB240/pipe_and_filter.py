@@ -728,12 +728,9 @@ def check_given_data_identifiers(fields):
     pass
 
 
-
-
-
-
 def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote):
+              header_de_arquivo, header_de_lote, full_cnab_file_name):
+
     fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
 
     fields = set_header_de_arquivo(fields, header_de_arquivo)
@@ -743,35 +740,20 @@ def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
     fields = set_trailer_de_lote(fields)
 
     fields = set_trailer_de_arquivo(fields)
-    return fields
 
+    fields = fill_value_to_cnab(fields)
 
+    write_cnab(full_cnab_file_name, fields)
 
-BANK_NUMBER = '033'
-NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
-
-path_to_diretory = os.path.dirname(__file__)
-header_de_arquivo = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
-header_de_lote = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
-
-
-fields = santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote)
 
 # Act in all P, Q and R
-fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
-fields = set_P_forma_de_cadastr_do_titulo_no_banco(fields, '1')
+# fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
+# fields = set_P_forma_de_cadastr_do_titulo_no_banco(fields, '1')
 
 # fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
 #          + filter_segment(fields, '.5') + filter_segment(fields, '.9')
-
-
-fields = fill_value_to_cnab(fields)
 
 # fields = filter_segment(fields, '.0')
 # for field in fields:
 #     print(field.identifier, 'length =', field.length, len(field.value_to_cnab), len(field.value), 'value =', field.value, 'value_to_cnab =', field.value_to_cnab)
 
-path_to_diretory = os.path.dirname(__file__)
-full_cnab_file_name = os.path.join(path_to_diretory, 'test.REM')
-write_cnab(full_cnab_file_name, fields)
