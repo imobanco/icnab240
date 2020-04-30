@@ -1,229 +1,309 @@
-import os
 import unittest
 
-from freezegun import freeze_time
-
-from pyCNAB240.core import main_fields
-
-from pyCNAB240.pipe_and_filter import filter_segment, \
-    set_header_de_arquivo, fill_value_to_cnab, \
-    build_pieces_of_value_to_cnab, build_cnab_lines, set_header_de_lote,\
-    set_trailer_de_lote, set_trailer_de_arquivo
+from pyCNAB240.core import Field, main_fields
+from pyCNAB240.pipe_and_filter import *
 
 
-class CNABLinesTestCase(unittest.TestCase):
-    def setUp(self):
-        self.header_de_arquivo = self.full_file_name('header_de_arquivo.csv')
-        self.header_de_lote = self.full_file_name('header_de_arquivo_lote.csv')
+class CNABTestCase(unittest.TestCase):
+    def test_check_start_and_end_not_raises(self):
+        fields = [Field(start=1, end=3), Field(start=4, end=10)]
 
-    def full_file_name(self, file_name):
-        return os.path.join(os.path.dirname(__file__), file_name)
+        check_start_and_end(fields)
 
-    def build_result(self, fields):
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
+    def test_check_start_and_end_raises(self):
+        fields = [Field(start=1, end=3), Field(start=5, end=10)]
+        with self.assertRaises(ValueError):
+            check_start_and_end(fields)
+
+    def test_check_start_and_end_end_eq_240(self):
+        fields = [Field(start=1, end=240),
+                  Field(start=1, end=3),
+                  Field(start=4, end=100)]
+
+        check_start_and_end(fields)
+
+    def test_build_pieces_of_value_to_cnab(self):
+        fields = [Field(value_to_cnab='A', end=10),
+                  Field(value_to_cnab='B', end=240),
+                  Field(value_to_cnab='C', end=1)]
+
+        expected_value = ['A', 'B\n', 'C']
+        result = build_pieces_of_value_to_cnab(fields)
+
+        self.assertEqual(expected_value, result)
+
+    def test_build_cnab_lines(self):
+        pieces = ['A', 'B\n', 'C\n']
+
+        expected_value = ['AB\n', 'C\n']
         result = build_cnab_lines(pieces)
-        return result
 
-    def test_set_header_de_arquivo_1(self):
-        expected = '03300000#########200002238490226###################'
+        self.assertEqual(expected_value, result)
 
-        fields = filter_segment(main_fields, '.0')
+    def test__write_cnab(self):
+        # TODO: How to test this?
+        pass
 
-        with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+    def test_write_cnab(self):
+        # TODO: How to test this?
+        pass
 
-        result = self.build_result(fields)[0][:51]
+    def test_set_bank_number(self):
+        fields = [Field(start=1),
+                  Field(start=1),
+                  Field(start=1)]
 
+        bank_number = 33
+        result_fields = set_bank_number(fields, bank_number)
+        for field in result_fields:
+            self.assertEqual(field.value, bank_number)
+
+    def test_count_cnab_lines(self):
+        fields = [Field(end=240), Field(end=100), Field(end=240),
+                  Field(end=123)]
+
+        expected_value = 2
+        result = count_cnab_lines(fields)
+
+        self.assertEqual(expected_value, result)
+
+
+    def test_count_cnab_lines_0_1_3_5_9(self):
+        fields = [Field(start=8, end=8),
+                  Field(start=8, end=8),
+                  Field(start=8, end=8),
+                  Field(start=8, end=8),
+                  Field(start=8, end=5),
+                  Field(start=4, end=8)]
+
+        expected_value = 4
+        result = count_cnab_lines_0_1_3_5_9(fields)
+
+        self.assertEqual(expected_value, result)
+
+
+
+    def test_count_cnab_lines_1_2_3_4_5(self):
+        # Note: if default=0 or default=9 it must not be counted
+        fields = [Field(start=8, end=8, default=1),
+                  Field(start=8, end=8, default=2),
+                  Field(start=8, end=8, default=3),
+                  Field(start=8, end=8, default=4),
+                  Field(start=8, end=8, default=5),
+                  Field(start=8, end=8, default=0),
+                  Field(start=8, end=8, default=9),
+                  ]
+
+        expected_value = 5
+        result = count_cnab_lines_1_2_3_4_5(fields)
+
+        self.assertEqual(expected_value, result)
+
+    def test_count_cnab_lines_E(self):
+
+        fields = [Field(start=9, end=9, value='E'),
+                  Field(start=9, end=9, value='E'),
+                  # another fields that must not be counted
+                  Field(start=9, end=9, value='R'),
+                  Field(start=9, end=9, value='T'),
+                  Field(start=8, end=8, value='E'),
+                  ]
+
+        expected_value = 2
+        result = count_cnab_lines_E(fields)
+
+        self.assertEqual(expected_value, result)
+
+
+    def test_count_cnab_lines_1(self):
+
+        fields = [Field(start=8, end=8, default='1'),
+                  # another fields that must not be counted
+                  Field(start=8, end=8, default='0'),
+                  Field(start=8, end=8, value='2'),
+                  Field(start=8, end=8, value='3'),
+                  Field(start=8, end=8, value='4'),
+                  Field(start=8, end=8, value='5'),
+                  Field(start=8, end=8, value='9'),
+                  ]
+
+        expected_value = 1
+        result = count_cnab_lines_1(fields)
+
+        self.assertEqual(expected_value, result)
+
+    def test_count_cnab_lines_1_and_E_type(self):
+
+        fields = [Field(start=8, end=8, default='1'),
+                  Field(start=9, end=9, value='E'),
+                  # another fields that must not be counted
+                  Field(start=8, end=8, default='2'),
+                  Field(start=9, end=9, value='T'),
+                  ]
+
+        expected_value = 2
+        result = count_cnab_lines_1_and_E_type(fields)
+
+        self.assertEqual(expected_value, result)
+
+    def test_default_decimals(self):
+
+        # TODO: after test other functions
+        fields = [Field(start=8, end=8, default='1'),
+                  Field(start=9, end=9, value='E'),
+                  # another fields that must not be counted
+                  Field(start=8, end=8, default='2'),
+                  Field(start=9, end=9, value='T'),
+                  ]
+
+        expected_value = 2
+        # Essa função vai deixar de existir
+        # ela recebe um objeto field, não uma lista de Fields
+        # result = default_decimals(fields)
+
+        # self.assertEqual(expected_value, result)
+
+    def test_compose(self):
+
+        def add_double(x, y):
+            return x + y**2
+
+        def add_triple(x, y):
+            return x + 3*y
+
+        x = 1
+        y = 2
+
+        f = compose((add_double, y), (add_triple, y))
+
+        expected_value = add_double(add_triple(x, y), y)
+        result = f(x)
+
+        self.assertEqual(expected_value, result)
+
+    def test_inscription_type_cpf(self):
+        cpf = '00140154558'
+        expected_value = 1
+        result = inscription_type(cpf)
+
+        self.assertEqual(expected_value, result)
+
+    def test_inscription_type_cnpj(self):
+        cnpj = '00002238490226'
+        expected_value = 2
+        result = inscription_type(cnpj)
+
+        self.assertEqual(expected_value, result)
+
+    def test_inscription_type_not_cpf_or_cnpj_raise(self):
+        with self.assertRaises(ValueError):
+            inscription_type(None)
+
+    def test_index_to_insert(self):
+
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d')]
+        expected_value = 3
+        result = index_to_insert(fields, 'c')
+        self.assertEqual(expected_value, result)
+
+    def test_insert_segments_no_change(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
+
+        fields_result = insert_segments(fields, 1, 'b', None)
+
+        self.assertEqual(fields, fields_result)
+
+    def test_insert_segments_only_one(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
+
+        patterns = ('b')
+
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='b'), Field(identifier='c')]
+
+        result = insert_segments(fields, 2, 'b', patterns)
         self.assertEqual(expected, result)
 
-    def test_set_header_de_arquivo_2(self):
-        expected = '300004500000000000678############Um nome de empresa'
 
-        fields = filter_segment(main_fields, '.0')
+    def test_insert_segments_only_two(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c')]
 
-        with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+        patterns = ('b')
 
-        result = self.build_result(fields)[0][51:102]
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='b'), Field(identifier='b'),
+                    Field(identifier='c')]
 
+        result = insert_segments(fields, 3, 'b', patterns)
         self.assertEqual(expected, result)
 
-    def test_set_header_de_arquivo_3(self):
-        expected = '###############Banco Santander##########'
+    def test_insert_segments_more_than_one_pattern(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
 
-        fields = filter_segment(main_fields, '.0')
+        patterns = ('b', 'c')
 
-        with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+        expected = [Field(identifier='a'), Field(identifier='b'),
+                    Field(identifier='c'), Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='e'), Field(identifier='f')]
 
-        result = self.build_result(fields)[0][102:142]
-
+        result = insert_segments(fields, 2, 'd', patterns)
         self.assertEqual(expected, result)
 
-    def test_set_header_de_arquivo_4(self):
-        expected = '12204202018213300001401501600'
+    def test_insert_segments_realistic(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
 
-        fields = filter_segment(main_fields, '.0')
+        patterns = ('b', 'c', 'd')
 
-        with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+        expected = [Field(identifier='a'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='b'), Field(identifier='c'),
+                    Field(identifier='d'),
+                    Field(identifier='e'), Field(identifier='f')]
 
-        result = self.build_result(fields)[0][142:171]
-
+        result = insert_segments(fields, 4, 'd', patterns)
         self.assertEqual(expected, result)
 
-    def test_set_header_de_arquivo_5(self):
-        expected = '#####################################################################\n'
+    def test_extract_identifiers(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
 
-        fields = filter_segment(main_fields, '.0')
+        patterns = ('a', 'b', 'c')
 
-        with freeze_time('2020-04-22 18:21:33'):
-            fields = set_header_de_arquivo(fields, self.header_de_arquivo)
+        expected = set(['a', 'b', 'c'])
 
-        result = self.build_result(fields)[0][171:]
-
+        result = extract_identifiers(fields, patterns)
         self.assertEqual(expected, result)
 
-    def test_set_header_de_lote_1(self):
-        expected = '03300011E01##030#1000000140154558###################'
+    def test_extract_identifiers_that_have_default_or_reasonable_default(self):
+        fields = [Field(identifier='a'),
+                  Field(identifier='b', default=0),
+                  Field(identifier='c', default='Brancos'),
+                  Field(identifier='d', reasonable_default='Calculavél'),
+                  Field(identifier='e', reasonable_default='Vazio'),
+                  Field(identifier='f', reasonable_default=1600),
+                  Field(identifier='g', default=123, reasonable_default='Calculavél'),
+                  Field(identifier='h')
+                  ]
 
-        fields = filter_segment(main_fields, '.1')
+        expected = set(['b', 'c', 'd', 'e', 'f', 'g'])
 
-        with freeze_time('2020-04-23'):
-            fields = set_header_de_lote(fields, self.header_de_lote)
-
-        result = self.build_result(fields)[0][:52]
-
-        self.assertEqual(expected, result)
-
-    def test_set_header_de_lote_2(self):
-        expected = '300004500000000000678############'
-
-        fields = filter_segment(main_fields, '.1')
-
-        with freeze_time('2020-04-23'):
-            fields = set_header_de_lote(fields, self.header_de_lote)
-
-        result = self.build_result(fields)[0][52:85]
-
-        self.assertEqual(expected, result)
-
-    def test_set_header_de_lote_3(self):
-        expected = 'Um nome de empresa########################################'
-
-        fields = filter_segment(main_fields, '.1')
-
-        with freeze_time('2020-04-23'):
-            fields = set_header_de_lote(fields, self.header_de_lote)
-
-        result = self.build_result(fields)[0][85:143]
-
-        self.assertEqual(expected, result)
-
-        '999999992304202000000000#################################\n'
-
-    def test_set_header_de_lote_4(self):
-        expected = '########################################'
-
-        fields = filter_segment(main_fields, '.1')
-
-        with freeze_time('2020-04-23'):
-            fields = set_header_de_lote(fields, self.header_de_lote)
-
-        result = self.build_result(fields)[0][143:183]
-
-        self.assertEqual(expected, result)
-
-    def test_set_header_de_lote_5(self):
-        expected = '999999992304202000000000#################################\n'
-
-        fields = filter_segment(main_fields, '.1')
-
-        with freeze_time('2020-04-23'):
-            fields = set_header_de_lote(fields, self.header_de_lote)
-
-        result = self.build_result(fields)[0][183:]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_lote_1(self):
-        expected = '03300015#########000008@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-
-        fields = set_trailer_de_lote(main_fields)
-
-        result = self.build_result(fields)[-2][:51]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_lote_2(self):
-        expected = '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-
-        fields = set_trailer_de_lote(main_fields)
-
-        result = self.build_result(fields)[-2][51:104]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_lote_3(self):
-        expected = '@@@@@@@@@@@@@@@@@@@######################################'
-
-        fields = set_trailer_de_lote(main_fields)
-
-        result = self.build_result(fields)[-2][104:161]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_lote_4(self):
-        expected = '###############################################################################\n'
-
-        fields = set_trailer_de_lote(main_fields)
-
-        result = self.build_result(fields)[-2][161:]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_arquivo_1(self):
-        expected = '03399999#########000001000010000002'
-
-        fields = set_trailer_de_arquivo(main_fields)
-
-        result = self.build_result(fields)[-1][:35]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_arquivo_2(self):
-        expected = '##########################################################'
-
-
-        fields = set_trailer_de_arquivo(main_fields)
-
-        result = self.build_result(fields)[-1][35:35+58]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_arquivo_3(self):
-        expected = '##########################################################'
-
-        fields = set_trailer_de_arquivo(main_fields)
-
-        result = self.build_result(fields)[-1][35 + 58:35 + 58 + 58]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_arquivo_4(self):
-        expected = '##########################################################'
-
-        fields = set_trailer_de_arquivo(main_fields)
-
-        result = self.build_result(fields)[-1][35 + 58 + 58:35 + 58 + 58 + 58]
-
-        self.assertEqual(expected, result)
-
-    def test_set_trailer_de_arquivo_5(self):
-        expected = '###############################\n'
-
-        fields = set_trailer_de_arquivo(main_fields)
-
-        result = self.build_result(fields)[-1][35 + 58 + 58 + 58:]
+        result = extract_identifiers_that_have_default_or_reasonable_default(fields)
         self.assertEqual(expected, result)
