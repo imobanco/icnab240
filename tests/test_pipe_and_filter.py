@@ -1,4 +1,4 @@
-import mock
+import os
 import unittest
 
 # import datetime
@@ -8,7 +8,10 @@ from freezegun import freeze_time
 
 # TODO: checar qual main_fields esta sendo usada aqui
 from pyCNAB240.core import Field, main_fields
-from pyCNAB240.pipe_and_filter import *
+from pyCNAB240.pipe_and_filter import santander, filter_segment, \
+    set_header_de_arquivo, fill_value_to_cnab, \
+    build_pieces_of_value_to_cnab, build_cnab_lines, set_header_de_lote,\
+    set_trailer_de_lote, set_trailer_de_arquivo
 
 
 class CNABLinesTestCase(unittest.TestCase):
@@ -66,7 +69,6 @@ class CNABLinesTestCase(unittest.TestCase):
         result = build_cnab_lines(pieces)[0][102:142]
 
         self.assertEqual(expected, result)
-
 
     def test_set_header_de_arquivo_4(self):
         expected = '12204202018213300001401501600'
@@ -159,7 +161,6 @@ class CNABLinesTestCase(unittest.TestCase):
         self.assertEqual(expected, result)
 
         '999999992304202000000000#################################\n'
-
 
     def test_set_header_de_lote_4(self):
         expected = '########################################'

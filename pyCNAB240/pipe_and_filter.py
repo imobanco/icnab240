@@ -728,26 +728,35 @@ def check_given_data_identifiers(fields):
     pass
 
 
+
+
+
+
+def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+              header_de_arquivo, header_de_lote):
+    fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+
+    fields = set_header_de_arquivo(fields, header_de_arquivo)
+
+    fields = set_header_de_lote(fields, header_de_lote)
+
+    fields = set_trailer_de_lote(fields)
+
+    fields = set_trailer_de_arquivo(fields)
+    return fields
+
+
+
 BANK_NUMBER = '033'
 NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
 
 path_to_diretory = os.path.dirname(__file__)
-csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
-csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
+header_de_arquivo = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
+header_de_lote = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
 
 
-
-
-fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
-
-fields = set_header_de_arquivo(fields, csv_header_de_arquivo_full_file_name)
-
-fields = set_header_de_lote(fields, csv_header_de_lote_full_file_name)
-
-fields = set_trailer_de_lote(fields)
-
-fields = set_trailer_de_arquivo(fields)
-
+fields = santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+              header_de_arquivo, header_de_lote)
 
 # Act in all P, Q and R
 fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
