@@ -13,8 +13,8 @@ from pyCNAB240.pipe_and_filter import filter_segment, \
 
 class CNABLinesTestCase(unittest.TestCase):
     def setUp(self):
-        self.header_de_arquivo = self.full_file_name('header_de_arquivo_fields.csv')
-        self.header_de_lote = self.full_file_name('header_de_arquivo_lote_fields.csv')
+        self.header_de_arquivo = self.full_file_name('header_de_arquivo.csv')
+        self.header_de_lote = self.full_file_name('header_de_arquivo_lote.csv')
 
     def full_file_name(self, file_name):
         return os.path.join(os.path.dirname(__file__), file_name)
