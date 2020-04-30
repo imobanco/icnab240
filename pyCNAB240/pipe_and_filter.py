@@ -720,6 +720,14 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
     return identifiers
 
 
+def get_identifiers_from_input_data(data: dict):
+    pass
+
+
+def check_given_data_identifiers(fields):
+    pass
+
+
 BANK_NUMBER = '033'
 NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
 
