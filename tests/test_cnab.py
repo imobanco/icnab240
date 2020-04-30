@@ -279,6 +279,19 @@ class CNABTestCase(unittest.TestCase):
         result = insert_segments(fields, 4, 'd', patterns)
         self.assertEqual(expected, result)
 
+    def test_extract_identifiers(self):
+        fields = [Field(identifier='a'), Field(identifier='b'),
+                  Field(identifier='c'), Field(identifier='d'),
+                  Field(identifier='e'), Field(identifier='f'),
+                  ]
+
+        patterns = ('a', 'b', 'c')
+
+        expected = set(['a', 'b', 'c'])
+
+        result = extract_identifiers(fields, patterns)
+        self.assertEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()

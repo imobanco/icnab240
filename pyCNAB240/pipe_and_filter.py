@@ -695,12 +695,25 @@ def insert_segments(fields, number_of_replications, identifier_for_insertion,
     return fields
 
 
+def extract_identifiers(fields, patterns):
+    filtered_fields = []
+    for pattern in patterns:
+        filtered_fields.extend(filter_segment(fields, pattern))
+
+    identifiers_list = [field.identifier for field in filtered_fields]
+
+    identifiers = set(identifiers_list)
+
+    return identifiers
+
 BANK_NUMBER = '033'
 NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
 
 path_to_diretory = os.path.dirname(__file__)
 csv_header_de_arquivo_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
 csv_header_de_lote_full_file_name = os.path.join(path_to_diretory, 'data_header_de_lote.csv')
+
+
 
 
 fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
