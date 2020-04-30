@@ -305,7 +305,7 @@ class CNABTestCase(unittest.TestCase):
 
         expected = set(['b', 'c', 'd', 'e', 'f', 'g'])
 
-        result = extract_identifiers_that_have_value(fields)
+        result = extract_identifiers_that_have_default_or_reasonable_default(fields)
         self.assertEqual(expected, result)
 
 
