@@ -292,6 +292,22 @@ class CNABTestCase(unittest.TestCase):
         result = extract_identifiers(fields, patterns)
         self.assertEqual(expected, result)
 
+    def test_extract_identifiers_that_have_default_or_reasonable_default(self):
+        fields = [Field(identifier='a'),
+                  Field(identifier='b', default=0),
+                  Field(identifier='c', default='Brancos'),
+                  Field(identifier='d', reasonable_default='Calculavél'),
+                  Field(identifier='e', reasonable_default='Vazio'),
+                  Field(identifier='f', reasonable_default=1600),
+                  Field(identifier='g', default=123, reasonable_default='Calculavél'),
+                  Field(identifier='h')
+                  ]
+
+        expected = set(['b', 'c', 'd', 'e', 'f', 'g'])
+
+        result = extract_identifiers_that_have_value(fields)
+        self.assertEqual(expected, result)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -706,6 +706,20 @@ def extract_identifiers(fields, patterns):
 
     return identifiers
 
+
+def extract_identifiers_that_have_default_or_reasonable_default(fields):
+    filtered_fields = []
+    for field in fields:
+        if field.reasonable_default is not None or field.default is not None:
+            filtered_fields.append(field)
+
+    identifiers_list = [field.identifier for field in filtered_fields]
+
+    identifiers = set(identifiers_list)
+
+    return identifiers
+
+
 BANK_NUMBER = '033'
 NÚMERO_LOTE_DE_SERVIÇO = 1 # G002
 
