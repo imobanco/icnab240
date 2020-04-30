@@ -77,9 +77,11 @@ def build_dict_from_csv_P_Q_R(csv_full_file_name):
     ...
 
 
-path_to_diretory = os.path.dirname(__file__)
+
+
+# path_to_diretory = os.path.dirname(__file__)
 # csv_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
-# csv_full_file_name = os.path.join(path_to_diretory, 'data_segmento_P_horizontal.csv')
+# csv_full_file_name = os.path.join(path_to_diretory, 'data_segmentos_P_Q_R.csv')
 
 # lines = read_horizontaly(csv_full_file_name)
 
@@ -87,6 +89,7 @@ path_to_diretory = os.path.dirname(__file__)
 #
 # dictreaders = read_build_dictreader(csv_full_file_name)
 # d = build_dict_from_list_of_dictreader(dictreaders)
+
 # print(d)
 # print(number_of_lines_in_csv(csv_full_file_name))
 # build_dict_from_lines(lines)
