@@ -1,14 +1,11 @@
 import os
 import unittest
 
-# import datetime
-from datetime import datetime
-
 from freezegun import freeze_time
 
-# TODO: checar qual main_fields esta sendo usada aqui
-from pyCNAB240.core import Field, main_fields
-from pyCNAB240.pipe_and_filter import santander, filter_segment, \
+from pyCNAB240.core import main_fields
+
+from pyCNAB240.pipe_and_filter import filter_segment, \
     set_header_de_arquivo, fill_value_to_cnab, \
     build_pieces_of_value_to_cnab, build_cnab_lines, set_header_de_lote,\
     set_trailer_de_lote, set_trailer_de_arquivo
@@ -22,6 +19,12 @@ class CNABLinesTestCase(unittest.TestCase):
     def full_file_name(self, file_name):
         return os.path.join(os.path.dirname(__file__), file_name)
 
+    def build_result(self, fields):
+        fields = fill_value_to_cnab(fields)
+        pieces = build_pieces_of_value_to_cnab(fields)
+        result = build_cnab_lines(pieces)
+        return result
+
     def test_set_header_de_arquivo_1(self):
         expected = '03300000#########200002238490226###################'
 
@@ -30,9 +33,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(fields, self.header_de_arquivo)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][:51]
+        result = self.build_result(fields)[0][:51]
 
         self.assertEqual(expected, result)
 
@@ -44,9 +45,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(fields, self.header_de_arquivo)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][51:102]
+        result = self.build_result(fields)[0][51:102]
 
         self.assertEqual(expected, result)
 
@@ -58,9 +57,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(fields, self.header_de_arquivo)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][102:142]
+        result = self.build_result(fields)[0][102:142]
 
         self.assertEqual(expected, result)
 
@@ -72,9 +69,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(fields, self.header_de_arquivo)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][142:171]
+        result = self.build_result(fields)[0][142:171]
 
         self.assertEqual(expected, result)
 
@@ -86,9 +81,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(fields, self.header_de_arquivo)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][171:]
+        result = self.build_result(fields)[0][171:]
 
         self.assertEqual(expected, result)
 
@@ -100,9 +93,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-23'):
             fields = set_header_de_lote(fields, self.header_de_lote)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][:52]
+        result = self.build_result(fields)[0][:52]
 
         self.assertEqual(expected, result)
 
@@ -114,9 +105,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-23'):
             fields = set_header_de_lote(fields, self.header_de_lote)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][52:85]
+        result = self.build_result(fields)[0][52:85]
 
         self.assertEqual(expected, result)
 
@@ -128,9 +117,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-23'):
             fields = set_header_de_lote(fields, self.header_de_lote)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][85:143]
+        result = self.build_result(fields)[0][85:143]
 
         self.assertEqual(expected, result)
 
@@ -144,9 +131,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-23'):
             fields = set_header_de_lote(fields, self.header_de_lote)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][143:183]
+        result = self.build_result(fields)[0][143:183]
 
         self.assertEqual(expected, result)
 
@@ -158,9 +143,7 @@ class CNABLinesTestCase(unittest.TestCase):
         with freeze_time('2020-04-23'):
             fields = set_header_de_lote(fields, self.header_de_lote)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[0][183:]
+        result = self.build_result(fields)[0][183:]
 
         self.assertEqual(expected, result)
 
@@ -169,9 +152,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_lote(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-2][:51]
+        result = self.build_result(fields)[-2][:51]
 
         self.assertEqual(expected, result)
 
@@ -180,9 +161,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_lote(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-2][51:104]
+        result = self.build_result(fields)[-2][51:104]
 
         self.assertEqual(expected, result)
 
@@ -191,9 +170,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_lote(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-2][104:161]
+        result = self.build_result(fields)[-2][104:161]
 
         self.assertEqual(expected, result)
 
@@ -202,9 +179,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_lote(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-2][161:]
+        result = self.build_result(fields)[-2][161:]
 
         self.assertEqual(expected, result)
 
@@ -213,9 +188,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_arquivo(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-1][:35]
+        result = self.build_result(fields)[-1][:35]
 
         self.assertEqual(expected, result)
 
@@ -225,9 +198,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_arquivo(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-1][35:35+58]
+        result = self.build_result(fields)[-1][35:35+58]
 
         self.assertEqual(expected, result)
 
@@ -236,9 +207,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_arquivo(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-1][35 + 58:35 + 58 + 58]
+        result = self.build_result(fields)[-1][35 + 58:35 + 58 + 58]
 
         self.assertEqual(expected, result)
 
@@ -247,9 +216,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_arquivo(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-1][35 + 58 + 58:35 + 58 + 58 + 58]
+        result = self.build_result(fields)[-1][35 + 58 + 58:35 + 58 + 58 + 58]
 
         self.assertEqual(expected, result)
 
@@ -258,7 +225,5 @@ class CNABLinesTestCase(unittest.TestCase):
 
         fields = set_trailer_de_arquivo(main_fields)
 
-        fields = fill_value_to_cnab(fields)
-        pieces = build_pieces_of_value_to_cnab(fields)
-        result = build_cnab_lines(pieces)[-1][35 + 58 + 58 + 58:]
+        result = self.build_result(fields)[-1][35 + 58 + 58 + 58:]
         self.assertEqual(expected, result)
