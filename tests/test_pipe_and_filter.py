@@ -32,7 +32,7 @@ class CNABLinesTestCase(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_set_header_de_arquivo_2(self):
-        expected = '300004500000000000678#############################9'
+        expected = '300004500000000000678############Um nome de empresa'
 
         file_name = 'header_de_arquivo_fields.csv'
         path_to_diretory = os.path.dirname(__file__)
@@ -50,7 +50,7 @@ class CNABLinesTestCase(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_set_header_de_arquivo_3(self):
-        expected = '############################10##########'
+        expected = '###############Banco Santander##########'
 
         file_name = 'header_de_arquivo_fields.csv'
         path_to_diretory = os.path.dirname(__file__)
@@ -295,7 +295,3 @@ class CNABLinesTestCase(unittest.TestCase):
         pieces = build_pieces_of_value_to_cnab(fields)
         result = build_cnab_lines(pieces)[-1][35 + 58 + 58 + 58:]
         self.assertEqual(expected, result)
-
-
-if __name__ == '__main__':
-    unittest.main()

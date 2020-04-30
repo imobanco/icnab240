@@ -307,7 +307,3 @@ class CNABTestCase(unittest.TestCase):
 
         result = extract_identifiers_that_have_default_or_reasonable_default(fields)
         self.assertEqual(expected, result)
-
-
-if __name__ == '__main__':
-    unittest.main()
