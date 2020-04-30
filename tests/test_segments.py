@@ -33,8 +33,6 @@ class CNABLinesTestCase(unittest.TestCase):
     def test_set_header_de_arquivo_1(self):
         expected = '03300000#########200002238490226###################'
 
-        fields = filter_segment(main_fields, '.0')
-
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
@@ -44,8 +42,6 @@ class CNABLinesTestCase(unittest.TestCase):
 
     def test_set_header_de_arquivo_2(self):
         expected = '300004500000000000678############Um nome de empresa'
-
-        fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
@@ -57,8 +53,6 @@ class CNABLinesTestCase(unittest.TestCase):
     def test_set_header_de_arquivo_3(self):
         expected = '###############Banco Santander##########'
 
-        fields = filter_segment(main_fields, '.0')
-
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
@@ -69,8 +63,6 @@ class CNABLinesTestCase(unittest.TestCase):
     def test_set_header_de_arquivo_4(self):
         expected = '12204202018213300001401501600'
 
-        fields = filter_segment(main_fields, '.0')
-
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
 
@@ -80,8 +72,6 @@ class CNABLinesTestCase(unittest.TestCase):
 
     def test_set_header_de_arquivo_5(self):
         expected = '#####################################################################\n'
-
-        fields = filter_segment(main_fields, '.0')
 
         with freeze_time('2020-04-22 18:21:33'):
             fields = set_header_de_arquivo(self._fields, self.header_de_arquivo)
