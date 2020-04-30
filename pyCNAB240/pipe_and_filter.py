@@ -725,6 +725,11 @@ def get_identifiers_from_input_data(data: dict):
 
 
 def check_given_data_identifiers(fields):
+    all_identifiers = extract_identifiers_that_have_default_or_reasonable_default(fields)
+
+
+
+def set_P_Q_R():
     pass
 
 

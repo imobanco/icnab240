@@ -307,3 +307,13 @@ class CNABTestCase(unittest.TestCase):
 
         result = extract_identifiers_that_have_default_or_reasonable_default(fields)
         self.assertEqual(expected, result)
+
+    def test_get_identifiers_from_input_data(self):
+        data = {'a': 1, 'b': 2}
+
+        expected = set(['a', 'b'])
+
+        result = get_identifiers_from_input_data(data)
+
+        self.assertEqual(expected, result)
+
