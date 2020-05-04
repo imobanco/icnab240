@@ -739,6 +739,12 @@ def check_given_data_identifiers(fields, patterns, data):
 
 
 def set_data_to_fields(fields, data):
+    """sets given data to fields
+
+    :param fields: a list in that each element is type Field
+    :param data: dict with key as identifier, and value as a list with values
+    :return: a list in that each element is type Field, with value set to input data
+    """
     for key in data:
         values = list(data[key])
         for field in fields:
@@ -746,6 +752,7 @@ def set_data_to_fields(fields, data):
                 value = values.pop(0)
                 field.value = value
     return fields
+
 
 def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
