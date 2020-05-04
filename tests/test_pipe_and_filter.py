@@ -377,3 +377,28 @@ class CNABTestCase(unittest.TestCase):
 
         result = set_data_to_fields(fields, data)
         self.assertEqual(expected, result)
+
+    def test_check_size_of_input_data_minimal(self):
+        fields = [Field(identifier='a', length=1)]
+
+        data = {'a': ['longer']}
+
+        with self.assertRaises(ValueError):
+            check_size_of_input_data(fields, data)
+
+    def test_check_size_of_input_data_num_decimals(self):
+        fields = [Field(identifier='a', length=1, num_decimals='2')]
+
+        data = {'a': ['xyzw']}
+
+        with self.assertRaises(ValueError):
+            check_size_of_input_data(fields, data)
+
+    def test_check_size_of_input_data_more_than_one_field(self):
+        fields = [Field(identifier='a', length=1, num_decimals=''),
+                  Field(identifier='b', length=1, num_decimals='2')]
+
+        data = {'b': ['xyzw']}
+
+        with self.assertRaises(ValueError):
+            check_size_of_input_data(fields, data)

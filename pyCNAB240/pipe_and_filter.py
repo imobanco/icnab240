@@ -754,10 +754,22 @@ def set_data_to_fields(fields, data):
     return fields
 
 
+def check_size_of_input_data(fields, data):
+    for key in data:
+        values = list(data[key])
+        for field in fields:
+            if field.identifier == key:
+                expected_size = field.length + default_decimals(field)
+                value = values.pop(0)
+                if expected_size < len(value):
+                    raise ValueError(f'Error in {key}, the value = {value} ')
+
+
 def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
     # print(data)
     check_given_data_identifiers(fields, patterns, data)
+    check_size_of_input_data(fields, data)
 
     number_of_replications = number_of_lines_in_csv(csv_full_file_name)
     # print(number_of_replications)
