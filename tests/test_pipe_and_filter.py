@@ -146,22 +146,32 @@ class CNABTestCase(unittest.TestCase):
 
         self.assertEqual(expected_value, result)
 
-    def test_default_decimals(self):
+    def test_default_decimals_empty(self):
 
-        # TODO: after test other functions
-        fields = [Field(start=8, end=8, default='1'),
-                  Field(start=9, end=9, value='E'),
-                  # another fields that must not be counted
-                  Field(start=8, end=8, default='2'),
-                  Field(start=9, end=9, value='T'),
-                  ]
+        field = Field(num_decimals='')
+
+        expected_value = 0
+        result = default_decimals(field)
+
+        self.assertEqual(expected_value, result)
+
+    def test_default_decimals_2(self):
+
+        field = Field(num_decimals='2')
 
         expected_value = 2
-        # Essa função vai deixar de existir
-        # ela recebe um objeto field, não uma lista de Fields
-        # result = default_decimals(fields)
+        result = default_decimals(field)
 
-        # self.assertEqual(expected_value, result)
+        self.assertEqual(expected_value, result)
+
+    def test_default_decimals_2(self):
+
+        field = Field(num_decimals='2/5')
+
+        expected_value = 2
+        result = default_decimals(field)
+
+        self.assertEqual(expected_value, result)
 
     def test_compose(self):
 

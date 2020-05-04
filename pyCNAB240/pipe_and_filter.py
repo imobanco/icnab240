@@ -383,17 +383,15 @@ def count_cnab_lines_1_and_E_type(fields):
     return count_cnab_lines_1(fields) + count_cnab_lines_E(fields)
 
 
-# TODO: after test other functions
 def default_decimals(field):
     """
     Vários campos possuem valores decimais
-    exemplo: C071
+    exemplo: C071, C023
 
-    Não esta claro o que fazer com os campos com 2/5 por hora, C023
     :param field:
     :return: int
     """
-    if field.num_decimals == '2':
+    if field.num_decimals == '2' or field.num_decimals == '2/5':
         return 2
     return 0
 
@@ -786,7 +784,13 @@ def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R,
               full_cnab_file_name):
 
-    fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+    fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
+             + filter_segment(main_fields, '.3P') \
+             + filter_segment(main_fields, '.3Q') \
+             + filter_segment(main_fields, '.3R') \
+             + filter_segment(main_fields, '.5') + filter_segment(main_fields, '.9')
+
+    fields = generic(fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
 
     fields = set_header_de_arquivo(fields, header_de_arquivo)
 
