@@ -200,7 +200,7 @@ def set_reasonable_default_given_values(fields):
 
 
 def set_generic_field(fields, atribute_to_search, value_to_search,
-                              atribute_to_set, value_to_set):
+                      atribute_to_set, value_to_set):
     for field in fields:
         if field.__getattribute__(atribute_to_search) == value_to_search:
             field.__setattr__(atribute_to_set, value_to_set)
@@ -216,7 +216,7 @@ def generic_filter(fields, atribute_to_search, value_to_search):
 def set_registry_type(fields):
     """
     Campos: 03.0, 03.1, 03.P, 03.Q, 03.R, 03.S, 03.T, 03.U, 03.5, 03.9
-    # TODO: checar se 03.T, 03.U são escritos em algum momento, ou se são so lidos.
+    # TODO: checar se 03.T, 03.U são escritos em algum momento, ou se são só lidos.
     Descrição: G003
 
     :param fields: a list in that each element is type Field
@@ -323,10 +323,7 @@ def count_cnab_lines_0_1_3_5_9(fields):
     """
     # Check if it fails ...
     # and field.value in (0, 1, 3, 5, 8)
-    return sum([1 for field in fields if field.start == 8
-                                         and field.end == 8
-                                         ]
-               )
+    return sum([1 for field in fields if field.start == 8 and field.end == 8])
 
 
 def count_cnab_lines_1_2_3_4_5(fields):
@@ -454,6 +451,7 @@ def filter_segment_and_value_none(fields, segment):
     return fields_filtered
 
 
+# TODO: deletar?
 def set_P_Q_R_codigo_de_movimento_remessa(fields, value):
     """
     Campos: 07.3P, 07.3Q, 07.3R. Poderia incluir o 07.3S
@@ -470,6 +468,7 @@ def set_P_Q_R_codigo_de_movimento_remessa(fields, value):
     return fields
 
 
+# TODO: deletar?
 def set_P_forma_de_cadastr_do_titulo_no_banco(fields, value):
     """
 
@@ -532,7 +531,7 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type,
                     identifier_cpf_or_cnpj):
     """
     Campos: 06.0, 09.1
-    DEscrição: G005, problema muitos casos diferentes desse campo
+    Descrição: G005, problema muitos casos diferentes desse campo
     Randomly generated using gen.cpf() from pycpfcnpj:
     00140154558, 00002238490226
 
@@ -608,6 +607,7 @@ def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
     fields = set_defaults(fields)
     fields = set_registry_type(fields)
 
+    # TODO: remover??
     fields = set_bank_number(fields, BANK_NUMBER)
 
     fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
@@ -726,14 +726,19 @@ def check_given_data_identifiers(fields, patterns, data):
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
     delta = identifiers_all - identifiers_data - identifiers_have_values
-    # pprint(fields)
-    # print(identifiers_all)
-    # print(identifiers_data)
-    # print(identifiers_have_values)
-    # print(delta)
 
     if delta != set():
         raise ValueError(f'Os dados de entrada estão com os campos: {delta} faltando')
+
+
+def check_overwriting_data(fields, data):
+    identifiers_data = set(data.keys())
+    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
+
+    delta = identifiers_data.intersection(identifiers_have_values)
+
+    if delta != set():
+        raise ValueError(f'Você está sobre escrevendo os campos: {delta}')
 
 
 def set_data_to_fields(fields, data):
@@ -749,6 +754,7 @@ def set_data_to_fields(fields, data):
             if field.identifier == key:
                 value = values.pop(0)
                 field.value = value
+
     return fields
 
 
@@ -765,12 +771,13 @@ def check_size_of_input_data(fields, data):
 
 def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
-    # print(data)
+
     check_given_data_identifiers(fields, patterns, data)
     check_size_of_input_data(fields, data)
+    check_overwriting_data(fields, data)
 
     number_of_replications = number_of_lines_in_csv(csv_full_file_name)
-    # print(number_of_replications)
+
 
     fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
                              patterns)
