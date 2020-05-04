@@ -58,9 +58,15 @@ def build_dict_from_list_of_dictreader(dict_readers):
     return d
 
 
-def number_of_lines_in_csv(file_name):
+def number_of_lines_in_csv(file_name, skip=2):
+    """
+
+    :param file_name: str of the csv file name
+    :param skip: int representing the number of lines to be skipped
+    :return: int representing the number of lines of the csv minus skip
+    """
     with open(file_name, mode='r') as f:
-        return sum(1 for line in f) - 2
+        return sum(1 for line in f) - skip
 
 
 def build_dict_from_lines(lines):
