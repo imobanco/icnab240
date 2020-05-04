@@ -732,6 +732,12 @@ def check_given_data_identifiers(fields, patterns, data):
 
 
 def check_overwriting_data(fields, data):
+    """Checks if any identifier in data is repeated in fields
+
+    :param fields: a list in that each element is type Field
+    :param data: a dict in that each key is a identifier and value is a list
+    :return: None
+    """
     identifiers_data = set(data.keys())
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
