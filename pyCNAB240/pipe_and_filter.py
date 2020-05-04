@@ -710,7 +710,8 @@ def extract_identifiers(fields, patterns):
 def extract_identifiers_that_have_default_or_reasonable_default(fields):
     filtered_fields = []
     for field in fields:
-        if field.reasonable_default is not None or field.default is not None:
+        if (field.reasonable_default is not None and field.reasonable_default != '') or \
+                (field.default is not None and field.default != ''):
             filtered_fields.append(field)
 
     identifiers_list = [field.identifier for field in filtered_fields]
@@ -725,7 +726,7 @@ def check_given_data_identifiers(fields, patterns, data):
     identifiers_all = extract_identifiers(fields, patterns)
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
-    pprint(fields)
+    # pprint(fields)
     print(identifiers_all)
     print(identifiers_data)
     print(identifiers_have_values)
