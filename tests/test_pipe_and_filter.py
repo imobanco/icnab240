@@ -343,7 +343,7 @@ class CNABTestCase(unittest.TestCase):
         result = extract_identifiers_that_have_default_or_reasonable_default(fields)
         self.assertEqual(expected, result)
 
-    def test_get_identifiers_from_input_data(self):
+    def test_check_missing_given_data_identifiers(self):
         fields = [Field(identifier='a'),
                   Field(identifier='b', default=0),
                   Field(identifier='c', default='Brancos'),
@@ -360,7 +360,7 @@ class CNABTestCase(unittest.TestCase):
         data = {'b': 1}
 
         with self.assertRaises(ValueError):
-            check_given_data_identifiers(fields, patterns, data)
+            check_missing_given_data_identifiers(fields, patterns, data)
 
     def test_set_data_to_fields(self):
         fields = [Field(identifier='a'),
@@ -412,3 +412,28 @@ class CNABTestCase(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             check_size_of_input_data(fields, data)
+
+    def test_check_overwriting_data_minimal(self):
+        fields = [Field(identifier='a', reasonable_default='123')]
+
+        data = {'a': ['1']}
+
+        with self.assertRaises(ValueError):
+            check_overwriting_data(fields, data)
+
+
+    def test_check_overwriting_data(self):
+        fields = [Field(identifier='a', reasonable_default='123'),
+                  Field(identifier='b')]
+
+        data = {'a': ['1']}
+
+        with self.assertRaises(ValueError):
+            check_overwriting_data(fields, data)
+
+    def test_check_given_data_identifiers(self):
+        fields = [Field(identifier='a')]
+        patterns = ('a',)
+        data = {'b': ['1']}
+        with self.assertRaises(ValueError):
+            check_given_data_identifiers(fields, patterns, data)

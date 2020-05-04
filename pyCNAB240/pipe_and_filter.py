@@ -723,6 +723,15 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
 def check_given_data_identifiers(fields, patterns, data):
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
+
+    for id_data in identifiers_data:
+        if id_data not in identifiers_all:
+            raise ValueError(f'O identificados do campo: {id_data} esta errado!')
+
+
+def check_missing_given_data_identifiers(fields, patterns, data):
+    identifiers_data = set(data.keys())
+    identifiers_all = extract_identifiers(fields, patterns)
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
     delta = identifiers_all - identifiers_data - identifiers_have_values
@@ -779,11 +788,11 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
 
     check_given_data_identifiers(fields, patterns, data)
+    check_missing_given_data_identifiers(fields, patterns, data)
     check_size_of_input_data(fields, data)
     check_overwriting_data(fields, data)
 
     number_of_replications = number_of_lines_in_csv(csv_full_file_name)
-
 
     fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
                              patterns)
