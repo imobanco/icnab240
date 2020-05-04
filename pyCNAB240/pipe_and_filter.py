@@ -7,7 +7,8 @@ from pprint import pprint
 from pycpfcnpj import cpfcnpj
 
 from pyCNAB240.core import main_fields
-from pyCNAB240.csv_reader import build_dict_from_csv, build_dict_from_csv_P_Q_R
+from pyCNAB240.csv_reader import build_dict_from_csv, \
+    build_dict_from_csv_P_Q_R, number_of_lines_in_csv
 
 
 def check_start_and_end(fields):
@@ -666,7 +667,7 @@ def insert_segments(fields, number_of_replications, identifier_for_insertion,
                     patterns):
     """Insert segments in fields
 
-    Note: it assumes that the given list fields has the replication fields and
+    Note: it assumes that the given list fields have the replication fields and
           that it appears only once
 
     :param fields: a list in that each element is type Field
@@ -726,27 +727,40 @@ def check_given_data_identifiers(fields, patterns, data):
     identifiers_all = extract_identifiers(fields, patterns)
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
-    # pprint(fields)
-    print(identifiers_all)
-    print(identifiers_data)
-    print(identifiers_have_values)
-
     delta = identifiers_all - identifiers_data - identifiers_have_values
-    print(delta)
+    # pprint(fields)
+    # print(identifiers_all)
+    # print(identifiers_data)
+    # print(identifiers_have_values)
+    # print(delta)
 
     if delta != set():
         raise ValueError(f'Os dados de entrada estão com os campos: {delta} faltando')
 
 
+def set_data_to_fields(fields, data):
+    for key in data:
+        values = list(data[key])
+        for field in fields:
+            if field.identifier == key:
+                value = values.pop(0)
+                field.value = value
+    return fields
 
-def set_P_Q_R(fields, csv_full_file_name, patterns):
+def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
     # print(data)
     check_given_data_identifiers(fields, patterns, data)
-    #
-    # fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
-    #                 patterns)
 
+    number_of_replications = number_of_lines_in_csv(csv_full_file_name)
+    # print(number_of_replications)
+
+    fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
+                             patterns)
+
+    fields = set_data_to_fields(fields, data)
+
+    return fields
 
 
 def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
@@ -760,7 +774,8 @@ def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
     fields = set_header_de_lote(fields, header_de_lote)
 
     patterns = ('.3P', '.3Q', '.3R')
-    set_P_Q_R(fields, csv_file_P_Q_R, patterns)
+    identifier_for_insertion = '29.3R'
+    fields = set_P_Q_R(fields, csv_file_P_Q_R, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
 
