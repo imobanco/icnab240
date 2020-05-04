@@ -309,11 +309,20 @@ class CNABTestCase(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_get_identifiers_from_input_data(self):
-        data = {'a': 1, 'b': 2}
+        fields = [Field(identifier='a'),
+                  Field(identifier='b', default=0),
+                  Field(identifier='c', default='Brancos'),
+                  Field(identifier='d', reasonable_default='Calculavél'),
+                  Field(identifier='e', reasonable_default='Vazio'),
+                  Field(identifier='f', reasonable_default=1600),
+                  Field(identifier='g', default=123, reasonable_default='Calculavél'),
+                  Field(identifier='h', default=''),
+                  Field(identifier='i')
+                  ]
 
-        expected = set(['a', 'b'])
+        # se fields tiver com todos os reasonable_default não precisa do patterns
+        patterns = ('a', 'b', 'c', 'd', 'e', 'f', 'g')
+        data = {'b': 1}
 
-        result = get_identifiers_from_input_data(data)
-
-        self.assertEqual(expected, result)
-
+        with self.assertRaises(ValueError):
+            check_given_data_identifiers(fields, patterns, data)

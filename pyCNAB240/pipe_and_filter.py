@@ -7,7 +7,7 @@ from pprint import pprint
 from pycpfcnpj import cpfcnpj
 
 from pyCNAB240.core import main_fields
-from pyCNAB240.csv_reader import build_dict_from_csv
+from pyCNAB240.csv_reader import build_dict_from_csv, build_dict_from_csv_P_Q_R
 
 
 def check_start_and_end(fields):
@@ -720,27 +720,46 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
     return identifiers
 
 
-def get_identifiers_from_input_data(data: dict):
-    return set(data.keys())
+def check_given_data_identifiers(fields, patterns, data):
+    identifiers_data = set(data.keys())
+    identifiers_all = extract_identifiers(fields, patterns)
+    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
+
+    pprint(fields)
+    print(identifiers_all)
+    print(identifiers_data)
+    print(identifiers_have_values)
+
+    delta = identifiers_all - identifiers_data - identifiers_have_values
+    print(delta)
+
+    if delta != set():
+        raise ValueError(f'Os dados de entrada estão com os campos: {delta} faltando')
 
 
-def check_given_data_identifiers(fields):
-    all_identifiers = extract_identifiers_that_have_default_or_reasonable_default(fields)
 
+def set_P_Q_R(fields, csv_full_file_name, patterns):
+    data = build_dict_from_csv_P_Q_R(csv_full_file_name)
+    # print(data)
+    check_given_data_identifiers(fields, patterns, data)
+    #
+    # fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
+    #                 patterns)
 
-
-def set_P_Q_R():
-    pass
 
 
 def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote, full_cnab_file_name):
+              header_de_arquivo, header_de_lote, csv_file_P_Q_R,
+              full_cnab_file_name):
 
     fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
 
     fields = set_header_de_arquivo(fields, header_de_arquivo)
 
     fields = set_header_de_lote(fields, header_de_lote)
+
+    patterns = ('.3P', '.3Q', '.3R')
+    set_P_Q_R(fields, csv_file_P_Q_R, patterns)
 
     fields = set_trailer_de_lote(fields)
 

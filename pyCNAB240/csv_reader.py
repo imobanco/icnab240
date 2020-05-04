@@ -74,8 +74,9 @@ def build_dict_from_csv(csv_full_file_name):
 
 
 def build_dict_from_csv_P_Q_R(csv_full_file_name):
-    ...
-
+    dictreaders = read_build_dictreader(csv_full_file_name)
+    d = build_dict_from_list_of_dictreader(dictreaders)
+    return d
 
 
 
@@ -89,7 +90,7 @@ def build_dict_from_csv_P_Q_R(csv_full_file_name):
 #
 # dictreaders = read_build_dictreader(csv_full_file_name)
 # d = build_dict_from_list_of_dictreader(dictreaders)
-
+#
 # print(d)
 # print(number_of_lines_in_csv(csv_full_file_name))
 # build_dict_from_lines(lines)
