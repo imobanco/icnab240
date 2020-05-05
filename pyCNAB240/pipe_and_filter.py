@@ -451,40 +451,6 @@ def filter_segment_and_value_none(fields, segment):
     return fields_filtered
 
 
-# TODO: deletar?
-def set_P_Q_R_codigo_de_movimento_remessa(fields, value):
-    """
-    Campos: 07.3P, 07.3Q, 07.3R. Poderia incluir o 07.3S
-    Código de Movimento Remessa: C004
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.start == 16 and field.end == 17 \
-                and field.identifier[-3:] in ('.3P', '.3Q', '.3R'):
-            field.value = value
-
-    return fields
-
-
-# TODO: deletar?
-def set_P_forma_de_cadastr_do_titulo_no_banco(fields, value):
-    """
-
-    Forma de Cadastr. do Título no Banco: *C007
-
-    :param fields: a list in that each element is type Field
-    :param value:
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.identifier == '15.3P':
-            field.value = value
-
-    return fields
-
-
 def set_field(fields, value_to_search, value_to_set):
     """
 
@@ -857,16 +823,3 @@ def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R)
 
     _write_cnab(full_cnab_file_name, lines)
-
-
-# Act in all P, Q and R
-# fields = set_P_Q_R_codigo_de_movimento_remessa(fields, '1')
-# fields = set_P_forma_de_cadastr_do_titulo_no_banco(fields, '1')
-
-# fields = filter_segment(fields, '.0') + filter_segment(fields, '.1') \
-#          + filter_segment(fields, '.5') + filter_segment(fields, '.9')
-
-# fields = filter_segment(fields, '.0')
-# for field in fields:
-#     print(field.identifier, 'length =', field.length, len(field.value_to_cnab), len(field.value), 'value =', field.value, 'value_to_cnab =', field.value_to_cnab)
-
