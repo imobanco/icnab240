@@ -119,25 +119,25 @@ def write_cnab(cnab_file_name, fields):
     _write_cnab(cnab_file_name, lines)
 
 
-def set_bank_number(fields, bank_number):
-    """
-
-    TODO: checar como será a construção do arquivo, pois se essa função for
-    chamada antes dos segmentos do meio serem criados dará problema.
-
-    Campo: 01.0, ..., 01.9. All first elements must be set to the bank number.
-    Descrição: G001. Sets for all segments, headers and footers
-    the same given bank number.
-
-    :param fields: a list in that each element is type Field
-    :param bank_number: the bank number
-    :return: a list in that each element is type Field with value
-             set to given bank_number
-    """
-    for field in fields:
-        if field.start == 1:
-            field.value = bank_number
-    return fields
+# def set_bank_number(fields, bank_number):
+#     """
+#
+#     TODO: checar como será a construção do arquivo, pois se essa função for
+#     chamada antes dos segmentos do meio serem criados dará problema.
+#
+#     Campo: 01.0, ..., 01.9. All first elements must be set to the bank number.
+#     Descrição: G001. Sets for all segments, headers and footers
+#     the same given bank number.
+#
+#     :param fields: a list in that each element is type Field
+#     :param bank_number: the bank number
+#     :return: a list in that each element is type Field with value
+#              set to given bank_number
+#     """
+#     for field in fields:
+#         if field.start == 1:
+#             field.value = bank_number
+#     return fields
 
 
 def set_white_spaces(fields):
@@ -474,6 +474,15 @@ def set_reasonable_default(fields, identifier):
     return fields
 
 
+def set_reasonable_default_for_all(fields):
+    for field in fields:
+        if field.reasonable_default != 'Calculavél' \
+                and field.reasonable_default != '':
+            field.value = field.reasonable_default
+
+    return fields
+
+
 def inscription_type(cpf_or_cnpj):
     """Calculates if string is cpf or cnpj
 
@@ -573,8 +582,9 @@ def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
     fields = set_defaults(fields)
     fields = set_registry_type(fields)
 
+    fields = set_reasonable_default_for_all(fields)
     # TODO: remover??
-    fields = set_bank_number(fields, BANK_NUMBER)
+    # fields = set_bank_number(fields, BANK_NUMBER)
 
     fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
 
