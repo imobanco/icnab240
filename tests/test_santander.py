@@ -21,7 +21,7 @@ class SantanderTestCase(unittest.TestCase):
         csv_file_P_Q_R = os.path.join(path_to_diretory, 'data_segmentos_P_Q_R.csv')
 
 
-        with freeze_time('2020-05-05 12:01:47'):
+        with freeze_time('2020-05-05 13:56:45'):
             # https://stackoverflow.com/a/7866180
             delimiter = '\n'
             expecteds = [line + delimiter for line in

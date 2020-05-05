@@ -121,7 +121,7 @@
 10.3R,Valor/Percentual a ser Concedido,27,41,13,2/5,Num,,,,,
 11.3R,Código do Desconto 3,42,42,1,-,Num,,,,,
 12.3R,Data do Desconto 3,43,50,8,-,Num,,,,,
-13.3R,Valor/Percentual a Ser Concedido,51,65,13,2/5,Num,Brancos,,,,
+13.3R,Valor/Percentual a Ser Concedido,51,65,13,2/5,Num,,,,,
 14.3R,Código da Multa,66,66,1,-,Alfa,,,,,
 15.3R,Data da Multa,67,74,8,-,Num,,,,,
 16.3R,Valor/Percentual a Ser Aplicado,75,89,13,2/5,Num,,,,,

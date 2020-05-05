@@ -784,6 +784,18 @@ def check_size_of_input_data(fields, data):
                     raise ValueError(f'Error in {key}, the value = {value} ')
 
 
+def check_none_value(fields):
+    for field in fields:
+        if field.value is None:
+            raise ValueError(f'Error: value = None in {field}')
+
+
+def check_lines_length(lines, length):
+    for line in lines:
+        if len(line) != length:
+            raise ValueError(f'Error: line length = {len(line)}')
+
+
 def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
 
@@ -825,11 +837,14 @@ def build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
 
     fields = set_trailer_de_arquivo(fields)
 
+    check_none_value(fields)
+
     fields = fill_value_to_cnab(fields)
 
     # define a function?
     pieces = build_pieces_of_value_to_cnab(fields)
     lines = build_cnab_lines(pieces)
+    check_lines_length(lines, 241)
 
     return lines
 
