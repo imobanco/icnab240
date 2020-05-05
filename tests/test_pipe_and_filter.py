@@ -48,16 +48,6 @@ class CNABTestCase(unittest.TestCase):
         # TODO: How to test this?
         pass
 
-    # def test_set_bank_number(self):
-    #     fields = [Field(start=1),
-    #               Field(start=1),
-    #               Field(start=1)]
-    #
-    #     bank_number = 33
-    #     result_fields = set_bank_number(fields, bank_number)
-    #     for field in result_fields:
-    #         self.assertEqual(field.value, bank_number)
-
     def test_count_cnab_lines(self):
         fields = [Field(end=240), Field(end=100), Field(end=240),
                   Field(end=123)]
