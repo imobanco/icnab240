@@ -12,7 +12,7 @@ from tests.santander_example import expected_santander
 class SantanderTestCase(unittest.TestCase):
 
     def test_build_santander(self):
-        BANK_NUMBER = '033'
+
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
 
         path_to_diretory = os.path.dirname(__file__)
@@ -27,9 +27,9 @@ class SantanderTestCase(unittest.TestCase):
             expecteds = [line + delimiter for line in
                          expected_santander.split(delimiter)]
 
-            results = build_santander(main_fields, BANK_NUMBER,
-                                    NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo,
-                                    header_de_lote, csv_file_P_Q_R)
+            results = build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
+                                      header_de_arquivo, header_de_lote,
+                                      csv_file_P_Q_R)
 
             for line_number, (result, expected) in enumerate(zip(results, expecteds)):
                 for index in range(6):

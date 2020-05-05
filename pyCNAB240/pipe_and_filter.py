@@ -553,7 +553,7 @@ def set_header_de_lote(fields, file_name):
     return fields
 
 
-def generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO):
+def generic(main_fields, NÚMERO_LOTE_DE_SERVIÇO):
 
     fields = check_start_and_end(main_fields)
     fields = check_duplicated_identifiers(fields)
@@ -767,7 +767,7 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     return fields
 
 
-def build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+def build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R):
 
     fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
@@ -776,7 +776,7 @@ def build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
              + filter_segment(main_fields, '.3R') \
              + filter_segment(main_fields, '.5') + filter_segment(main_fields, '.9')
 
-    fields = generic(fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+    fields = generic(fields, NÚMERO_LOTE_DE_SERVIÇO)
 
     fields = set_header_de_arquivo(fields, header_de_arquivo)
 
@@ -802,11 +802,11 @@ def build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
     return lines
 
 
-def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+def santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R,
               full_cnab_file_name):
 
-    lines = build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+    lines = build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R)
 
     _write_cnab(full_cnab_file_name, lines)

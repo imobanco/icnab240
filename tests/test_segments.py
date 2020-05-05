@@ -16,10 +16,8 @@ class CNABLinesTestCase(unittest.TestCase):
         self.header_de_arquivo = self.full_file_name('header_de_arquivo.csv')
         self.header_de_lote = self.full_file_name('header_de_arquivo_lote.csv')
 
-        BANK_NUMBER = '033'
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
-        # TODO: fatorar a dependencia do BANK_NUMBER
-        self._fields = generic(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO)
+        self._fields = generic(main_fields, NÚMERO_LOTE_DE_SERVIÇO)
 
     def full_file_name(self, file_name):
         return os.path.join(os.path.dirname(__file__), file_name)
