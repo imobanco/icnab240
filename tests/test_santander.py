@@ -9,6 +9,7 @@ from pyCNAB240.pipe_and_filter import build_santander
 
 from tests.santander_example import expected_santander
 
+
 class SantanderTestCase(unittest.TestCase):
 
     def test_build_santander(self):

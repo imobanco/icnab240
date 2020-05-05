@@ -1,7 +1,6 @@
 import os
 
 from pyCNAB240.core import main_fields
-from pyCNAB240.csv_reader import build_dict_from_csv_P_Q_R
 from pyCNAB240.pipe_and_filter import santander
 
 
