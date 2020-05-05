@@ -437,3 +437,20 @@ class CNABTestCase(unittest.TestCase):
         data = {'b': ['1']}
         with self.assertRaises(ValueError):
             check_given_data_identifiers(fields, patterns, data)
+
+    def test_check_none_value(self):
+        fields = [Field()]
+        with self.assertRaises(ValueError):
+            check_none_value(fields)
+
+    def test_check_lines_length_line_bigger(self):
+        lines = ['a ling line\n']
+        wrong_length = 3
+        with self.assertRaises(ValueError):
+            check_lines_length(lines, wrong_length)
+
+    def test_check_lines_length_line_smaller(self):
+        lines = ['a ling line\n']
+        wrong_length = 10
+        with self.assertRaises(ValueError):
+            check_lines_length(lines, wrong_length)
