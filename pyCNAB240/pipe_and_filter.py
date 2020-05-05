@@ -802,9 +802,8 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     return fields
 
 
-def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote, csv_file_P_Q_R,
-              full_cnab_file_name):
+def build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+              header_de_arquivo, header_de_lote, csv_file_P_Q_R):
 
     fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
              + filter_segment(main_fields, '.3P') \
@@ -828,7 +827,21 @@ def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
 
     fields = fill_value_to_cnab(fields)
 
-    write_cnab(full_cnab_file_name, fields)
+    # define a function?
+    pieces = build_pieces_of_value_to_cnab(fields)
+    lines = build_cnab_lines(pieces)
+
+    return lines
+
+
+def santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+              header_de_arquivo, header_de_lote, csv_file_P_Q_R,
+              full_cnab_file_name):
+
+    lines = build_santander(main_fields, BANK_NUMBER, NÚMERO_LOTE_DE_SERVIÇO,
+              header_de_arquivo, header_de_lote, csv_file_P_Q_R)
+
+    _write_cnab(full_cnab_file_name, lines)
 
 
 # Act in all P, Q and R
