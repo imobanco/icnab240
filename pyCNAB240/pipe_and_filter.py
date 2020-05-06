@@ -146,7 +146,7 @@ def set_white_spaces_reasonable_default(fields):
 
 
 def set_zeros_reasonable_default(fields):
-    """Sets value_to_cnab to spaces if is Alfa and Vazio
+    """Sets value_to_cnab to spaces if is Num and Vazio
 
     :param fields: a list in that each element is type Field
     :return: a list in that each element is type Field with value_to_cnab
@@ -471,14 +471,17 @@ def inscription_type(cpf_or_cnpj):
 
 def set_cpf_or_cnpj(fields, identifier_inscription_type,
                     identifier_cpf_or_cnpj):
-    """
+    """Sets in fields if it is cpf of cnpj
+
     Campos: 06.0, 09.1
     Descrição: G005, problema muitos casos diferentes desse campo
     Randomly generated using gen.cpf() from pycpfcnpj:
     00140154558, 00002238490226
 
     :param fields: a list in that each element is type Field
-    :return: a Field with value setted tha mathcs if it is cpf (1) or cnpj (2)
+    :param identifier_inscription_type: str with identifier of the field inscription type
+    :param identifier_cpf_or_cnpj: str with cpf or cnpj number
+    :return: a Field with value set that matchs if it is cpf (1) or cnpj (2)
     """
     for field in fields:
         if field.identifier == identifier_cpf_or_cnpj:
@@ -491,8 +494,8 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type,
     return fields
 
 
-def set_given_data_to_header_de_arquivo(fields, data):
-    """
+def set_given_data(fields, data):
+    """Sets given data to fields
 
     :param fields: a list in that each element is type Field
     :param data: dict with keys as identifier and values are the ones provided by
@@ -510,13 +513,11 @@ def set_given_data_to_header_de_arquivo(fields, data):
 def set_header_de_arquivo(fields, file_name):
 
     data = build_dict_from_csv(file_name)
-    fields = set_given_data_to_header_de_arquivo(fields, data)
+    fields = set_given_data(fields, data)
     fields = set_cpf_or_cnpj(fields, '05.0', '06.0')
 
     fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
     fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
-
-    fields = set_white_spaces_reasonable_default(fields)
 
     return fields
 
@@ -524,15 +525,11 @@ def set_header_de_arquivo(fields, file_name):
 def set_header_de_lote(fields, file_name):
 
     data = build_dict_from_csv(file_name)
-    fields = set_given_data_to_header_de_arquivo(fields, data)
+    fields = set_given_data(fields, data)
 
     fields = set_cpf_or_cnpj(fields, '09.1', '10.1')
 
     fields = set_field(fields, '21.1', datetime.today().strftime('%d%m%Y'))
-
-    # TODO: talvez fazer uma função só que faz ambas as coisas
-    fields = set_white_spaces_reasonable_default(fields)
-    fields = set_zeros_reasonable_default(fields)
 
     return fields
 
@@ -546,9 +543,11 @@ def generic(main_fields, NÚMERO_LOTE_DE_SERVIÇO):
     fields = set_registry_type(fields)
 
     fields = set_reasonable_default_for_all(fields)
+    fields = set_white_spaces_reasonable_default(fields)
+    fields = set_zeros_reasonable_default(fields)
 
+    # TODO checar
     fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
-
     fields = set_numero_do_lote_de_servico_not_header_footer(fields)
 
     # TODO: documentar essa função melhor
@@ -771,6 +770,7 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
 def build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
               header_de_arquivo, header_de_lote, csv_file_P_Q_R):
 
+    # TODO: fazer uma função que deleta os segmentos
     fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
              + filter_segment(main_fields, '.3P') \
              + filter_segment(main_fields, '.3Q') \
