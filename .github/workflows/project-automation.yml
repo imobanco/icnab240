@@ -1,0 +1,61 @@
+name: project-automation
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled]
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: move 'new' PR to 'Review in progress'
+        uses: alex-page/github-project-automation-plus@v0.2.2
+        if: |
+          github.event_name == 'pull_request' &&
+          (
+            github.event.action == 'opened' ||
+            github.event.action == 'reopened'
+          )
+        with:
+          project: Backlog
+          column: Review in progress
+          repo-token: ${{ secrets.GH_TOKEN }}
+
+      - name: move new issue or unlabeled to 'To do'
+        uses: alex-page/github-project-automation-plus@v0.2.2
+        if: |
+          github.event_name == 'issues' &&
+          (
+            !contains(github.event.issue.labels.*.name, 'Status: Em Progresso') &&
+            !contains(github.event.issue.labels.*.name, 'Status: Bloqueado')
+          )
+        with:
+          project: Backlog
+          column: To do
+          repo-token: ${{ secrets.GH_TOKEN }}
+
+      - name: move issue labeled to 'In progress'
+        uses: alex-page/github-project-automation-plus@v0.2.2
+        if: |
+          github.event_name == 'issues' &&
+          (
+            contains(github.event.issue.labels.*.name, 'Status: Em Progresso')
+          )
+        with:
+          project: Backlog
+          column: In progress
+          repo-token: ${{ secrets.GH_TOKEN }}
+
+      - name: move issue labeled to 'Blocked'
+        uses: alex-page/github-project-automation-plus@v0.2.2
+        if: |
+          github.event_name == 'issues' &&
+          (
+            contains(github.event.issue.labels.*.name, 'Status: Bloqueado')
+          )
+        with:
+          project: Backlog
+          column: Blocked
+          repo-token: ${{ secrets.GH_TOKEN }}
