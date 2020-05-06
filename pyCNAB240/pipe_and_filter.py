@@ -161,20 +161,6 @@ def set_zeros_reasonable_default(fields):
     return fields
 
 
-def set_reasonable_default_given_values(fields):
-    """
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value set to
-             reasonable_default
-    """
-    for field in fields:
-        if field.reasonable_default != 'Vazio' \
-                and field.reasonable_default != 'Calculavél':
-            field.value = field.reasonable_default
-    return fields
-
-
 def set_generic_field(fields, atribute_to_search, value_to_search,
                       atribute_to_set, value_to_set):
     for field in fields:
@@ -450,15 +436,12 @@ def set_field(fields, value_to_search, value_to_set):
     return fields
 
 
-def set_reasonable_default(fields, identifier):
-    for field in fields:
-        if field.identifier == identifier:
-            field.value = field.reasonable_default
-
-    return fields
-
-
 def set_reasonable_default_for_all(fields):
+    """Sets all fields that have reasonable default values
+
+    :param fields: a list in that each element is type Field
+    :return: a list in that each element is type Field
+    """
     for field in fields:
         if field.reasonable_default != 'Calculavél' \
                 and field.reasonable_default != '':
@@ -526,8 +509,6 @@ def set_given_data_to_header_de_arquivo(fields, data):
 
 def set_header_de_arquivo(fields, file_name):
 
-    fields = set_reasonable_default(fields, '21.0')
-
     data = build_dict_from_csv(file_name)
     fields = set_given_data_to_header_de_arquivo(fields, data)
     fields = set_cpf_or_cnpj(fields, '05.0', '06.0')
@@ -542,8 +523,6 @@ def set_header_de_arquivo(fields, file_name):
 
 def set_header_de_lote(fields, file_name):
 
-    # TODO: remover para receber como parâmetro?
-    fields = set_reasonable_default(fields, '04.1') # G028 04.1
     data = build_dict_from_csv(file_name)
     fields = set_given_data_to_header_de_arquivo(fields, data)
 
