@@ -1,12 +1,9 @@
-import os
-
 import copy
 from datetime import datetime
 from pprint import pprint
 
 from pycpfcnpj import cpfcnpj
 
-from pyCNAB240.core import main_fields
 from pyCNAB240.csv_reader import build_dict_from_csv, \
     build_dict_from_csv_P_Q_R, number_of_lines_in_csv
 
@@ -234,16 +231,12 @@ def set_spaces_if_it_is_not_retorno(fields):
                              ' type of CNABs_retorno it is not a RETORNO one.')
 
     for field in fields:
-        if field.start >= 24 and field.start <= 116 \
+        if 24 <= field.start <= 116 \
                 and '.5' in field.identifier:
 
             field.value_to_cnab = '@'*(field.length + default_decimals(field))
             field.value = field.value_to_cnab
             continue
-
-        # if field.identifier == '22.1':
-        #     field.value_to_cnab = '@'*(field.length + default_decimals(field))
-        #     field.value = field.value_to_cnab
 
     return fields
 
@@ -376,6 +369,15 @@ def default_decimals(field):
 
 def fill_value_to_cnab(fields):
     for field in fields:
+
+        # TODO: verificar pq quebra
+        #  if field.value is None or not isinstance(field.value, str)\
+        #     or not isinstance(field.value, int):
+        #     raise ValueError(f'Error: field = {field}')
+        #
+        # if isinstance(field.value, int):
+        #     field.value = str(field.value)
+
         if not isinstance(field.value, str):
             field.value = str(field.value)
 
@@ -405,7 +407,7 @@ def filter_segment(fields, segment):
     """Filters segments given a string to filter check if on identifier
 
     :param fields: a list in that each element is type Field
-    :param segment: str to used in the filter
+    :param segment: str to be used in the filter
     :return: a list in that each element is type Field and was filtered
     """
     fields_filtered = [field for field in fields if segment in field.identifier]
@@ -433,11 +435,12 @@ def filter_segment_and_value_none(fields, segment):
 
 
 def set_field(fields, value_to_search, value_to_set):
-    """
+    """Sets the value_to_set to the field that has identifier equal
+    to value_to_search
 
     :param fields: a list in that each element is type Field
-    :param value_to_search:
-    :param value_to_set:
+    :param value_to_search: str with the identifier to be searched
+    :param value_to_set: str with the value to be set
     :return: a list in that each element is type Field
     """
     for field in fields:
