@@ -14,7 +14,7 @@ from pyCNAB240.csv_reader import build_dict_from_csv, \
 def check_start_and_end(fields):
     """Sanity check for start and end values loaded.
 
-    Checks if all star and end are present, it means
+    Checks if all start and end are present, it means that
     for all start - end must differ only by 1,
     if end different of 240 and start different of 1
 
@@ -81,8 +81,8 @@ def build_pieces_of_value_to_cnab(fields):
 def build_cnab_lines(pieces):
     """Glues strings finding each \n and form a element of a list of lines
 
-    :param pieces: a list in that each element is a string that some are with \n
-    :return: a list in that each element is a string that ands in \n
+    :param pieces: a list in that each element is a string that some end with \n
+    :return: a list in that each element is a string that ends in \n
     """
     glued_lines = []
     line = ''
@@ -98,7 +98,7 @@ def _write_cnab(cnab_file_name, lines, mode='w'):
     """Helper function that opens and writes a list to a given file name
 
     :param cnab_file_name: str with the name of the cnab to be written
-    :param lines: list in which each element is a string ending in \n
+    :param lines: list in that which each element is a string ending in \n
     :param mode: default mode is write
     :return: None
     """
@@ -268,7 +268,7 @@ def set_numero_do_lote_de_servico_header_and_footer(fields, value):
 
 def set_numero_do_lote_de_servico_not_header_footer(fields):
     """
-    Campo: 04.3P, 04.3Q, 04.3R, 04.3S, 04.3T, 04.3U
+    Campos: 04.3P, 04.3Q, 04.3R, 04.3S, 04.3T, 04.3U
     Descrição: G038
 
     :param fields: a list in that each element is type Field
@@ -284,10 +284,10 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
 
 
 def count_cnab_lines(fields):
-    """Calculates the number of lines the CNABs_retorno has
+    """Calculates the number of lines the CNAB has
 
     :param fields: a list in that each element is type Field
-    :return: int representing the total of lines that the CNABs_retorno has
+    :return: int representing the total of lines that the CNAB has
     """
     return sum([1 for field in fields if field.end == 240])
 
@@ -327,7 +327,7 @@ def count_cnab_lines_1(fields):
     Descrição: G049 (ver G003 para ver todos tipos de registro)
 
     :param fields: a list in that each element is type Field
-    :return: int representing the total of lines of type 1 that the CNABs_retorno has
+    :return: int representing the total of lines of type 1 that the CNAB has
     """
     return sum([1 for field in fields
                 if field.start == 8
@@ -340,7 +340,7 @@ def count_cnab_lines_E(fields):
     """Counts the CNABs lines of type E
 
     :param fields: a list in that each element is type Field
-    :return: int representing the total of lines of type E that the CNABs_retorno has
+    :return: int representing the total of lines of type E that the CNAB has
     """
     return sum([1 for field in fields
                 if field.start == 9
@@ -354,18 +354,20 @@ def count_cnab_lines_1_and_E_type(fields):
     Campo: 07.9, uses two other functions to compute all lines type 1 and E
 
     :param fields: a list in that each element is type Field
-    :return: int representing the total of lines of type 1 and E that the CNABs_retorno has
+    :return: int representing the total of lines of type 1 and E that the CNAB has
     """
     return count_cnab_lines_1(fields) + count_cnab_lines_E(fields)
 
 
 def default_decimals(field):
     """
-    Vários campos possuem valores decimais
-    exemplo: C071, C023
+    It is necessary because the "length" attribute is not always equal the
+    start - end - 1. If num_decimals is equal "2" or "2/5" it has to be
+    counted as 2. It is use full to fill the value_to_cnab attribute.
+    Excamples of fields that have this: C071, C023
 
-    :param field:
-    :return: int
+    :param field: Field object
+    :return: int according to the string in the num_decimals attribute
     """
     if field.num_decimals == '2' or field.num_decimals == '2/5':
         return 2
@@ -710,7 +712,7 @@ def check_overwriting_data(fields, data):
 
 
 def set_data_to_fields(fields, data):
-    """sets given data to fields
+    """sets given data to fields based on identifiers presents in both
 
     :param fields: a list in that each element is type Field
     :param data: dict with key as identifier, and value as a list with values
@@ -727,6 +729,12 @@ def set_data_to_fields(fields, data):
 
 
 def check_size_of_input_data(fields, data):
+    """Checks if the inputted data is bigger than the maximum allowed in field
+
+    :param fields: a list in that each element is type Field
+    :param data: dict with key as identifier, and value as a list with values
+    :return: None
+    """
     for key in data:
         values = list(data[key])
         for field in fields:
@@ -738,12 +746,23 @@ def check_size_of_input_data(fields, data):
 
 
 def check_none_value(fields):
+    """Checks if the given fields have value None, if so, raise ValueError
+
+    :param fields: a list in that each element is type Field
+    :return: None
+    """
     for field in fields:
         if field.value is None:
             raise ValueError(f'Error: value = None in {field}')
 
 
 def check_lines_length(lines, length):
+    """
+
+    :param lines: a list in that each element is a string ending in '\n'
+    :param length: the number of characters that must be verified
+    :return: None
+    """
     for line in lines:
         if len(line) != length:
             raise ValueError(f'Error: line length = {len(line)}')
