@@ -13,7 +13,7 @@ jobs:
         if: |
           github.event_name == 'project_card' &&
           (
-            github.event.project_card.column_id == 9034005
+            github.event.project_card.column_id == 9034849
           )
         with:
           repo-token: ${{secrets.GH_TOKEN}}
@@ -24,7 +24,7 @@ jobs:
         if: |
           github.event_name == 'project_card' &&
           (
-            github.event.project_card.column_id == 9034006
+            github.event.project_card.column_id == 9034850
           )
         with:
           repo-token: ${{secrets.GH_TOKEN}}
@@ -36,7 +36,7 @@ jobs:
         if: |
           github.event_name == 'project_card' &&
           (
-            github.event.project_card.column_id == 9034024
+            github.event.project_card.column_id == 9034903
           )
         with:
           repo-token: ${{secrets.GH_TOKEN}}
