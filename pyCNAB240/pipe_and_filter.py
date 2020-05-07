@@ -67,10 +67,10 @@ def build_pieces_of_value_to_cnab(fields):
     lines = []
     # TODO transformar numa string só simplificando a escrita do arquivo.
     for field in fields:
+        value = field.value_to_cnab
         if field.end == 240:
-            lines.append(field.value_to_cnab + '\n')
-        else:
-            lines.append(field.value_to_cnab)
+            value += '\n'
+        lines.append(value)
 
     return lines
 
