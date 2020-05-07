@@ -164,8 +164,8 @@ def set_zeros_reasonable_default(fields):
 def set_generic_field(fields, atribute_to_search, value_to_search,
                       atribute_to_set, value_to_set):
     for field in fields:
-        if field.__getattribute__(atribute_to_search) == value_to_search:
-            field.__setattr__(atribute_to_set, value_to_set)
+        if getattr(field, atribute_to_search) == value_to_search:
+            setattr(field, atribute_to_set, value_to_set)
     return fields
 
 
