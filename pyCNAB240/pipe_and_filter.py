@@ -366,7 +366,7 @@ def count_cnab_lines_1_2_3_4_5(fields):
 
 def count_cnab_lines_1(fields):
     """Counts the CNABs lines of type 1
-    
+
     TODO: provavelmente no mesmo PR da `count_cnab_lines_0_1_3_5_9`.
 
     Campo: 05.9
@@ -407,13 +407,21 @@ def count_cnab_lines_1_and_E_type(fields):
 
 def default_decimals(field):
     """
-    It is necessary because the "length" attribute is not always equal the
-    start - end - 1. If num_decimals is equal "2" or "2/5" it has to be
-    counted as 2. It is use full to fill the value_to_cnab attribute.
-    Excamples of fields that have this: C071, C023
 
-    :param field: Field object
-    :return: int according to the string in the num_decimals attribute
+    É necessário que se recupere a informação do tamanho do campo
+    com base na informação presente na coluna da especificação do Santander
+    cujo nome é Nº Dec, que virou no `Field` o atributo `num_decimals`.
+    A especificação traz a informação de quantas casas decimais existem
+    dessa forma, e isso muda o comprimento do campo. O comprimento do campo
+     não é sempre o presente na coluna Nº Dig.
+      Se tiver 2 ou 2/5 é necessário que seja adicionado mais dois ao
+      comprimento do campo.
+
+    Isso é necessário para que se possa preencher o atributo value_to_cnab
+    Examplos de campos que precisam disso são os das descrições: C071, C023
+
+    :param field: Field objecto
+    :return: int de acordo com a string no atributo num_decimals
     """
     if field.num_decimals == '2' or field.num_decimals == '2/5':
         return 2
