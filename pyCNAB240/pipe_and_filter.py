@@ -460,13 +460,11 @@ def inscription_type(cpf_or_cnpj):
     :return: int, 1 if is cpf, 2 if is cnpj, otherwise raise
     """
 
-    if cpfcnpj.validate(cpf_or_cnpj):
-        if len(cpf_or_cnpj) == 11:
-            return 1
-        else:
-            return 2
-    else:
-        raise ValueError(f'The number is not a valid cpf or cnpj: {cpf_or_cnpj}')
+    if cpfcnpj.cpf.validate(cpf_or_cnpj):
+        return 1
+    elif cpfcnpj.cnpj.validate(cpf_or_cnpj):
+        return 2
+    raise ValueError(f'The number is not a valid cpf or cnpj: {cpf_or_cnpj}')
 
 
 def set_cpf_or_cnpj(fields, identifier_inscription_type,
