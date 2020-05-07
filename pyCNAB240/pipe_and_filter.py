@@ -268,8 +268,23 @@ def set_spaces_if_it_is_not_retorno(fields):
 def set_numero_do_lote_de_servico_header_and_footer(fields, value):
     """
 
-    Campo: 02.1, 02.9
+    Essa função será, muito provavelmente eliminada.
+    Ver onde ela é chama!
+
+    Na listagem abaixo encontram-se os campos em que a função modifica
+    e as descrições destes:
+    Campos: 02.1, 02.9
     Descrição: G002
+
+    E exclui desta modificação os campos: 02.1, 02.9
+
+    O texto da especificação do Santander diz, sobre a descrição G002:
+    "Número seqüencial para identificar univocamente um lote de serviço.
+    Criado e controlado pelo responsável pela geração magnética dos dados contidos no arquivo.
+    Preencher com '0001' para o primeiro lote do arquivo. Para os demais: número do lote
+    anterior acrescido de 1. O número não poderá ser repetido dentro do arquivo.".
+
+
 
     :param fields: a list in that each element is type Field
     :param value:
@@ -311,12 +326,23 @@ def count_cnab_lines(fields):
 
 def count_cnab_lines_0_1_3_5_9(fields):
     """
+
+    Na listagem abaixo encontram-se o(os) campo(os) em que a função modifica
+    e a(a)s descrição(ões) deste(es):
     Campo: 06.9
     Descrição: G056 (ver G003 para ver todos tipos de registro)
 
-    :param fields: a list in that each element is type Field
-    :return: int representing the total of lines 0, 1, 3, 5 and 9 that the CNABs_retorno has
+    Todo o texto da especificação do Santander, sobre a descrição G002, diz:
+    "Quantidade de Registros do Arquivo
+    Número obtido pela contagem dos registros enviados no arquivo. Somatória dos registros
+    de tipo 0, 1, 3, 5 e 9."
+
+
+    :param fields: uma lista em que cada elemento é do tipo Field
+    :return: int representando o total de linhas de tipo 0, 1, 3, 5 e 9 que o CNAB tem
     """
+    # TODO: revisar o teste dessa função e incluir casos diferentes e
+    # verificar se o atual esta correto.
     # Check if it fails ...
     # and field.value in (0, 1, 3, 5, 8)
     return sum([1 for field in fields if field.start == 8 and field.end == 8])
@@ -592,7 +618,9 @@ def generic(main_fields, NÚMERO_LOTE_DE_SERVIÇO):
     fields = set_white_spaces_reasonable_default(fields)
     fields = set_zeros_reasonable_default(fields)
 
-    # TODO checar
+    # TODO essas funções devem ter que ser chamadas
+    #  depois da inserção dos segmentos P, Q, e R para
+    #  que elas possam agir nos campos criados.
     fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
     fields = set_numero_do_lote_de_servico_not_header_footer(fields)
 
