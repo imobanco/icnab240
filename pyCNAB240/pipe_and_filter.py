@@ -9,23 +9,44 @@ from pyCNAB240.csv_reader import build_dict_from_csv, \
 
 
 def check_start_and_end(fields):
-    """Sanity check for start and end values loaded.
+    """Verifica se todos campos do CNAB tem a sequência correta de
+    inícios e fins
 
-    Verifica se todos campos de um segmento (?) do CNAB estão presentes e seus 'inicios' e 'fins' estão corretos.
-    
-    É feito uma comparação 2 a 2 na lista de campos utilizando 
-    o cálculo `campo_atual.start` - `campo_anterior.end` = 1 (?)
-    
-    Se esse cálculo falhar há uma inconsistência nos campos(?).
-    
-    Se `end` é 240 quer dizer que  chegou no campo final. 
-    Se até esse momento o cálculo não falhou então todos os campos estão presentes e com 'inicios' e 'fins' corretos (?).
+    De acordo com a especificação do formato do CNAB todo segmento
+    começa no indíce 1, e termina no 240, e todo campo tem início
+    com este sendo no indíce onde o anterior acabou adicionado de 1.
+    Ver a especificação para esclarecimentos.
 
-    About the iter and next usage here:
+    Exemplo: o campo 01.0, página 6 do Santander, tem início em 1,
+    e término em 3 (o comprimento desse campo é 3 nesse caso),
+    portanto o fim deste é 3. O próximo campo, o 02.0, tem início
+    em 4, ou seja, o fim do anterior mais 1, e fim neste caso em
+    7 (pois o comprimento deste é 4). Esse padrão se mantem, sendo
+     apenas diferente no inicio de um segmento, pois o anterior de
+     um começo será, se não for o primeiro segmento, o fim do anterior,
+     e quando é o fim de um segmento, o fim deste é 240.
+    Logo, a diferença entre dois campos consecutivos de um mesmo
+      segmento é sempre 1!
+
+    De forma a verificar se a diferença entre dois campos consecutivos de um mesmo
+      segmento é sempre 1, é feita uma comparação 2 a 2 na lista de campos utilizando
+    o cálculo: `campo_atual.start` - `campo_anterior.end` == 1
+    
+    Se esse cálculo falhar há uma inconsistência nos campos, ou seja,
+    tem-se algum ou inicio ou fim errado, ou um campo errado, com
+     início errado ou fim, ou ainda, por exemplo, um campo na posição
+     errada.
+    
+    Se `end` é 240 quer dizer que chegou no campo final.
+    Se até esse momento o cálculo não falhou então todos os
+    campos estão presentes e com 'inícios' e 'fins' corretos para
+    um segmento.
+
+    Sobre a função iter e next utilização presente aqui:
     https://stackoverflow.com/a/16789817
 
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field (just for keep the pattern)
+    :param fields: uma lista em que cada elemento é do tipo Field
+    :return: uma lista em que cada elemento é do tipo Field (não a modifica, apenas checa)
     """
     _fields = iter(fields)
     field_old = next(_fields)
