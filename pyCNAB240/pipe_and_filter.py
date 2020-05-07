@@ -11,9 +11,15 @@ from pyCNAB240.csv_reader import build_dict_from_csv, \
 def check_start_and_end(fields):
     """Sanity check for start and end values loaded.
 
-    Checks if all start and end are present, it means that
-    for all start - end must differ only by 1,
-    if end different of 240 and start different of 1
+    Verifica se todos campos de um segmento (?) do CNAB estão presentes e seus 'inicios' e 'fins' estão corretos.
+    
+    É feito uma comparação 2 a 2 na lista de campos utilizando 
+    o cálculo `campo_atual.start` - `campo_anterior.end` = 1 (?)
+    
+    Se esse cálculo falhar há uma inconsistência nos campos(?).
+    
+    Se `end` é 240 quer dizer que  chegou no campo final. 
+    Se até esse momento o cálculo não falhou então todos os campos estão presentes e com 'inicios' e 'fins' corretos (?).
 
     About the iter and next usage here:
     https://stackoverflow.com/a/16789817
