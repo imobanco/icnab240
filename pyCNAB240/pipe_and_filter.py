@@ -65,7 +65,7 @@ def build_pieces_of_value_to_cnab(fields):
     #TODO: trow exception if it has None values? Note str(None) == 'None'
     """
     lines = []
-
+    # TODO transformar numa string só simplificando a escrita do arquivo.
     for field in fields:
         if field.end == 240:
             lines.append(field.value_to_cnab + '\n')
@@ -513,6 +513,15 @@ def set_given_data(fields, data):
 def set_header_de_arquivo(fields, file_name):
 
     data = build_dict_from_csv(file_name)
+
+    # TODO fatorar numa função
+    patterns = ('.0',)
+    check_given_data_identifiers(fields, patterns, data)
+    check_missing_given_data_identifiers(fields, patterns, data)
+    check_size_of_input_data(fields, data)
+    # check_overwriting_data(fields, data)
+
+
     fields = set_given_data(fields, data)
     fields = set_cpf_or_cnpj(fields, '05.0', '06.0')
 
@@ -525,6 +534,7 @@ def set_header_de_arquivo(fields, file_name):
 def set_header_de_lote(fields, file_name):
 
     data = build_dict_from_csv(file_name)
+    # TODO check if data has all correct keys
     fields = set_given_data(fields, data)
 
     fields = set_cpf_or_cnpj(fields, '09.1', '10.1')
@@ -608,7 +618,7 @@ def insert_segments(fields, number_of_replications, identifier_for_insertion,
     :param number_of_replications: int representing the number of replications
     :param identifier_for_insertion: str of identifier to the replicated part
                                      be inserted
-    :param patterns: iterable with all pattern to be filtered
+    :param patterns: iterable with all pattern to be filtered by filter_segment function
     :return: a list in that each element is type Field
     """
 
@@ -631,6 +641,12 @@ def insert_segments(fields, number_of_replications, identifier_for_insertion,
 
 
 def extract_identifiers(fields, patterns):
+    """
+
+    :param fields:
+    :param patterns:
+    :return:
+    """
     filtered_fields = []
     for pattern in patterns:
         filtered_fields.extend(filter_segment(fields, pattern))
@@ -643,6 +659,11 @@ def extract_identifiers(fields, patterns):
 
 
 def extract_identifiers_that_have_default_or_reasonable_default(fields):
+    """Extracts identifiers from fields that have default or reasonable_default
+
+    :param fields: a list in that each element is type Field
+    :return: set of identifiers from the given fields
+    """
     filtered_fields = []
     for field in fields:
         if (field.reasonable_default is not None and field.reasonable_default != '') or \
@@ -653,19 +674,43 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
 
     identifiers = set(identifiers_list)
 
+    if len(identifiers_list) != len(identifiers):
+        raise ValueError(f'The list identifiers_list have repeated values: {identifiers_list}')
+
     return identifiers
 
 
 def check_given_data_identifiers(fields, patterns, data):
+    """Checks if data has wrong keys passed, even with correct values for the key
+
+    If for some reason data is passed with a typo this function is going to
+    raise ValueError.
+
+    :param fields: a list in that each element is type Field
+    :param patterns: iterable with all pattern to be filtered by filter_segment function
+    :param data: a dict in that each key is a identifier and value is a list wit data
+    :return: None
+    """
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
 
     for id_data in identifiers_data:
         if id_data not in identifiers_all:
-            raise ValueError(f'O identificados do campo: {id_data} esta errado!')
+            raise ValueError(f'O identificador do campo: {id_data} esta errado!')
 
 
 def check_missing_given_data_identifiers(fields, patterns, data):
+    """Check if the given data does not have all identifiers that it must have
+
+    If all identifiers of data (for data identifiers are the keys) plus the
+    identifiers of fields that have the default or reasonable_default have to
+    be equal of the total of identifiers in the fields.
+
+    :param fields: a list in that each element is type Field
+    :param patterns: iterable with all pattern to be filtered by filter_segment function
+    :param data: a dict in that each key is a identifier and value is a list wit data
+    :return: None
+    """
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
     identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
@@ -677,10 +722,11 @@ def check_missing_given_data_identifiers(fields, patterns, data):
 
 
 def check_overwriting_data(fields, data):
-    """Checks if any identifier in data is repeated in fields
+    """Checks if any identifier in data has already a default
+    or reasonable_default repeated in fields
 
     :param fields: a list in that each element is type Field
-    :param data: a dict in that each key is a identifier and value is a list
+    :param data: a dict in that each key is a identifier and value is a list with values
     :return: None
     """
     identifiers_data = set(data.keys())
@@ -749,9 +795,24 @@ def check_lines_length(lines, length):
             raise ValueError(f'Error: line length = {len(line)}')
 
 
+def check_data(fields, patterns, data):
+    """
+
+    :param fields: a list in that each element is type Field
+    :param patterns:
+    :param data:
+    :return: None
+    """
+    check_given_data_identifiers(fields, patterns, data)
+    check_missing_given_data_identifiers(fields, patterns, data)
+    check_size_of_input_data(fields, data)
+    check_overwriting_data(fields, data)
+
+
 def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     data = build_dict_from_csv_P_Q_R(csv_full_file_name)
 
+    # TODO fatorar numa função
     check_given_data_identifiers(fields, patterns, data)
     check_missing_given_data_identifiers(fields, patterns, data)
     check_size_of_input_data(fields, data)
