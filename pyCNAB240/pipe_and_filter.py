@@ -231,12 +231,23 @@ def set_defaults(fields):
 
 
 def set_spaces_if_it_is_not_retorno(fields):
-    """
-    Campos: 05.5
-    Seta no Registro Trailer de Lote se não for do tipo retorno espaços
-    em campos que não são usados
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
+    """Seta no Registro Trailer de Lote se não for do tipo retorno espaços
+    em campos que não são usados quando o CNAB é do tipo retorno
+
+    Na listagem abaixo encontram-se os campos em que a função modifica
+    e as descrições destes:
+    Campos: 06.5, 07.5, 08.5, 09.5, 10.5, 11.5, 12.5, 13.5, 14.5
+    Descrição: C070, C071, C072
+
+    Todos os campos listados pertencem ao segmento trailer de lote.
+    E por serem em sequência, basta que se filtre no intervalo entre
+    começo igual a 24, e fim igual a 116, usando ainda o filtro de
+    que seja o segmento trailer de lote, ou seja, que o fim do
+    identificador contenha a string .5.
+
+    :param fields: uma lista em que cada elemento é do tipo Field
+    :return: uma lista em que cada elemento é do tipo Field com os
+             campos filtrados preenchidos com @ (por hora, mas serão espaços)
     """
     for field in fields:
         if field.start == 9 and field.end == 9 and field.value == 'T':
