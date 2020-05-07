@@ -556,9 +556,13 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type,
     :param identifier_cpf_or_cnpj: str with cpf or cnpj number
     :return: a Field with value set that matchs if it is cpf (1) or cnpj (2)
     """
+    cpf_or_cnpj = None
     for field in fields:
         if field.identifier == identifier_cpf_or_cnpj:
             cpf_or_cnpj = field.value
+
+    if cpf_or_cnpj is None:
+        raise ValueError("Não existe um campo com cpf/cnpj na lista fields")
 
     for field in fields:
         if field.identifier == identifier_inscription_type:
