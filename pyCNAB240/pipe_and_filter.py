@@ -171,7 +171,7 @@ def set_generic_field(fields, atribute_to_search, value_to_search,
 
 def generic_filter(fields, atribute_to_search, value_to_search):
     for field in fields:
-        if field.__getattribute__(atribute_to_search) == value_to_search:
+        if getattr(field, atribute_to_search) == value_to_search:
             return field
 
 
