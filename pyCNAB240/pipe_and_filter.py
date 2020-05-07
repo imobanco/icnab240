@@ -350,6 +350,7 @@ def count_cnab_lines_0_1_3_5_9(fields):
 
 def count_cnab_lines_1_2_3_4_5(fields):
     """
+    TODO: provavelmente no mesmo PR da count_cnab_lines_0_1_3_5_9
     Campo: 05.5
     Descrição: G057 (ver G003 para ver todos tipos de registro)
 
