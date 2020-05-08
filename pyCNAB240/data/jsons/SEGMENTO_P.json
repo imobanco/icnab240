@@ -1,0 +1,170 @@
+{
+    "013p_codigo_do_banco_na_compensacao": [
+        "1",
+        "3"
+    ],
+    "023p_lote_de_servico": [
+        "4",
+        "7"
+    ],
+    "033p_tipo_de_registro": [
+        "8",
+        "8"
+    ],
+    "043p_numero_sequencial_do_registro_no_lote": [
+        "9",
+        "13"
+    ],
+    "053p_cod_segmento_do_registro_detalhe": [
+        "14",
+        "14"
+    ],
+    "063p_06_3p_uso_exclusivo_febraban_cnab": [
+        "15",
+        "15"
+    ],
+    "073p_codigo_de_movimento_remessa": [
+        "16",
+        "17"
+    ],
+    "083p_agencia_mantenedora_da_conta": [
+        "18",
+        "22"
+    ],
+    "093p_c_c_digito_verificador_da_agencia": [
+        "23",
+        "23"
+    ],
+    "103p_numero_da_conta_corrente": [
+        "24",
+        "35"
+    ],
+    "113p_digito_verificador_da_conta": [
+        "36",
+        "36"
+    ],
+    "123p_digito_verificador_da_ag_conta": [
+        "37",
+        "37"
+    ],
+    "133p_identificacao_do_titulo_no_banco": [
+        "38",
+        "57"
+    ],
+    "143p_codigo_da_carteira": [
+        "58",
+        "58"
+    ],
+    "153p_forma_de_cadastr_do_titulo_no_banco": [
+        "59",
+        "59"
+    ],
+    "163p_tipo_de_documento": [
+        "60",
+        "60"
+    ],
+    "173p_identificacao_da_emissao_do_bloqueto": [
+        "61",
+        "61"
+    ],
+    "183p_identificacao_da_distribuicao": [
+        "62",
+        "62"
+    ],
+    "193p_numero_do_documento_de_cobranca": [
+        "63",
+        "77"
+    ],
+    "203p_data_de_vencimento_do_titulo": [
+        "78",
+        "85"
+    ],
+    "213p_valor_nominal_do_titulo": [
+        "86",
+        "100"
+    ],
+    "223p_agencia_encarregada_da_cobranca": [
+        "101",
+        "105"
+    ],
+    "233p_digito_verificador_da_agencia": [
+        "106",
+        "106"
+    ],
+    "243p_especie_do_titulo": [
+        "107",
+        "108"
+    ],
+    "253p_identific_de_titulo": [
+        "109",
+        "109"
+    ],
+    "263p_data_da_emissao_do_titulo": [
+        "110",
+        "117"
+    ],
+    "273p_codigo_do_juros_de_mora": [
+        "118",
+        "118"
+    ],
+    "283p_data_do_juros_de_mora": [
+        "119",
+        "126"
+    ],
+    "293p_juros_de_mora_por_dia_taxa": [
+        "127",
+        "141"
+    ],
+    "303p_codigo_do_desconto_1": [
+        "142",
+        "142"
+    ],
+    "313p_data_do_desconto_1": [
+        "143",
+        "150"
+    ],
+    "323p_valor_percentual_a_ser_concedido": [
+        "151",
+        "165"
+    ],
+    "333p_valor_do_iof_a_ser_recolhido": [
+        "166",
+        "180"
+    ],
+    "343p_valor_do_abatimento": [
+        "181",
+        "195"
+    ],
+    "353p_identificacao_do_titulo_na_empresa": [
+        "196",
+        "220"
+    ],
+    "363p_codigo_para_protesto": [
+        "221",
+        "221"
+    ],
+    "373p_numero_de_dias_para_protesto": [
+        "222",
+        "223"
+    ],
+    "383p_codigo_para_baixa_devolucao": [
+        "224",
+        "224"
+    ],
+    "393p_numero_de_dias_para_baixa_devolucao": [
+        "225",
+        "227"
+    ],
+    "403p_codigo_da_moeda": [
+        "228",
+        "229"
+    ],
+    "413p_numero_do_contrato_da_operacao_de_cred": [
+        "230",
+        "239"
+    ],
+    "423p_uso_exclusivo_febraban_cnab": [
+        "240",
+        "240"
+    ]
+}
