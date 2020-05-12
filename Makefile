@@ -7,8 +7,13 @@ test:
 black.check:
 	black --check .
 
-coverage.codacy: coverage
-	python-codacy-coverage -r coverage.xml -t $$CODACY_PROJECT_TOKEN
+black:
+	black .
+
+coverage:
+	coverage run -m unittest
+	coverage report
+	coverage xml
 
 docs.start:
 	sphinx-quickstart
