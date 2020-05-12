@@ -5,7 +5,7 @@ from csv import DictReader
 from csv import reader
 
 
-def build_list_from_csv(csv_file_name, mode='r', delimiter=','):
+def build_list_from_csv(csv_file_name, mode="r", delimiter=","):
     """
 
     :param csv_file_name: str with the cvs file name
@@ -19,7 +19,7 @@ def build_list_from_csv(csv_file_name, mode='r', delimiter=','):
     return lines
 
 
-def read(csv_file_name, mode='r'):
+def read(csv_file_name, mode="r"):
     with open(csv_file_name, mode) as read_obj:
         # Skip header (first line with coments)
         next(read_obj)
@@ -27,13 +27,13 @@ def read(csv_file_name, mode='r'):
         return [row for row in csv_dict_reader][0]
 
 
-def read_horizontaly(csv_file_name, mode='r'):
+def read_horizontaly(csv_file_name, mode="r"):
     with open(csv_file_name, mode) as read_obj:
         csv_reader = reader(read_obj)
         return [row for row in csv_reader]
 
 
-def read_build_dictreader(csv_file_name, mode='r'):
+def read_build_dictreader(csv_file_name, mode="r"):
     with open(csv_file_name, mode) as read_obj:
         # pass the file object to DictReader() to get the DictReader object
         next(read_obj)
@@ -52,8 +52,10 @@ def build_dict_from_list_of_dictreader(dict_readers):
     :return: dict in that each key has a list of data from the DictReader values
     """
 
-    d = {key: [dict_r.get(key) for dict_r in dict_readers]
-         for key in set().union(*dict_readers)}
+    d = {
+        key: [dict_r.get(key) for dict_r in dict_readers]
+        for key in set().union(*dict_readers)
+    }
 
     return d
 
@@ -65,7 +67,7 @@ def number_of_lines_in_csv(file_name, skip=2):
     :param skip: int representing the number of lines to be skipped
     :return: int representing the number of lines of the csv minus skip
     """
-    with open(file_name, mode='r') as f:
+    with open(file_name, mode="r") as f:
         return sum(1 for line in f) - skip
 
 
@@ -85,7 +87,6 @@ def build_dict_from_csv_P_Q_R(csv_full_file_name):
     return d
 
 
-
 # path_to_diretory = os.path.dirname(__file__)
 # csv_full_file_name = os.path.join(path_to_diretory, 'data_header_de_arquivo.csv')
 # csv_full_file_name = os.path.join(path_to_diretory, 'data_segmentos_P_Q_R.csv')
@@ -101,4 +102,3 @@ def build_dict_from_csv_P_Q_R(csv_full_file_name):
 # print(number_of_lines_in_csv(csv_full_file_name))
 # build_dict_from_lines(lines)
 # print(build_dict_from_lines(lines))
-

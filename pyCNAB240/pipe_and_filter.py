@@ -4,8 +4,11 @@ from pprint import pprint
 
 from pycpfcnpj import cpfcnpj
 
-from pyCNAB240.csv_reader import build_dict_from_csv, \
-    build_dict_from_csv_P_Q_R, number_of_lines_in_csv
+from pyCNAB240.csv_reader import (
+    build_dict_from_csv,
+    build_dict_from_csv_P_Q_R,
+    number_of_lines_in_csv,
+)
 
 
 def check_start_and_end(fields):
@@ -56,10 +59,12 @@ def check_start_and_end(fields):
             continue
 
         if field.start - field_old.end != 1:
-            raise ValueError(f'Start = {field_old.start} of '
-                             f'{field_old.identifier} and '
-                             f'end = {field.start} of {field.identifier}'
-                             f'are wrong, must differ by 1.')
+            raise ValueError(
+                f"Start = {field_old.start} of "
+                f"{field_old.identifier} and "
+                f"end = {field.start} of {field.identifier}"
+                f"are wrong, must differ by 1."
+            )
 
         field_old = field
     return fields
@@ -76,7 +81,7 @@ def check_duplicated_identifiers(fields):
     set_identifiers = set()
     for field in fields:
         if field.identifier in set_identifiers:
-            raise ValueError(f'Duplicated field identifier in {field}')
+            raise ValueError(f"Duplicated field identifier in {field}")
         else:
             set_identifiers.add(field.identifier)
     return fields
@@ -96,7 +101,7 @@ def build_pieces_of_value_to_cnab(fields):
     for field in fields:
         value = field.value_to_cnab
         if field.end == 240:
-            value += '\n'
+            value += "\n"
         lines.append(value)
 
     return lines
@@ -109,16 +114,16 @@ def build_cnab_lines(pieces):
     :return: a list in that each element is a string that ends in \n
     """
     glued_lines = []
-    line = ''
+    line = ""
     for piece in pieces:
         line += piece
-        if '\n' in piece:
+        if "\n" in piece:
             glued_lines.append(line)
-            line = ''
+            line = ""
     return glued_lines
 
 
-def _write_cnab(cnab_file_name, lines, mode='w'):
+def _write_cnab(cnab_file_name, lines, mode="w"):
     """Helper function that opens and writes a list to a given file name
 
     :param cnab_file_name: str with the name of the cnab to be written
@@ -152,8 +157,8 @@ def set_white_spaces(fields):
              set to spaces
     """
     for field in fields:
-        if field.num_or_str == 'Alfa' and field.default == 'Brancos':
-            field.value_to_cnab = '#'*field.length
+        if field.num_or_str == "Alfa" and field.default == "Brancos":
+            field.value_to_cnab = "#" * field.length
             field.value = field.value_to_cnab
     return fields
 
@@ -166,8 +171,8 @@ def set_white_spaces_reasonable_default(fields):
              set to spaces
     """
     for field in fields:
-        if field.num_or_str == 'Alfa' and field.reasonable_default == 'Vazio':
-            field.value_to_cnab = '#'*field.length
+        if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
+            field.value_to_cnab = "#" * field.length
             field.value = field.value_to_cnab
     return fields
 
@@ -182,14 +187,15 @@ def set_zeros_reasonable_default(fields):
     TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
     """
     for field in fields:
-        if field.num_or_str == 'Num' and field.reasonable_default == 'Vazio':
-            field.value_to_cnab = '0'*field.length
+        if field.num_or_str == "Num" and field.reasonable_default == "Vazio":
+            field.value_to_cnab = "0" * field.length
             field.value = field.value_to_cnab
     return fields
 
 
-def set_generic_field(fields, atribute_to_search, value_to_search,
-                      atribute_to_set, value_to_set):
+def set_generic_field(
+    fields, atribute_to_search, value_to_search, atribute_to_set, value_to_set
+):
     for field in fields:
         if getattr(field, atribute_to_search) == value_to_search:
             setattr(field, atribute_to_set, value_to_set)
@@ -225,7 +231,7 @@ def set_defaults(fields):
     :return: a list in that each element is type Field
     """
     for field in fields:
-        if field.default != '' and field.default != 'Brancos':
+        if field.default != "" and field.default != "Brancos":
             field.value = field.default
     return fields
 
@@ -250,15 +256,16 @@ def set_spaces_if_it_is_not_retorno(fields):
              campos filtrados preenchidos com @ (por hora, mas serão espaços)
     """
     for field in fields:
-        if field.start == 9 and field.end == 9 and field.value == 'T':
-            raise ValueError('This function should not be called in this'
-                             ' type of CNABs_retorno it is not a RETORNO one.')
+        if field.start == 9 and field.end == 9 and field.value == "T":
+            raise ValueError(
+                "This function should not be called in this"
+                " type of CNABs_retorno it is not a RETORNO one."
+            )
 
     for field in fields:
-        if 24 <= field.start <= 116 \
-                and '.5' in field.identifier:
+        if 24 <= field.start <= 116 and ".5" in field.identifier:
 
-            field.value_to_cnab = '@'*(field.length + default_decimals(field))
+            field.value_to_cnab = "@" * (field.length + default_decimals(field))
             field.value = field.value_to_cnab
             continue
 
@@ -292,8 +299,12 @@ def set_numero_do_lote_de_servico_header_and_footer(fields, value):
              to the given value
     """
     for field in fields:
-        if field.start == 4 and field.end == 7 \
-            and field.identifier != '02.0' and field.identifier != '02.9':
+        if (
+            field.start == 4
+            and field.end == 7
+            and field.identifier != "02.0"
+            and field.identifier != "02.9"
+        ):
             field.value = value
     return fields
 
@@ -357,11 +368,13 @@ def count_cnab_lines_1_2_3_4_5(fields):
     :param fields: a list in that each element is type Field
     :return: int representing the total of lines 1, 2, 3, 4, and 5 that the CNABs_retorno has
     """
-    return sum([1 for field in fields
-                if field.start == 8
-                and field.end == 8
-                and field.default in '12345']
-               )
+    return sum(
+        [
+            1
+            for field in fields
+            if field.start == 8 and field.end == 8 and field.default in "12345"
+        ]
+    )
 
 
 def count_cnab_lines_1(fields):
@@ -375,11 +388,13 @@ def count_cnab_lines_1(fields):
     :param fields: a list in that each element is type Field
     :return: int representing the total of lines of type 1 that the CNAB has
     """
-    return sum([1 for field in fields
-                if field.start == 8
-                and field.end == 8
-                and field.default == '1']
-               )
+    return sum(
+        [
+            1
+            for field in fields
+            if field.start == 8 and field.end == 8 and field.default == "1"
+        ]
+    )
 
 
 def count_cnab_lines_E(fields):
@@ -388,11 +403,13 @@ def count_cnab_lines_E(fields):
     :param fields: a list in that each element is type Field
     :return: int representing the total of lines of type E that the CNAB has
     """
-    return sum([1 for field in fields
-                if field.start == 9
-                and field.end == 9
-                and field.value == 'E']
-               )
+    return sum(
+        [
+            1
+            for field in fields
+            if field.start == 9 and field.end == 9 and field.value == "E"
+        ]
+    )
 
 
 def count_cnab_lines_1_and_E_type(fields):
@@ -423,7 +440,7 @@ def default_decimals(field):
     :param field: Field objecto
     :return: int de acordo com a string no atributo num_decimals
     """
-    if field.num_decimals == '2' or field.num_decimals == '2/5':
+    if field.num_decimals == "2" or field.num_decimals == "2/5":
         return 2
     return 0
 
@@ -444,10 +461,10 @@ def fill_value_to_cnab(fields):
 
         total_length = field.length + default_decimals(field)
         if len(field.value) < total_length:
-            if field.num_or_str == 'Num':
+            if field.num_or_str == "Num":
                 field.value_to_cnab = field.value.zfill(total_length)
             else:
-                field.value_to_cnab = field.value.rjust(field.length, '#')
+                field.value_to_cnab = field.value.rjust(field.length, "#")
         else:
             field.value_to_cnab = field.value
     return fields
@@ -461,6 +478,7 @@ def compose(*args):
             arguments = arg[1:]
             final_value = function(final_value, *arguments)
         return final_value
+
     return inner
 
 
@@ -478,8 +496,8 @@ def filter_segment(fields, segment):
 def filter_none(fields):
     fs = []
     for field in fields:
-        if field.value is not None and '.5' in field.identifier:
-            if 'None' in field.value:
+        if field.value is not None and ".5" in field.identifier:
+            if "None" in field.value:
                 fs.append(field)
     return fs
 
@@ -491,7 +509,9 @@ def filter_segment_and_value_none(fields, segment):
     :param segment: str to used in the filter
     :return: a list in that each element is type Field and was filtered
     """
-    fields_filtered = [field for field in fields if segment in field.identifier and field.value is None]
+    fields_filtered = [
+        field for field in fields if segment in field.identifier and field.value is None
+    ]
     return fields_filtered
 
 
@@ -518,8 +538,7 @@ def set_reasonable_default_for_all(fields):
     :return: a list in that each element is type Field
     """
     for field in fields:
-        if field.reasonable_default != 'Calculavél' \
-                and field.reasonable_default != '':
+        if field.reasonable_default != "Calculavél" and field.reasonable_default != "":
             field.value = field.reasonable_default
 
     return fields
@@ -539,11 +558,10 @@ def inscription_type(cpf_or_cnpj):
         return 1
     elif cpfcnpj.cnpj.validate(cpf_or_cnpj):
         return 2
-    raise ValueError(f'The number is not a valid cpf or cnpj: {cpf_or_cnpj}')
+    raise ValueError(f"The number is not a valid cpf or cnpj: {cpf_or_cnpj}")
 
 
-def set_cpf_or_cnpj(fields, identifier_inscription_type,
-                    identifier_cpf_or_cnpj):
+def set_cpf_or_cnpj(fields, identifier_inscription_type, identifier_cpf_or_cnpj):
     """Sets in fields if it is cpf of cnpj
 
     Campos: 06.0, 09.1
@@ -592,18 +610,17 @@ def set_header_de_arquivo(fields, file_name):
     data = build_dict_from_csv(file_name)
 
     # TODO fatorar numa função
-    patterns = ('.0',)
+    patterns = (".0",)
     check_given_data_identifiers(fields, patterns, data)
     check_missing_given_data_identifiers(fields, patterns, data)
     check_size_of_input_data(fields, data)
     # check_overwriting_data(fields, data)
 
-
     fields = set_given_data(fields, data)
-    fields = set_cpf_or_cnpj(fields, '05.0', '06.0')
+    fields = set_cpf_or_cnpj(fields, "05.0", "06.0")
 
-    fields = set_field(fields, '17.0', datetime.today().strftime('%d%m%Y'))
-    fields = set_field(fields, '18.0', datetime.today().strftime('%H%M%S'))
+    fields = set_field(fields, "17.0", datetime.today().strftime("%d%m%Y"))
+    fields = set_field(fields, "18.0", datetime.today().strftime("%H%M%S"))
 
     return fields
 
@@ -614,9 +631,9 @@ def set_header_de_lote(fields, file_name):
     # TODO check if data has all correct keys
     fields = set_given_data(fields, data)
 
-    fields = set_cpf_or_cnpj(fields, '09.1', '10.1')
+    fields = set_cpf_or_cnpj(fields, "09.1", "10.1")
 
-    fields = set_field(fields, '21.1', datetime.today().strftime('%d%m%Y'))
+    fields = set_field(fields, "21.1", datetime.today().strftime("%d%m%Y"))
 
     return fields
 
@@ -636,7 +653,9 @@ def generic(main_fields, NÚMERO_LOTE_DE_SERVIÇO):
     # TODO essas funções devem ter que ser chamadas
     #  depois da inserção dos segmentos P, Q, e R para
     #  que elas possam agir nos campos criados.
-    fields = set_numero_do_lote_de_servico_header_and_footer(fields, str(NÚMERO_LOTE_DE_SERVIÇO))
+    fields = set_numero_do_lote_de_servico_header_and_footer(
+        fields, str(NÚMERO_LOTE_DE_SERVIÇO)
+    )
     fields = set_numero_do_lote_de_servico_not_header_footer(fields)
 
     # TODO: documentar essa função melhor
@@ -651,7 +670,7 @@ def set_trailer_de_lote(fields):
 
     total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
 
-    fields = set_field(fields, '05.5', total_lines_1_2_3_4_5)
+    fields = set_field(fields, "05.5", total_lines_1_2_3_4_5)
 
     return fields
 
@@ -662,9 +681,9 @@ def set_trailer_de_arquivo(fields):
     total_lines_1 = str(count_cnab_lines_1(fields))
     total_lines_1_and_E_type = str(count_cnab_lines_1_and_E_type(fields))
 
-    fields = set_field(fields, '05.9', total_lines_1)
-    fields = set_field(fields, '06.9', total_lines_0_1_3_5_9)
-    fields = set_field(fields, '07.9', total_lines_1_and_E_type)
+    fields = set_field(fields, "05.9", total_lines_1)
+    fields = set_field(fields, "06.9", total_lines_0_1_3_5_9)
+    fields = set_field(fields, "07.9", total_lines_1_and_E_type)
 
     return fields
 
@@ -686,8 +705,7 @@ def index_to_insert(fields, identifier):
     return index + 1
 
 
-def insert_segments(fields, number_of_replications, identifier_for_insertion,
-                    patterns):
+def insert_segments(fields, number_of_replications, identifier_for_insertion, patterns):
     """Insert segments in fields
 
     Note: it assumes that the given list fields have the replication fields and
@@ -745,8 +763,9 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
     """
     filtered_fields = []
     for field in fields:
-        if (field.reasonable_default is not None and field.reasonable_default != '') or \
-                (field.default is not None and field.default != ''):
+        if (
+            field.reasonable_default is not None and field.reasonable_default != ""
+        ) or (field.default is not None and field.default != ""):
             filtered_fields.append(field)
 
     identifiers_list = [field.identifier for field in filtered_fields]
@@ -754,7 +773,9 @@ def extract_identifiers_that_have_default_or_reasonable_default(fields):
     identifiers = set(identifiers_list)
 
     if len(identifiers_list) != len(identifiers):
-        raise ValueError(f'The list identifiers_list have repeated values: {identifiers_list}')
+        raise ValueError(
+            f"The list identifiers_list have repeated values: {identifiers_list}"
+        )
 
     return identifiers
 
@@ -775,7 +796,7 @@ def check_given_data_identifiers(fields, patterns, data):
 
     for id_data in identifiers_data:
         if id_data not in identifiers_all:
-            raise ValueError(f'O identificador do campo: {id_data} esta errado!')
+            raise ValueError(f"O identificador do campo: {id_data} esta errado!")
 
 
 def check_missing_given_data_identifiers(fields, patterns, data):
@@ -792,12 +813,14 @@ def check_missing_given_data_identifiers(fields, patterns, data):
     """
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
-    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
+    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(
+        fields
+    )
 
     delta = identifiers_all - identifiers_data - identifiers_have_values
 
     if delta != set():
-        raise ValueError(f'Os dados de entrada estão com os campos: {delta} faltando')
+        raise ValueError(f"Os dados de entrada estão com os campos: {delta} faltando")
 
 
 def check_overwriting_data(fields, data):
@@ -809,12 +832,14 @@ def check_overwriting_data(fields, data):
     :return: None
     """
     identifiers_data = set(data.keys())
-    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(fields)
+    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(
+        fields
+    )
 
     delta = identifiers_data.intersection(identifiers_have_values)
 
     if delta != set():
-        raise ValueError(f'Você está sobre escrevendo os campos: {delta}')
+        raise ValueError(f"Você está sobre escrevendo os campos: {delta}")
 
 
 def set_data_to_fields(fields, data):
@@ -848,7 +873,7 @@ def check_size_of_input_data(fields, data):
                 expected_size = field.length + default_decimals(field)
                 value = values.pop(0)
                 if expected_size < len(value):
-                    raise ValueError(f'Error in {key}, the value = {value} ')
+                    raise ValueError(f"Error in {key}, the value = {value} ")
 
 
 def check_none_value(fields):
@@ -859,7 +884,7 @@ def check_none_value(fields):
     """
     for field in fields:
         if field.value is None:
-            raise ValueError(f'Error: value = None in {field}')
+            raise ValueError(f"Error: value = None in {field}")
 
 
 def check_lines_length(lines, length):
@@ -871,7 +896,7 @@ def check_lines_length(lines, length):
     """
     for line in lines:
         if len(line) != length:
-            raise ValueError(f'Error: line length = {len(line)}')
+            raise ValueError(f"Error: line length = {len(line)}")
 
 
 def check_data(fields, patterns, data):
@@ -899,23 +924,33 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
 
     number_of_replications = number_of_lines_in_csv(csv_full_file_name)
 
-    fields = insert_segments(fields, number_of_replications, identifier_for_insertion,
-                             patterns)
+    fields = insert_segments(
+        fields, number_of_replications, identifier_for_insertion, patterns
+    )
 
     fields = set_data_to_fields(fields, data)
 
     return fields
 
 
-def build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote, csv_file_P_Q_R):
+def build_santander(
+    main_fields,
+    NÚMERO_LOTE_DE_SERVIÇO,
+    header_de_arquivo,
+    header_de_lote,
+    csv_file_P_Q_R,
+):
 
     # TODO: fazer uma função que deleta os segmentos
-    fields = filter_segment(main_fields, '.0') + filter_segment(main_fields, '.1') \
-             + filter_segment(main_fields, '.3P') \
-             + filter_segment(main_fields, '.3Q') \
-             + filter_segment(main_fields, '.3R') \
-             + filter_segment(main_fields, '.5') + filter_segment(main_fields, '.9')
+    fields = (
+        filter_segment(main_fields, ".0")
+        + filter_segment(main_fields, ".1")
+        + filter_segment(main_fields, ".3P")
+        + filter_segment(main_fields, ".3Q")
+        + filter_segment(main_fields, ".3R")
+        + filter_segment(main_fields, ".5")
+        + filter_segment(main_fields, ".9")
+    )
 
     fields = generic(fields, NÚMERO_LOTE_DE_SERVIÇO)
 
@@ -923,8 +958,8 @@ def build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
 
     fields = set_header_de_lote(fields, header_de_lote)
 
-    patterns = ('.3P', '.3Q', '.3R')
-    identifier_for_insertion = '29.3R'
+    patterns = (".3P", ".3Q", ".3R")
+    identifier_for_insertion = "29.3R"
     fields = set_P_Q_R(fields, csv_file_P_Q_R, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
@@ -943,11 +978,21 @@ def build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
     return lines
 
 
-def santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote, csv_file_P_Q_R,
-              full_cnab_file_name):
+def santander(
+    main_fields,
+    NÚMERO_LOTE_DE_SERVIÇO,
+    header_de_arquivo,
+    header_de_lote,
+    csv_file_P_Q_R,
+    full_cnab_file_name,
+):
 
-    lines = build_santander(main_fields, NÚMERO_LOTE_DE_SERVIÇO,
-              header_de_arquivo, header_de_lote, csv_file_P_Q_R)
+    lines = build_santander(
+        main_fields,
+        NÚMERO_LOTE_DE_SERVIÇO,
+        header_de_arquivo,
+        header_de_lote,
+        csv_file_P_Q_R,
+    )
 
     _write_cnab(full_cnab_file_name, lines)

@@ -10,6 +10,7 @@ class Field:
 
     https://stackoverflow.com/a/55910982
     """
+
     default: str = None
     end: int = None
     identifier: str = None
@@ -31,7 +32,7 @@ class Field:
     value_to_cnab: str = None
 
 
-def build_list_from_csv(csv_file_name, mode='r', delimiter=','):
+def build_list_from_csv(csv_file_name, mode="r", delimiter=","):
     """
 
     :param csv_file_name: str with the cvs file name
@@ -54,10 +55,18 @@ def build_list_of_fields(lines):
     fields = []
     for line in lines:
         # Ugly, but only here, and only once, we can survive it ...
-        f = Field(default=line[7], end=line[3], identifier=line[0],
-                  full_name=line[1], length=line[4], num_decimals=line[5],
-                  num_or_str=line[6], reasonable_default=line[8], start=line[2])
-        
+        f = Field(
+            default=line[7],
+            end=line[3],
+            identifier=line[0],
+            full_name=line[1],
+            length=line[4],
+            num_decimals=line[5],
+            num_or_str=line[6],
+            reasonable_default=line[8],
+            start=line[2],
+        )
+
         fields.append(f)
     return fields
 
@@ -65,10 +74,10 @@ def build_list_of_fields(lines):
 path_to_diretory = os.path.dirname(__file__)
 # csv_full_file_name = os.path.join(path_to_diretory, 'data', 'csvs',
 #                                   'reformated_main_full.csv')
-csv_full_file_name = os.path.join(path_to_diretory, 'data', 'csvs',
-                                  'reformated_main_full_defaults.csv')
+csv_full_file_name = os.path.join(
+    path_to_diretory, "data", "csvs", "reformated_main_full_defaults.csv"
+)
 
 lines = build_list_from_csv(csv_full_file_name)
 
 main_fields = build_list_of_fields(lines)
-
