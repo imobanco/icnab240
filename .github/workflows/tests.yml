@@ -33,7 +33,5 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: make pip.install
-      - name: Config .env file
-        run: make config.env
       - name: Test with pytest
         run: make test
