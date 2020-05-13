@@ -1,28 +1,10 @@
 import unittest
 
-from pyCNAB240.core import Field, main_fields
-from pyCNAB240.pipe_and_filter import *
+from pyCNAB240.core import Field
+from pyCNAB240.pipe_and_filter.extract import extract_identifiers_default
 
 
-class CNABTestCase(unittest.TestCase):
-
-    def test_extract_identifiers(self):
-        fields = [
-            Field(identifier="a"),
-            Field(identifier="b"),
-            Field(identifier="c"),
-            Field(identifier="d"),
-            Field(identifier="e"),
-            Field(identifier="f"),
-        ]
-
-        patterns = ("a", "b", "c")
-
-        expected = set(["a", "b", "c"])
-
-        result = extract_identifiers(fields, patterns)
-        self.assertEqual(expected, result)
-
+class ExtractIdentifiersDefaultTestCase(unittest.TestCase):
     def test_extract_identifiers_that_have_default_or_reasonable_default(self):
         fields = [
             Field(identifier="a"),
@@ -37,7 +19,7 @@ class CNABTestCase(unittest.TestCase):
 
         expected = set(["b", "c", "d", "e", "f", "g"])
 
-        result = extract_identifiers_that_have_default_or_reasonable_default(fields)
+        result = extract_identifiers_default(fields)
         self.assertEqual(expected, result)
 
     def test_extract_identifiers_default_or_reasonable_default_empty(self):
@@ -63,5 +45,5 @@ class CNABTestCase(unittest.TestCase):
 
         expected = set(["c", "d", "f", "g", "i", "h"])
 
-        result = extract_identifiers_that_have_default_or_reasonable_default(fields)
+        result = extract_identifiers_default(fields)
         self.assertEqual(expected, result)

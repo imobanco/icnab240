@@ -19,7 +19,7 @@ def extract_identifiers(fields, patterns):
     return identifiers
 
 
-def extract_identifiers_that_have_default_or_reasonable_default(fields):
+def extract_identifiers_default(fields):
     """Extracts identifiers from fields that have default or reasonable_default
 
     :param fields: a list in that each element is type Field

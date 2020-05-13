@@ -1,4 +1,4 @@
-from .extract import extract_identifiers, extract_identifiers_that_have_default_or_reasonable_default
+from .extract import extract_identifiers, extract_identifiers_default
 from .utils import default_decimals
 
 
@@ -111,7 +111,7 @@ def check_missing_given_data_identifiers(fields, patterns, data):
     """
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
-    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(
+    identifiers_have_values = extract_identifiers_default(
         fields
     )
 
@@ -130,7 +130,7 @@ def check_overwriting_data(fields, data):
     :return: None
     """
     identifiers_data = set(data.keys())
-    identifiers_have_values = extract_identifiers_that_have_default_or_reasonable_default(
+    identifiers_have_values = extract_identifiers_default(
         fields
     )
 
