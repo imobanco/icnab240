@@ -345,7 +345,7 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
 
     number_of_replications = number_of_lines_in_csv(csv_full_file_name)
 
-    fields = insert_segments(
+    fields = set_insert_segments(
         fields, number_of_replications, identifier_for_insertion, patterns
     )
 
@@ -354,7 +354,7 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     return fields
 
 
-def fill_value_to_cnab(fields):
+def set_fill_value_to_cnab(fields):
     for field in fields:
 
         # TODO: verificar pq quebra
@@ -379,7 +379,7 @@ def fill_value_to_cnab(fields):
     return fields
 
 
-def insert_segments(fields, number_of_replications, identifier_for_insertion, patterns):
+def set_insert_segments(fields, number_of_replications, identifier_for_insertion, patterns):
     """Insert segments in fields
 
     Note: it assumes that the given list fields have the replication fields and
