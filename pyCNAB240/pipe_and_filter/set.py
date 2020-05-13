@@ -7,7 +7,7 @@ from .check import (
 )
 from .count import (
     count_cnab_lines_1_2_3_4_5, count_cnab_lines_0_1_3_5_9, count_cnab_lines_1,
-    count_cnab_lines_1_and_E_type
+    count_cnab_lines_1_E
 )
 from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
@@ -325,7 +325,7 @@ def set_trailer_de_arquivo(fields):
 
     total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
     total_lines_1 = str(count_cnab_lines_1(fields))
-    total_lines_1_and_E_type = str(count_cnab_lines_1_and_E_type(fields))
+    total_lines_1_and_E_type = str(count_cnab_lines_1_E(fields))
 
     fields = set_field(fields, "05.9", total_lines_1)
     fields = set_field(fields, "06.9", total_lines_0_1_3_5_9)

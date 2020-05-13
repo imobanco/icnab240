@@ -84,7 +84,7 @@ def count_cnab_lines_E(fields):
     )
 
 
-def count_cnab_lines_1_and_E_type(fields):
+def count_cnab_lines_1_E(fields):
     """
     Campo: 07.9, uses two other functions to compute all lines type 1 and E
 
@@ -92,4 +92,3 @@ def count_cnab_lines_1_and_E_type(fields):
     :return: int representing the total of lines of type 1 and E that the CNAB has
     """
     return count_cnab_lines_1(fields) + count_cnab_lines_E(fields)
-
