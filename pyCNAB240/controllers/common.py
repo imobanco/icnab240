@@ -1,12 +1,14 @@
-from ..pipe_and_filter.check import (
-    check_start_and_end, check_duplicated_identifiers
-)
+from ..pipe_and_filter.check import check_start_and_end, check_duplicated_identifiers
 from ..pipe_and_filter.set import (
-    set_defaults, set_registry_type,
-    set_reasonable_default_for_all, set_white_spaces_reasonable_default,
-    set_zeros_reasonable_default, set_numero_do_lote_de_servico_header_and_footer,
+    set_defaults,
+    set_registry_type,
+    set_reasonable_default_for_all,
+    set_white_spaces_reasonable_default,
+    set_zeros_reasonable_default,
+    set_numero_do_lote_de_servico_header_and_footer,
     set_numero_do_lote_de_servico_not_header_footer,
-    set_white_spaces, set_spaces_if_it_is_not_retorno
+    set_white_spaces,
+    set_spaces_if_it_is_not_retorno,
 )
 
 

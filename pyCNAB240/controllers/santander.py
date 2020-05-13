@@ -1,18 +1,15 @@
 from .common import common_initial_controller
 from .file import _write_cnab
-from ..pipe_and_filter.build import (
-    build_cnab_lines, build_pieces_of_value_to_cnab
-)
-from ..pipe_and_filter.check import (
-    check_none_value, check_lines_length
-)
-from ..pipe_and_filter.filter import (
-    filter_segment,
-)
+from ..pipe_and_filter.build import build_cnab_lines, build_pieces_of_value_to_cnab
+from ..pipe_and_filter.check import check_none_value, check_lines_length
+from ..pipe_and_filter.filter import filter_segment
 from ..pipe_and_filter.set import (
-    set_header_de_arquivo, set_header_de_lote,
-    set_P_Q_R, set_trailer_de_lote, set_trailer_de_arquivo,
-    set_fill_value_to_cnab
+    set_header_de_arquivo,
+    set_header_de_lote,
+    set_P_Q_R,
+    set_trailer_de_lote,
+    set_trailer_de_arquivo,
+    set_fill_value_to_cnab,
 )
 
 

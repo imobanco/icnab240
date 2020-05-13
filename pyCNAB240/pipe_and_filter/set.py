@@ -2,18 +2,23 @@ import copy
 from datetime import datetime
 
 from .check import (
-    check_given_data_identifiers, check_missing_given_data_identifiers,
-    check_size_of_input_data, check_overwriting_data
+    check_given_data_identifiers,
+    check_missing_given_data_identifiers,
+    check_size_of_input_data,
+    check_overwriting_data,
 )
 from .count import (
-    count_cnab_lines_1_2_3_4_5, count_cnab_lines_0_1_3_5_9, count_cnab_lines_1,
-    count_cnab_lines_1_E
+    count_cnab_lines_1_2_3_4_5,
+    count_cnab_lines_0_1_3_5_9,
+    count_cnab_lines_1,
+    count_cnab_lines_1_E,
 )
 from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
 from ..csv_reader import (
     build_dict_from_csv,
-    build_dict_from_csv_P_Q_R, number_of_lines_in_csv
+    build_dict_from_csv_P_Q_R,
+    number_of_lines_in_csv,
 )
 
 
@@ -379,7 +384,9 @@ def set_fill_value_to_cnab(fields):
     return fields
 
 
-def set_insert_segments(fields, number_of_replications, identifier_for_insertion, patterns):
+def set_insert_segments(
+    fields, number_of_replications, identifier_for_insertion, patterns
+):
     """Insert segments in fields
 
     Note: it assumes that the given list fields have the replication fields and

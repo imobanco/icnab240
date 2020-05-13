@@ -1,5 +1,3 @@
-
-
 def build_pieces_of_value_to_cnab(fields):
     """Extracts the value in the value_to_cnab field and adds \n as a hook
      when field.end == 240, therefore the end of a line

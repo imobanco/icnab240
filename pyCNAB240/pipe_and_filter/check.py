@@ -111,9 +111,7 @@ def check_missing_given_data_identifiers(fields, patterns, data):
     """
     identifiers_data = set(data.keys())
     identifiers_all = extract_identifiers(fields, patterns)
-    identifiers_have_values = extract_identifiers_default(
-        fields
-    )
+    identifiers_have_values = extract_identifiers_default(fields)
 
     delta = identifiers_all - identifiers_data - identifiers_have_values
 
@@ -130,9 +128,7 @@ def check_overwriting_data(fields, data):
     :return: None
     """
     identifiers_data = set(data.keys())
-    identifiers_have_values = extract_identifiers_default(
-        fields
-    )
+    identifiers_have_values = extract_identifiers_default(fields)
 
     delta = identifiers_data.intersection(identifiers_have_values)
 

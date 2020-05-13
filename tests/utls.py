@@ -4,11 +4,10 @@ import unittest
 from pyCNAB240.core import main_fields
 from pyCNAB240.controllers.common import common_initial_controller
 from pyCNAB240.pipe_and_filter.build import (
-    build_cnab_lines, build_pieces_of_value_to_cnab
+    build_cnab_lines,
+    build_pieces_of_value_to_cnab,
 )
-from pyCNAB240.pipe_and_filter.set import (
-    set_fill_value_to_cnab
-)
+from pyCNAB240.pipe_and_filter.set import set_fill_value_to_cnab
 
 
 class CNABLinesTestCase(unittest.TestCase):
