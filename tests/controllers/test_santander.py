@@ -5,9 +5,9 @@ from freezegun import freeze_time
 
 from pyCNAB240.core import main_fields
 
-from pyCNAB240.pipe_and_filter import build_santander
+from pyCNAB240.controllers.santander import santander_controller
 
-from tests.santander_example import expected_santander
+from tests.controllers.santander_example import expected_santander
 
 
 class SantanderTestCase(unittest.TestCase):
@@ -27,7 +27,7 @@ class SantanderTestCase(unittest.TestCase):
                 line + delimiter for line in expected_santander.split(delimiter)
             ]
 
-            results = build_santander(
+            results = santander_controller(
                 main_fields,
                 NÚMERO_LOTE_DE_SERVIÇO,
                 header_de_arquivo,
