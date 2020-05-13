@@ -1,4 +1,4 @@
-from .utils import generic
+from .common import common_initial_controller
 from .file import _write_cnab
 from ..pipe_and_filter.build import (
     build_cnab_lines, build_pieces_of_value_to_cnab
@@ -16,7 +16,7 @@ from ..pipe_and_filter.set import (
 )
 
 
-def build_santander(
+def santander_controller(
     main_fields,
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
@@ -35,7 +35,7 @@ def build_santander(
         + filter_segment(main_fields, ".9")
     )
 
-    fields = generic(fields, NÚMERO_LOTE_DE_SERVIÇO)
+    fields = common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO)
 
     fields = set_header_de_arquivo(fields, header_de_arquivo)
 
@@ -70,7 +70,7 @@ def santander(
     full_cnab_file_name,
 ):
 
-    lines = build_santander(
+    lines = santander_controller(
         main_fields,
         NÚMERO_LOTE_DE_SERVIÇO,
         header_de_arquivo,
