@@ -1,4 +1,4 @@
-from ...utls import CNABLinesTestCase
+from ...utils import CNABLinesTestCase
 from pyCNAB240.core import main_fields
 from pyCNAB240.pipe_and_filter.set import set_trailer_de_lote
 
