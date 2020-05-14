@@ -284,7 +284,7 @@ def set_header_de_arquivo(fields, data):
     """
     Configura os fields do header de arquivo.
 
-    ..info: É uma função de input!!
+    ..info: Não é uma função pura!!
 
     ..danger: Essa ação altera os fields!!
 
@@ -315,7 +315,7 @@ def set_header_de_lote(fields, data):
     """
     Configura os fields do header de lote.
 
-    ..info: É uma função de input!!
+    ..info: Não é uma função pura!!
 
     ..danger: Essa ação altera os fields!!
 
@@ -363,7 +363,7 @@ def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
     """
     Configura os fields do 'miolo' P, Q e R.
 
-    ..info: É uma função de input!!
+    ..info: Não é uma função pura!!
 
     ..danger: Essa ação altera os fields!!
 
