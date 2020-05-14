@@ -3,7 +3,7 @@ from ..core import Field
 
 def build_list_of_fields(data: list):
     """
-    Constroi uma lista de :class:`.Field` utilizando o :attr:`data`.
+    Constrói uma lista de :class:`.Field` utilizando o :attr:`data`.
 
     Args:
         data: lista de dicionários
