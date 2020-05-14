@@ -191,7 +191,7 @@ def check_data(fields, patterns, data):
 
 def check_value_type(value):
     """
-    Verifica se o valor passado é uma string.
+    Verifica se o valor passado é uma string não vazia.
     """
     if isinstance(value, str) and value:
         return
