@@ -36,10 +36,7 @@ class SantanderTestCase(unittest.TestCase):
             ]
 
             results = _santander_controller(
-                NÚMERO_LOTE_DE_SERVIÇO,
-                header_de_arquivo,
-                header_de_lote,
-                p_q_r,
+                NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
             )
 
             for line_number, (result, expected) in enumerate(zip(results, expecteds)):
