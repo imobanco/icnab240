@@ -13,7 +13,7 @@ from ..pipe_and_filter.set import (
 )
 
 
-def santander_controller(
+def _santander_controller(
     main_fields,
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
@@ -58,7 +58,7 @@ def santander_controller(
     return lines
 
 
-def santander(
+def create_santander_cnab(
     main_fields,
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
@@ -67,7 +67,7 @@ def santander(
     full_cnab_file_name,
 ):
 
-    lines = santander_controller(
+    lines = _santander_controller(
         main_fields,
         NÚMERO_LOTE_DE_SERVIÇO,
         header_de_arquivo,
