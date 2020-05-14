@@ -6,7 +6,7 @@ from ..pipe_and_filter.filter import filter_segment
 from ..pipe_and_filter.set import (
     set_header_de_arquivo,
     set_header_de_lote,
-    set_pq_q_r,
+    set_p_q_r,
     set_trailer_de_lote,
     set_trailer_de_arquivo,
     set_fill_value_to_cnab,
