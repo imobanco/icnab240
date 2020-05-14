@@ -1,17 +1,38 @@
 from ..core import Field
 
 
-def build_list_of_fields(_data: dict):
+def build_list_of_fields(data: dict):
+    """
+
+    :param data: a list of lines in which line is a cvs row
+    :return: a list that each element is type Field
+    """
+    fields = []
+    for entry in data:
+        # Ugly, but only here, and only once, we can survive it ...
+        fields.append(Field(**entry))
+    return fields
+
+
+def build_main_fields():
     """
 
     :param dict: a list of lines in which line is a cvs row
     :return: a list that each element is type Field
     """
-    fields = []
-    for entry in _data:
-        # Ugly, but only here, and only once, we can survive it ...
-        fields.append(Field(**entry))
-    return fields
+    import os
+    import json
+
+    path_to_diretory = os.path.dirname(__file__)
+
+    file_path = os.path.join(
+        path_to_diretory, '..', "data", "reformated_main_full_defaults.json"
+    )
+
+    with open(file_path) as f:
+        data = json.load(f)
+
+    return build_list_of_fields(data)
 
 
 def build_pieces_of_value_to_cnab(fields):
