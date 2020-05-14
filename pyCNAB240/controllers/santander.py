@@ -18,7 +18,7 @@ def _santander_controller(
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
     header_de_lote,
-    csv_file_P_Q_R,
+    p_q_r,
 ):
 
     # TODO: fazer uma função que deleta os segmentos
@@ -40,7 +40,7 @@ def _santander_controller(
 
     patterns = (".3P", ".3Q", ".3R")
     identifier_for_insertion = "29.3R"
-    fields = set_P_Q_R(fields, csv_file_P_Q_R, patterns, identifier_for_insertion)
+    fields = set_P_Q_R(fields, p_q_r, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
 
@@ -63,7 +63,7 @@ def create_santander_cnab(
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
     header_de_lote,
-    csv_file_P_Q_R,
+    p_q_r,
     full_cnab_file_name,
 ):
 
@@ -72,7 +72,7 @@ def create_santander_cnab(
         NÚMERO_LOTE_DE_SERVIÇO,
         header_de_arquivo,
         header_de_lote,
-        csv_file_P_Q_R,
+        p_q_r,
     )
 
     _write_cnab(full_cnab_file_name, lines)
