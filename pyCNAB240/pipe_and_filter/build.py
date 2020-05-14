@@ -31,7 +31,7 @@ def build_main_fields():
     path_to_diretory = os.path.dirname(__file__)
 
     file_path = os.path.join(
-        path_to_diretory, '..', "data", "reformated_main_full_defaults.json"
+        path_to_diretory, "..", "data", "reformated_main_full_defaults.json"
     )
 
     with open(file_path) as f:
