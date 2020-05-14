@@ -359,7 +359,7 @@ def set_trailer_de_arquivo(fields):
     return fields
 
 
-def set_pq_q_r(fields, data: dict, patterns, identifier_for_insertion):
+def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
     """
     Configura os fields do 'miolo' P, Q e R.
 
