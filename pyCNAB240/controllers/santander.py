@@ -15,10 +15,7 @@ from ..pipe_and_filter.set import (
 
 
 def santander_controller(
-    NÚMERO_LOTE_DE_SERVIÇO,
-    header_de_arquivo,
-    header_de_lote,
-    csv_file_P_Q_R,
+    NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, csv_file_P_Q_R,
 ):
 
     # TODO: fazer uma função que deleta os segmentos
@@ -67,10 +64,7 @@ def santander(
 ):
 
     lines = santander_controller(
-        NÚMERO_LOTE_DE_SERVIÇO,
-        header_de_arquivo,
-        header_de_lote,
-        csv_file_P_Q_R,
+        NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, csv_file_P_Q_R,
     )
 
     _write_cnab(full_cnab_file_name, lines)
