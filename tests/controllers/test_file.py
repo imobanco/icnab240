@@ -1,6 +1,6 @@
 import unittest
 
-from pyCNAB240.core import Field, main_fields
+from pyCNAB240.core import Field
 from pyCNAB240.controllers.file import write_cnab, _write_cnab
 
 

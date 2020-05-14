@@ -1,11 +1,55 @@
+from ..core import Field
+
+
+def build_list_of_fields(data: list):
+    """
+    Constrói uma lista de :class:`.Field` utilizando o :attr:`data`.
+
+    Args:
+        data: lista de dicionários
+
+    Returns:
+        lista construída
+    """
+    fields = []
+    for entry in data:
+        # Ugly, but only here, and only once, we can survive it ...
+        fields.append(Field(**entry))
+    return fields
+
+
+def build_main_fields():
+    """
+    Constroi a lista de :attr:`.MAIN_FIELDS`.
+
+    Returns:
+        lista de campos principais
+    """
+    import os
+    import json
+
+    path_to_diretory = os.path.dirname(__file__)
+
+    file_path = os.path.join(
+        path_to_diretory, "..", "data", "reformated_main_full_defaults.json"
+    )
+
+    with open(file_path) as f:
+        data = json.load(f)
+
+    return build_list_of_fields(data)
+
+
 def build_pieces_of_value_to_cnab(fields):
-    """Extracts the value in the value_to_cnab field and adds \n as a hook
-     when field.end == 240, therefore the end of a line
+    """
+    Extraí o valor do :attr:`.value_to_cnab` e adiciona uma
+    quebra de linha caso o :attr:`.end` seja 240 (no caso final da linha).
 
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is a string with at least value_to_cnab
+    Args:
+        fields: lista de campos
 
-    #TODO: trow exception if it has None values? Note str(None) == 'None'
+    Returns:
+        lista na qual cada elemento é uma string com pelo menos :attr:`.value_to_cnab`
     """
     lines = []
     # TODO transformar numa string só simplificando a escrita do arquivo.
@@ -19,10 +63,15 @@ def build_pieces_of_value_to_cnab(fields):
 
 
 def build_cnab_lines(pieces):
-    """Glues strings finding each \n and form a element of a list of lines
+    """
+    Junta as strings baseado no '\n' e forma um elemento de lista de linhas
 
-    :param pieces: a list in that each element is a string that some end with \n
-    :return: a list in that each element is a string that ends in \n
+
+    Args:
+        pieces: lista na qual cada elemento é uma string e que alguns acabam com '\n'
+
+    Returns:
+        lista na qual cada elemento acaba com '\n'
     """
     glued_lines = []
     line = ""

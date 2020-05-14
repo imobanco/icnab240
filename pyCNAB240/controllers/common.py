@@ -12,13 +12,13 @@ from ..pipe_and_filter.set import (
 )
 
 
-def common_initial_controller(main_fields, NÚMERO_LOTE_DE_SERVIÇO):
+def common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO):
     """
     Essa função possui um 'fluxo' padrão que é compartilhado entre
     os CNAB's de todos os bancos (Santander, Itau e etc...)
     """
 
-    fields = check_start_and_end(main_fields)
+    fields = check_start_and_end(fields)
     fields = check_duplicated_identifiers(fields)
 
     fields = set_defaults(fields)

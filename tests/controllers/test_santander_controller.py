@@ -4,8 +4,6 @@ import unittest
 
 from freezegun import freeze_time
 
-from pyCNAB240.core import main_fields
-
 from pyCNAB240.controllers.santander import _santander_controller
 
 from tests.controllers.santander_example import expected_santander
@@ -38,11 +36,7 @@ class SantanderTestCase(unittest.TestCase):
             ]
 
             results = _santander_controller(
-                main_fields,
-                NÚMERO_LOTE_DE_SERVIÇO,
-                header_de_arquivo,
-                header_de_lote,
-                p_q_r,
+                NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
             )
 
             for line_number, (result, expected) in enumerate(zip(results, expecteds)):

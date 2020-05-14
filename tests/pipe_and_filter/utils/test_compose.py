@@ -1,6 +1,5 @@
 import unittest
 
-from pyCNAB240.core import Field
 from pyCNAB240.pipe_and_filter.utils import compose
 
 

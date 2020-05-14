@@ -1,6 +1,6 @@
 import unittest
 
-from pyCNAB240.core import Field, main_fields
+from pyCNAB240.core import Field
 from pyCNAB240.pipe_and_filter.check import check_missing_given_data_identifiers
 
 
