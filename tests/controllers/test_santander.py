@@ -3,7 +3,7 @@ import unittest
 
 from freezegun import freeze_time
 
-from pyCNAB240.core import main_fields
+# from pyCNAB240.constants import MAIN_FIELDS
 
 from pyCNAB240.controllers.santander import santander_controller
 
@@ -28,7 +28,6 @@ class SantanderTestCase(unittest.TestCase):
             ]
 
             results = santander_controller(
-                main_fields,
                 NÚMERO_LOTE_DE_SERVIÇO,
                 header_de_arquivo,
                 header_de_lote,

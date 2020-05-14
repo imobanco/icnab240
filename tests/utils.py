@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from pyCNAB240.core import main_fields
+from pyCNAB240.constants import MAIN_FIELDS
 from pyCNAB240.controllers.common import common_initial_controller
 from pyCNAB240.pipe_and_filter.build import (
     build_cnab_lines,
@@ -18,7 +18,7 @@ class CNABLinesTestCase(unittest.TestCase):
         self.header_de_lote = self.full_file_name("header_de_arquivo_lote.csv")
 
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
-        self._fields = common_initial_controller(main_fields, NÚMERO_LOTE_DE_SERVIÇO)
+        self._fields = common_initial_controller(MAIN_FIELDS, NÚMERO_LOTE_DE_SERVIÇO)
 
     @staticmethod
     def full_file_name(file_name):
