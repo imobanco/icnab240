@@ -6,19 +6,15 @@ from ..pipe_and_filter.filter import filter_segment
 from ..pipe_and_filter.set import (
     set_header_de_arquivo,
     set_header_de_lote,
-    set_P_Q_R,
+    set_p_q_r,
     set_trailer_de_lote,
     set_trailer_de_arquivo,
     set_fill_value_to_cnab,
 )
 
 
-def santander_controller(
-    main_fields,
-    NÚMERO_LOTE_DE_SERVIÇO,
-    header_de_arquivo,
-    header_de_lote,
-    csv_file_P_Q_R,
+def _santander_controller(
+    main_fields, NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
 ):
 
     # TODO: fazer uma função que deleta os segmentos
@@ -40,7 +36,7 @@ def santander_controller(
 
     patterns = (".3P", ".3Q", ".3R")
     identifier_for_insertion = "29.3R"
-    fields = set_P_Q_R(fields, csv_file_P_Q_R, patterns, identifier_for_insertion)
+    fields = set_p_q_r(fields, p_q_r, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
 
@@ -58,21 +54,17 @@ def santander_controller(
     return lines
 
 
-def santander(
+def create_santander_cnab(
     main_fields,
     NÚMERO_LOTE_DE_SERVIÇO,
     header_de_arquivo,
     header_de_lote,
-    csv_file_P_Q_R,
+    p_q_r,
     full_cnab_file_name,
 ):
 
-    lines = santander_controller(
-        main_fields,
-        NÚMERO_LOTE_DE_SERVIÇO,
-        header_de_arquivo,
-        header_de_lote,
-        csv_file_P_Q_R,
+    lines = _santander_controller(
+        main_fields, NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
     )
 
     _write_cnab(full_cnab_file_name, lines)

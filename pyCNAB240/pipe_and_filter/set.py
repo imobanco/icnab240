@@ -6,6 +6,7 @@ from .check import (
     check_missing_given_data_identifiers,
     check_size_of_input_data,
     check_overwriting_data,
+    check_input_data_type,
 )
 from .count import (
     count_cnab_lines_1_2_3_4_5,
@@ -15,11 +16,6 @@ from .count import (
 )
 from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
-from ..csv_reader import (
-    build_dict_from_csv,
-    build_dict_from_csv_P_Q_R,
-    number_of_lines_in_csv,
-)
 
 
 def set_white_spaces(fields):
@@ -284,9 +280,20 @@ def set_given_data(fields, data):
     return fields
 
 
-def set_header_de_arquivo(fields, file_name):
+def set_header_de_arquivo(fields, data):
+    """
+    Configura os fields do header de arquivo.
 
-    data = build_dict_from_csv(file_name)
+    ..info: Não é uma função pura!!
+
+    ..danger: Essa ação altera os fields!!
+
+    Args:
+        fields: lista de campos já existentes
+        data: dicionário de input
+
+    """
+    check_input_data_type(data)
 
     # TODO fatorar numa função
     patterns = (".0",)
@@ -304,9 +311,22 @@ def set_header_de_arquivo(fields, file_name):
     return fields
 
 
-def set_header_de_lote(fields, file_name):
+def set_header_de_lote(fields, data):
+    """
+    Configura os fields do header de lote.
 
-    data = build_dict_from_csv(file_name)
+    ..info: Não é uma função pura!!
+
+    ..danger: Essa ação altera os fields!!
+
+    Args:
+        fields: lista de campos já existentes
+        data: dicionário de input
+
+    """
+
+    check_input_data_type(data)
+
     # TODO check if data has all correct keys
     fields = set_given_data(fields, data)
 
@@ -339,8 +359,25 @@ def set_trailer_de_arquivo(fields):
     return fields
 
 
-def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
-    data = build_dict_from_csv_P_Q_R(csv_full_file_name)
+def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
+    """
+    Configura os fields do 'miolo' P, Q e R.
+
+    ..info: Não é uma função pura!!
+
+    ..danger: Essa ação altera os fields!!
+
+    Args:
+        fields:
+        data:
+        patterns:
+        identifier_for_insertion:
+
+    Returns:
+
+    """
+
+    check_input_data_type(data)
 
     # TODO fatorar numa função
     check_given_data_identifiers(fields, patterns, data)
@@ -348,7 +385,7 @@ def set_P_Q_R(fields, csv_full_file_name, patterns, identifier_for_insertion):
     check_size_of_input_data(fields, data)
     check_overwriting_data(fields, data)
 
-    number_of_replications = number_of_lines_in_csv(csv_full_file_name)
+    number_of_replications = len(next(iter(data.values())))
 
     fields = set_insert_segments(
         fields, number_of_replications, identifier_for_insertion, patterns
