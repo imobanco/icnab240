@@ -36,7 +36,7 @@ def _santander_controller(
 
     patterns = (".3P", ".3Q", ".3R")
     identifier_for_insertion = "29.3R"
-    fields = set_pq_q_r(fields, p_q_r, patterns, identifier_for_insertion)
+    fields = set_p_q_r(fields, p_q_r, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
 
