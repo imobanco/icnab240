@@ -4,11 +4,9 @@ import json
 
 current_path = os.path.dirname(__file__)
 
-file_name = 'reformated_main_full_defaults'
+file_name = "reformated_main_full_defaults"
 
-csv_full_file_name = os.path.join(
-    current_path, "csvs", f"{file_name}.csv"
-)
+csv_full_file_name = os.path.join(current_path, "csvs", f"{file_name}.csv")
 
 
 def build_list_from_csv(csv_file_name, mode="r", delimiter=","):

@@ -41,9 +41,7 @@ def build_list_of_fields(_data: dict):
     fields = []
     for entry in _data:
         # Ugly, but only here, and only once, we can survive it ...
-        fields.append(
-            Field(**entry)
-        )
+        fields.append(Field(**entry))
     return fields
 
 
@@ -51,9 +49,7 @@ path_to_diretory = os.path.dirname(__file__)
 # csv_full_file_name = os.path.join(path_to_diretory, 'data', 'csvs',
 #                                   'reformated_main_full.csv')
 
-file_path = os.path.join(
-    path_to_diretory, "data", "reformated_main_full_defaults.json"
-)
+file_path = os.path.join(path_to_diretory, "data", "reformated_main_full_defaults.json")
 
 with open(file_path) as f:
     data = json.load(f)
