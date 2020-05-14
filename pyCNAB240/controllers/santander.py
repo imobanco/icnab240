@@ -14,11 +14,7 @@ from ..pipe_and_filter.set import (
 
 
 def _santander_controller(
-    main_fields,
-    NÚMERO_LOTE_DE_SERVIÇO,
-    header_de_arquivo,
-    header_de_lote,
-    p_q_r,
+    main_fields, NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
 ):
 
     # TODO: fazer uma função que deleta os segmentos
@@ -68,11 +64,7 @@ def create_santander_cnab(
 ):
 
     lines = _santander_controller(
-        main_fields,
-        NÚMERO_LOTE_DE_SERVIÇO,
-        header_de_arquivo,
-        header_de_lote,
-        p_q_r,
+        main_fields, NÚMERO_LOTE_DE_SERVIÇO, header_de_arquivo, header_de_lote, p_q_r,
     )
 
     _write_cnab(full_cnab_file_name, lines)

@@ -6,7 +6,7 @@ from .check import (
     check_missing_given_data_identifiers,
     check_size_of_input_data,
     check_overwriting_data,
-    check_input_data_type
+    check_input_data_type,
 )
 from .count import (
     count_cnab_lines_1_2_3_4_5,

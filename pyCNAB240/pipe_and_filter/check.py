@@ -195,7 +195,9 @@ def check_value_type(value):
     """
     if isinstance(value, str):
         return
-    raise TypeError(f'O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string!')
+    raise TypeError(
+        f"O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string!"
+    )
 
 
 def check_input_data_type(data: dict):
@@ -218,4 +220,3 @@ def check_input_data_type(data: dict):
 
     if errors:
         raise TypeError(errors)
-
