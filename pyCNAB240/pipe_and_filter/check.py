@@ -193,10 +193,10 @@ def check_value_type(value):
     """
     Verifica se o valor passado é uma string.
     """
-    if isinstance(value, str):
+    if isinstance(value, str) and value:
         return
     raise TypeError(
-        f"O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string!"
+        f"O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string não vazia!"
     )
 
 
@@ -211,6 +211,9 @@ def check_input_data_type(data: dict):
     for key, value in data.items():
         try:
             if isinstance(value, list):
+                if not value:
+                    check_value_type(value)
+
                 for item in value:
                     check_value_type(item)
             else:
