@@ -196,7 +196,9 @@ def check_value_type(value):
     if isinstance(value, str) and value:
         return
     raise TypeError(
-        f"O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string não vazia!"
+        f"A validação falhou, era esperado uma string! "
+        f"Mas é do tipo {type(value).__name__} "
+        f"e o valor foi ({value})!"
     )
 
 
