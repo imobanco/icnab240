@@ -1,4 +1,5 @@
 import os
+import json
 import unittest
 
 from pyCNAB240.constants import MAIN_FIELDS
@@ -14,8 +15,13 @@ class CNABLinesTestCase(unittest.TestCase):
     def setUp(self):
         super().setUp()
 
-        self.header_de_arquivo = self.full_file_name("header_de_arquivo.csv")
-        self.header_de_lote = self.full_file_name("header_de_arquivo_lote.csv")
+        self.header_de_arquivo = self.full_file_name("header_de_arquivo.json")
+        with open(self.header_de_arquivo) as f:
+            self.header_de_arquivo = json.load(f)
+
+        self.header_de_lote = self.full_file_name("header_de_arquivo_lote.json")
+        with open(self.header_de_lote) as f:
+            self.header_de_lote = json.load(f)
 
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
         self._fields = common_initial_controller(MAIN_FIELDS, NÚMERO_LOTE_DE_SERVIÇO)
