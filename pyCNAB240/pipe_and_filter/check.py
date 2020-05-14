@@ -178,7 +178,6 @@ def check_lines_length(lines, length):
 
 def check_data(fields, patterns, data):
     """
-
     :param fields: a list in that each element is type Field
     :param patterns:
     :param data:
@@ -188,3 +187,35 @@ def check_data(fields, patterns, data):
     check_missing_given_data_identifiers(fields, patterns, data)
     check_size_of_input_data(fields, data)
     check_overwriting_data(fields, data)
+
+
+def check_value_type(value):
+    """
+    Verifica se o valor passado é uma string.
+    """
+    if isinstance(value, str):
+        return
+    raise TypeError(f'O valor {type(value).__name__}({value}) falhou na validação! Ele precisa ser uma string!')
+
+
+def check_input_data_type(data: dict):
+    """
+    Verifica se todos os campos recebidos no dicionário são strings ou lista de strings.
+
+    :param data: dicionário de informação
+    :return: None
+    """
+    errors = []
+    for key, value in data.items():
+        try:
+            if isinstance(value, list):
+                for item in value:
+                    check_value_type(item)
+            else:
+                check_value_type(value)
+        except TypeError as e:
+            errors.append({key: str(e)})
+
+    if errors:
+        raise TypeError(errors)
+
