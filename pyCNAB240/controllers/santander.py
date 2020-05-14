@@ -6,7 +6,7 @@ from ..pipe_and_filter.filter import filter_segment
 from ..pipe_and_filter.set import (
     set_header_de_arquivo,
     set_header_de_lote,
-    set_P_Q_R,
+    set_pq_q_r,
     set_trailer_de_lote,
     set_trailer_de_arquivo,
     set_fill_value_to_cnab,
@@ -40,7 +40,7 @@ def _santander_controller(
 
     patterns = (".3P", ".3Q", ".3R")
     identifier_for_insertion = "29.3R"
-    fields = set_P_Q_R(fields, p_q_r, patterns, identifier_for_insertion)
+    fields = set_pq_q_r(fields, p_q_r, patterns, identifier_for_insertion)
 
     fields = set_trailer_de_lote(fields)
 
