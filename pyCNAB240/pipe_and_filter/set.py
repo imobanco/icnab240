@@ -237,12 +237,11 @@ def set_data_to_fields(fields, data):
     :param data: dict with key as identifier, and value as a list with values
     :return: a list in that each element is type Field, with value set to input data
     """
-    for key in data:
-        values = list(data[key])
-        for field in fields:
-            if field.identifier == key:
-                value = values.pop(0)
-                field.value = value
+    for field in fields:
+        value = data.get(field.identifier)
+        if value is not None:
+            value = value.pop(0)
+            field.value = value
 
 
 def set_given_data(fields, data):
@@ -253,10 +252,9 @@ def set_given_data(fields, data):
               the user in the .csv file
     :return: a list in that each element is type Field with value set to data value
     """
-    for key in data:
-        for field in fields:
-            if field.identifier == key:
-                field.value = data[key]
+    for field in fields:
+        value = data.get(field.identifier)
+        if value is not None:
             field.value = value
 
 
