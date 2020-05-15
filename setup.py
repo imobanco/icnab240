@@ -16,7 +16,7 @@ setup(
     description="Gerador e leitor de CNAB 240",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/imobanco/pyCNAB240",
+    url="https://github.com/imobanco/icnab240",
     packages=["icnab240", "icnab240.controllers", "icnab240.data", "icnab240.pipe_and_filter"],
     classifiers=[
         "Programming Language :: Python :: 3",
