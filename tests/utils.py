@@ -23,9 +23,9 @@ class CNABLinesTestCase(unittest.TestCase):
         with open(self.header_de_lote) as f:
             self.header_de_lote = json.load(f)
 
-        self._fields = build_main_fields()
+        self._main_fields = build_main_fields()
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
-        common_initial_controller(self._fields, NÚMERO_LOTE_DE_SERVIÇO)
+        common_initial_controller(self._main_fields, NÚMERO_LOTE_DE_SERVIÇO)
 
     @staticmethod
     def full_file_name(file_name):
