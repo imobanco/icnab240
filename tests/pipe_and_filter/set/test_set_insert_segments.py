@@ -8,9 +8,11 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
     def test_insert_segments_no_change(self):
         fields = [Field(identifier="a"), Field(identifier="b"), Field(identifier="c")]
 
-        fields_result = set_insert_segments(fields, 1, "b", None)
+        expected = [Field(identifier="a"), Field(identifier="b"), Field(identifier="c")]
 
-        self.assertEqual(fields, fields_result)
+        set_insert_segments(fields, 1, "b", None)
+
+        self.assertEqual(expected, fields)
 
     def test_insert_segments_only_one(self):
         fields = [Field(identifier="a"), Field(identifier="b"), Field(identifier="c")]
@@ -24,8 +26,8 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="c"),
         ]
 
-        result = set_insert_segments(fields, 2, "b", patterns)
-        self.assertEqual(expected, result)
+        set_insert_segments(fields, 2, "b", patterns)
+        self.assertEqual(expected, fields)
 
     def test_insert_segments_only_two(self):
         fields = [Field(identifier="a"), Field(identifier="b"), Field(identifier="c")]
@@ -40,8 +42,8 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="c"),
         ]
 
-        result = set_insert_segments(fields, 3, "b", patterns)
-        self.assertEqual(expected, result)
+        set_insert_segments(fields, 3, "b", patterns)
+        self.assertEqual(expected, fields)
 
     def test_insert_segments_more_than_one_pattern(self):
         fields = [
@@ -66,8 +68,8 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="f"),
         ]
 
-        result = set_insert_segments(fields, 2, "d", patterns)
-        self.assertEqual(expected, result)
+        set_insert_segments(fields, 2, "d", patterns)
+        self.assertEqual(expected, fields)
 
     def test_insert_segments_realistic(self):
         fields = [
@@ -99,5 +101,5 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="f"),
         ]
 
-        result = set_insert_segments(fields, 4, "d", patterns)
-        self.assertEqual(expected, result)
+        set_insert_segments(fields, 4, "d", patterns)
+        self.assertEqual(expected, fields)

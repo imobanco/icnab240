@@ -2,9 +2,9 @@ import os
 import json
 import unittest
 
-from pyCNAB240.constants import MAIN_FIELDS
 from pyCNAB240.controllers.common import common_initial_controller
 from pyCNAB240.pipe_and_filter.build import (
+    build_main_fields,
     build_cnab_lines,
     build_pieces_of_value_to_cnab,
 )
@@ -23,8 +23,9 @@ class CNABLinesTestCase(unittest.TestCase):
         with open(self.header_de_lote) as f:
             self.header_de_lote = json.load(f)
 
+        self._main_fields = build_main_fields()
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
-        self._fields = common_initial_controller(MAIN_FIELDS, NÚMERO_LOTE_DE_SERVIÇO)
+        common_initial_controller(self._main_fields, NÚMERO_LOTE_DE_SERVIÇO)
 
     @staticmethod
     def full_file_name(file_name):
@@ -32,7 +33,7 @@ class CNABLinesTestCase(unittest.TestCase):
 
     @staticmethod
     def build_result(fields):
-        fields = set_fill_value_to_cnab(fields)
+        set_fill_value_to_cnab(fields)
         pieces = build_pieces_of_value_to_cnab(fields)
         result = build_cnab_lines(pieces)
         return result
