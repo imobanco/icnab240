@@ -1,2 +1,3 @@
 include versioneer.py
 include icnab240/_version.py
+recursive-include icnab240/data *
