@@ -30,5 +30,12 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="d"),
         ]
 
-        result = set_data_to_fields(fields, data)
-        self.assertEqual(expected, result)
+        for index in range(len(fields)):
+            with self.subTest(index):
+                field = fields[index]
+                expec = expected[index]
+
+                set_data_to_fields([field], data)
+                self.assertEqual(
+                    [expec], [field], msg=f"O valor esperado é diferente! {expec.value} != {field.value}",
+                )
