@@ -30,9 +30,8 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="d"),
         ]
 
-        for index in range(len(fields)):
+        for index, field in enumerate(fields):
             with self.subTest(index):
-                field = fields[index]
                 expec = expected[index]
 
                 set_data_to_fields([field], data)
