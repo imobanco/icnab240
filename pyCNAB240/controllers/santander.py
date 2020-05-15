@@ -29,23 +29,23 @@ def _santander_controller(
         + filter_segment(MAIN_FIELDS, ".9")
     )
 
-    fields = common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO)
+    common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO)
 
-    fields = set_header_de_arquivo(fields, header_de_arquivo)
+    set_header_de_arquivo(fields, header_de_arquivo)
 
-    fields = set_header_de_lote(fields, header_de_lote)
+    set_header_de_lote(fields, header_de_lote)
 
     patterns = (".3P", ".3Q", ".3R")
     identifier_for_insertion = "29.3R"
-    fields = set_p_q_r(fields, p_q_r, patterns, identifier_for_insertion)
+    set_p_q_r(fields, p_q_r, patterns, identifier_for_insertion)
 
-    fields = set_trailer_de_lote(fields)
+    set_trailer_de_lote(fields)
 
-    fields = set_trailer_de_arquivo(fields)
+    set_trailer_de_arquivo(fields)
 
     check_none_value(fields)
 
-    fields = set_fill_value_to_cnab(fields)
+    set_fill_value_to_cnab(fields)
 
     # define a function?
     pieces = build_pieces_of_value_to_cnab(fields)

@@ -30,7 +30,6 @@ def set_white_spaces(fields):
         if field.num_or_str == "Alfa" and field.default == "Brancos":
             field.value_to_cnab = "#" * field.length
             field.value = field.value_to_cnab
-    return fields
 
 
 def set_white_spaces_reasonable_default(fields):
@@ -44,7 +43,6 @@ def set_white_spaces_reasonable_default(fields):
         if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
             field.value_to_cnab = "#" * field.length
             field.value = field.value_to_cnab
-    return fields
 
 
 def set_zeros_reasonable_default(fields):
@@ -60,7 +58,6 @@ def set_zeros_reasonable_default(fields):
         if field.num_or_str == "Num" and field.reasonable_default == "Vazio":
             field.value_to_cnab = "0" * field.length
             field.value = field.value_to_cnab
-    return fields
 
 
 def set_generic_field(
@@ -69,7 +66,6 @@ def set_generic_field(
     for field in fields:
         if getattr(field, atribute_to_search) == value_to_search:
             setattr(field, atribute_to_set, value_to_set)
-    return fields
 
 
 def set_registry_type(fields):
@@ -85,7 +81,6 @@ def set_registry_type(fields):
     for field in fields:
         if field.start == 8 and field.end == 8:
             field.value_to_cnab = field.default
-    return fields
 
 
 def set_defaults(fields):
@@ -97,7 +92,6 @@ def set_defaults(fields):
     for field in fields:
         if field.default != "" and field.default != "Brancos":
             field.value = field.default
-    return fields
 
 
 def set_spaces_if_it_is_not_retorno(fields):
@@ -132,8 +126,6 @@ def set_spaces_if_it_is_not_retorno(fields):
             field.value_to_cnab = "@" * (field.length + default_decimals(field))
             field.value = field.value_to_cnab
             continue
-
-    return fields
 
 
 def set_numero_do_lote_de_servico_header_and_footer(fields, value):
@@ -170,7 +162,6 @@ def set_numero_do_lote_de_servico_header_and_footer(fields, value):
             and field.identifier != "02.9"
         ):
             field.value = value
-    return fields
 
 
 def set_numero_do_lote_de_servico_not_header_footer(fields):
@@ -187,8 +178,6 @@ def set_numero_do_lote_de_servico_not_header_footer(fields):
             field.value = count
             count += 1
 
-    return fields
-
 
 def set_field(fields, value_to_search, value_to_set):
     """Sets the value_to_set to the field that has identifier equal
@@ -203,8 +192,6 @@ def set_field(fields, value_to_search, value_to_set):
         if field.identifier == value_to_search:
             field.value = value_to_set
 
-    return fields
-
 
 def set_reasonable_default_for_all(fields):
     """Sets all fields that have reasonable default values
@@ -215,8 +202,6 @@ def set_reasonable_default_for_all(fields):
     for field in fields:
         if field.reasonable_default != "Calculavél" and field.reasonable_default != "":
             field.value = field.reasonable_default
-
-    return fields
 
 
 def set_cpf_or_cnpj(fields, identifier_inscription_type, identifier_cpf_or_cnpj):
@@ -244,8 +229,6 @@ def set_cpf_or_cnpj(fields, identifier_inscription_type, identifier_cpf_or_cnpj)
         if field.identifier == identifier_inscription_type:
             field.value = inscription_type(cpf_or_cnpj)
 
-    return fields
-
 
 def set_data_to_fields(fields, data):
     """sets given data to fields based on identifiers presents in both
@@ -261,8 +244,6 @@ def set_data_to_fields(fields, data):
                 value = values.pop(0)
                 field.value = value
 
-    return fields
-
 
 def set_given_data(fields, data):
     """Sets given data to fields
@@ -276,8 +257,7 @@ def set_given_data(fields, data):
         for field in fields:
             if field.identifier == key:
                 field.value = data[key]
-
-    return fields
+            field.value = value
 
 
 def set_header_de_arquivo(fields, data):
@@ -302,13 +282,11 @@ def set_header_de_arquivo(fields, data):
     check_size_of_input_data(fields, data)
     # check_overwriting_data(fields, data)
 
-    fields = set_given_data(fields, data)
-    fields = set_cpf_or_cnpj(fields, "05.0", "06.0")
+    set_given_data(fields, data)
+    set_cpf_or_cnpj(fields, "05.0", "06.0")
 
-    fields = set_field(fields, "17.0", datetime.today().strftime("%d%m%Y"))
-    fields = set_field(fields, "18.0", datetime.today().strftime("%H%M%S"))
-
-    return fields
+    set_field(fields, "17.0", datetime.today().strftime("%d%m%Y"))
+    set_field(fields, "18.0", datetime.today().strftime("%H%M%S"))
 
 
 def set_header_de_lote(fields, data):
@@ -328,35 +306,29 @@ def set_header_de_lote(fields, data):
     check_input_data_type(data)
 
     # TODO check if data has all correct keys
-    fields = set_given_data(fields, data)
+    set_given_data(fields, data)
 
-    fields = set_cpf_or_cnpj(fields, "09.1", "10.1")
+    set_cpf_or_cnpj(fields, "09.1", "10.1")
 
-    fields = set_field(fields, "21.1", datetime.today().strftime("%d%m%Y"))
-
-    return fields
+    set_field(fields, "21.1", datetime.today().strftime("%d%m%Y"))
 
 
 def set_trailer_de_lote(fields):
 
     total_lines_1_2_3_4_5 = str(count_cnab_lines_1_2_3_4_5(fields))
 
-    fields = set_field(fields, "05.5", total_lines_1_2_3_4_5)
-
-    return fields
+    set_field(fields, "05.5", total_lines_1_2_3_4_5)
 
 
 def set_trailer_de_arquivo(fields):
 
     total_lines_0_1_3_5_9 = str(count_cnab_lines_0_1_3_5_9(fields))
     total_lines_1 = str(count_cnab_lines_1(fields))
-    total_lines_1_and_E_type = str(count_cnab_lines_1_E(fields))
+    total_lines_1_and_e_type = str(count_cnab_lines_1_E(fields))
 
-    fields = set_field(fields, "05.9", total_lines_1)
-    fields = set_field(fields, "06.9", total_lines_0_1_3_5_9)
-    fields = set_field(fields, "07.9", total_lines_1_and_E_type)
-
-    return fields
+    set_field(fields, "05.9", total_lines_1)
+    set_field(fields, "06.9", total_lines_0_1_3_5_9)
+    set_field(fields, "07.9", total_lines_1_and_e_type)
 
 
 def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
@@ -387,13 +359,11 @@ def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
 
     number_of_replications = len(next(iter(data.values())))
 
-    fields = set_insert_segments(
+    set_insert_segments(
         fields, number_of_replications, identifier_for_insertion, patterns
     )
 
-    fields = set_data_to_fields(fields, data)
-
-    return fields
+    set_data_to_fields(fields, data)
 
 
 def set_fill_value_to_cnab(fields):
@@ -418,7 +388,6 @@ def set_fill_value_to_cnab(fields):
                 field.value_to_cnab = field.value.rjust(field.length, "#")
         else:
             field.value_to_cnab = field.value
-    return fields
 
 
 def set_insert_segments(
@@ -450,6 +419,3 @@ def set_insert_segments(
 
         index = index_to_insert(fields, identifier_for_insertion)
         fields[index:index] = filtered_copied
-        return fields
-
-    return fields
