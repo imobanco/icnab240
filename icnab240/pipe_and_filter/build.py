@@ -28,10 +28,10 @@ def build_main_fields():
     import os
     import json
 
-    path_to_diretory = os.path.dirname(__file__)
+    path_to_pipe_and_filter_diretory = os.path.dirname(__file__)
 
     file_path = os.path.join(
-        path_to_diretory, "..", "data", "reformated_main_full_defaults.json"
+        path_to_pipe_and_filter_diretory, "..", "data", "reformated_main_full_defaults.json"
     )
 
     with open(file_path) as f:
