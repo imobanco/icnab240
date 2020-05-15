@@ -1,7 +1,7 @@
 from .common import common_initial_controller
 from .file import _write_cnab
-from ..constants import MAIN_FIELDS
-from ..pipe_and_filter.build import build_cnab_lines, build_pieces_of_value_to_cnab
+from ..pipe_and_filter.build import (
+    build_main_fields, build_cnab_lines, build_pieces_of_value_to_cnab)
 from ..pipe_and_filter.check import check_none_value, check_lines_length
 from ..pipe_and_filter.filter import filter_segment
 from ..pipe_and_filter.set import (
@@ -19,14 +19,15 @@ def _santander_controller(
 ):
 
     # TODO: fazer uma função que deleta os segmentos
+    main_fields = build_main_fields()
     fields = (
-        filter_segment(MAIN_FIELDS, ".0")
-        + filter_segment(MAIN_FIELDS, ".1")
-        + filter_segment(MAIN_FIELDS, ".3P")
-        + filter_segment(MAIN_FIELDS, ".3Q")
-        + filter_segment(MAIN_FIELDS, ".3R")
-        + filter_segment(MAIN_FIELDS, ".5")
-        + filter_segment(MAIN_FIELDS, ".9")
+        filter_segment(main_fields, ".0")
+        + filter_segment(main_fields, ".1")
+        + filter_segment(main_fields, ".3P")
+        + filter_segment(main_fields, ".3Q")
+        + filter_segment(main_fields, ".3R")
+        + filter_segment(main_fields, ".5")
+        + filter_segment(main_fields, ".9")
     )
 
     common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO)
