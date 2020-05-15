@@ -17,12 +17,12 @@
 
 .. container::
 
-    .. image:: https://codecov.io/gh/imobanco/zoop-wrapper/branch/master/graph/badge.svg
+    .. image:: https://codecov.io/gh/imobanco/icnab240/branch/master/graph/badge.svg
        :target: https://codecov.io/gh/imobanco/icnab240
        :alt: Coverage
        :height: 21
-    .. image:: https://snyk.io/test/github/imobanco/zoop-wrapper/badge.svg?targetFile=requirements.txt
-       :target: https://snyk.io/test/github/imobanco/zoop-wrapper?targetFile=requirements.txt
+    .. image:: https://snyk.io/test/github/imobanco/icnab240/badge.svg?targetFile=requirements.txt
+       :target: https://snyk.io/test/github/imobanco/icnab240?targetFile=requirements.txt
        :alt: Known Vulnerabilities
        :height: 23
 
@@ -41,7 +41,7 @@
        :alt: Licença
        :height: 23
     .. image:: https://img.shields.io/github/contributors/imobanco/icnab240
-       :target: https://github.com/imobanco/zoop-wrapper/graphs/contributors
+       :target: https://github.com/imobanco/icnab240/graphs/contributors
        :alt: Contributors
        :height: 23
 
