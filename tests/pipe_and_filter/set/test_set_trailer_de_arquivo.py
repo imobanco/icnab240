@@ -8,12 +8,14 @@ class SetTrailerDeArquivoTestCase(CNABLinesTestCase):
         total_lines_0_1_3_5_9 = 10
         total_lines_1_and_e_type = 2
 
-        expected = "03399999#########00000" \
-                   f"{total_lines_1}" \
-                   "0000" \
-                   f"{total_lines_0_1_3_5_9}" \
-                   "00000" \
-                   f"{total_lines_1_and_e_type}"
+        expected = (
+            "03399999#########00000"
+            f"{total_lines_1}"
+            "0000"
+            f"{total_lines_0_1_3_5_9}"
+            "00000"
+            f"{total_lines_1_and_e_type}"
+        )
 
         fields = self._main_fields
         set_trailer_de_arquivo(fields)
@@ -28,7 +30,7 @@ class SetTrailerDeArquivoTestCase(CNABLinesTestCase):
         fields = self._main_fields
         set_trailer_de_arquivo(fields)
 
-        result = self.build_result(fields)[-1][35: 35 + 58]
+        result = self.build_result(fields)[-1][35 : 35 + 58]
 
         self.assertEqual(expected, result)
 
@@ -38,7 +40,7 @@ class SetTrailerDeArquivoTestCase(CNABLinesTestCase):
         fields = self._main_fields
         set_trailer_de_arquivo(fields)
 
-        result = self.build_result(fields)[-1][35 + 58: 35 + 58 + 58]
+        result = self.build_result(fields)[-1][35 + 58 : 35 + 58 + 58]
 
         self.assertEqual(expected, result)
 
@@ -48,7 +50,7 @@ class SetTrailerDeArquivoTestCase(CNABLinesTestCase):
         fields = self._main_fields
         set_trailer_de_arquivo(fields)
 
-        result = self.build_result(fields)[-1][35 + 58 + 58: 35 + 58 + 58 + 58]
+        result = self.build_result(fields)[-1][35 + 58 + 58 : 35 + 58 + 58 + 58]
 
         self.assertEqual(expected, result)
 
@@ -58,5 +60,5 @@ class SetTrailerDeArquivoTestCase(CNABLinesTestCase):
         fields = self._main_fields
         set_trailer_de_arquivo(fields)
 
-        result = self.build_result(fields)[-1][35 + 58 + 58 + 58:]
+        result = self.build_result(fields)[-1][35 + 58 + 58 + 58 :]
         self.assertEqual(expected, result)

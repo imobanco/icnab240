@@ -6,9 +6,11 @@ class SetTrailerDeLoteTestCase(CNABLinesTestCase):
     def test_set_trailer_de_lote_1(self):
         total_lines_1_2_3_4_5 = 8
 
-        expected = "03300015#########00000" \
-                   f"{total_lines_1_2_3_4_5}" \
-                   "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        expected = (
+            "03300015#########00000"
+            f"{total_lines_1_2_3_4_5}"
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        )
 
         fields = self._main_fields
         set_trailer_de_lote(fields)
