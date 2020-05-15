@@ -4,7 +4,7 @@ from pyCNAB240.pipe_and_filter.set import set_trailer_de_lote
 
 class SetTrailerDeLoteTestCase(CNABLinesTestCase):
     def test_set_trailer_de_lote_1(self):
-        total_lines_1_2_3_4_5 = '000008'
+        total_lines_1_2_3_4_5 = "000008"
 
         expected = (
             "03300015#########"

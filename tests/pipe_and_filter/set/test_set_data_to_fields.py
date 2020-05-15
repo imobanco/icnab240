@@ -39,6 +39,6 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
                     [expec],
                     [field],
                     msg=f"O valor esperado é diferente! "
-                        f"{type(expec.value)}({expec.value}) != "
-                        f"{type(field.value)}({field.value})",
+                    f"{type(expec.value)}({expec.value}) != "
+                    f"{type(field.value)}({field.value})",
                 )
