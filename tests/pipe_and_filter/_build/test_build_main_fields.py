@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyCNAB240.pipe_and_filter.build import build_main_fields
+from icnab240.pipe_and_filter.build import build_main_fields
 
 
 class BuildMainFieldsTestCase(TestCase):

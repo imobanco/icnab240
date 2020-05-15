@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.check import check_start_and_end
+from icnab240.core import Field
+from icnab240.pipe_and_filter.check import check_start_and_end
 
 
 class CheckStartAndEndTestCase(unittest.TestCase):

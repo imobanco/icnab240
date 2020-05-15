@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.set import set_data_to_fields
+from icnab240.core import Field
+from icnab240.pipe_and_filter.set import set_data_to_fields
 
 
 class SetInsertSegmentsTestCase(unittest.TestCase):

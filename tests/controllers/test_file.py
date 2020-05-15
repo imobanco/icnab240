@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.controllers.file import write_cnab, _write_cnab
+from icnab240.core import Field
+from icnab240.controllers.file import write_cnab, _write_cnab
 
 
 class FileTestCase(unittest.TestCase):

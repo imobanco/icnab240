@@ -1,7 +1,7 @@
 import os
 
-from pyCNAB240.core import main_fields
-from pyCNAB240.pipe_and_filter import santander
+from icnab240.core import main_fields
+from icnab240.pipe_and_filter import santander
 
 
 NÚMERO_LOTE_DE_SERVIÇO = 1  # G002

@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.utils import inscription_type
+from icnab240.core import Field
+from icnab240.pipe_and_filter.utils import inscription_type
 
 
 class InscriptionTypeTestCase(unittest.TestCase):

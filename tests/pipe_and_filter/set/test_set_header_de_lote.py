@@ -1,8 +1,8 @@
 from freezegun import freeze_time
 
 from ...utils import CNABLinesTestCase
-from pyCNAB240.pipe_and_filter.filter import filter_segment
-from pyCNAB240.pipe_and_filter.set import set_header_de_lote
+from icnab240.pipe_and_filter.filter import filter_segment
+from icnab240.pipe_and_filter.set import set_header_de_lote
 
 
 class SetHeaderDeLoteTestCase(CNABLinesTestCase):
