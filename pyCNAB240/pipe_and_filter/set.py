@@ -16,6 +16,7 @@ from .count import (
 )
 from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
+from ..constants import filler
 
 
 def set_white_spaces(fields):
@@ -28,7 +29,7 @@ def set_white_spaces(fields):
     """
     for field in fields:
         if field.num_or_str == "Alfa" and field.default == "Brancos":
-            field.value_to_cnab = "#" * field.length
+            field.value_to_cnab = filler * field.length
             field.value = field.value_to_cnab
 
 
@@ -41,7 +42,7 @@ def set_white_spaces_reasonable_default(fields):
     """
     for field in fields:
         if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
-            field.value_to_cnab = "#" * field.length
+            field.value_to_cnab = filler * field.length
             field.value = field.value_to_cnab
 
 
@@ -383,7 +384,7 @@ def set_fill_value_to_cnab(fields):
             if field.num_or_str == "Num":
                 field.value_to_cnab = field.value.zfill(total_length)
             else:
-                field.value_to_cnab = field.value.rjust(field.length, "#")
+                field.value_to_cnab = field.value.rjust(field.length, filler)
         else:
             field.value_to_cnab = field.value
 
