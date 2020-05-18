@@ -113,7 +113,7 @@ def set_fill_value_to_cnab(fields):
         total_length = field.length + default_decimals(field)
         if len(field.value) < total_length:
             if field.num_or_str == "Num":
-                field.value_to_cnab = field.value.zfill(total_length)
+                field.value_to_cnab = field.value.rjust(total_length, '0')
             else:
                 field.value_to_cnab = field.value.rjust(field.length, fill_value)
         else:
