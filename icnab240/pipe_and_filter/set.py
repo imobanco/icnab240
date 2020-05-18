@@ -41,15 +41,16 @@ def set_default_value(fields):
     """
     for field in fields:
         if field.num_or_str == "Alfa" and (
-                field.default == "Brancos" or
-                field.reasonable_default == "Vazio"
+            field.default == "Brancos" or field.reasonable_default == "Vazio"
         ):
             field.value = fill_value
         elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
             field.value = "0"
         elif field.default != "" and field.default != "Brancos":
             field.value = field.default
-        elif field.reasonable_default != "Calculavél" and field.reasonable_default != "":
+        elif (
+            field.reasonable_default != "Calculavél" and field.reasonable_default != ""
+        ):
             field.value = field.reasonable_default
 
 

@@ -26,6 +26,6 @@ class TimedTextTestResult(TextTestResult):
             self.stream.flush()
 
 
-if __name__ == '__main__':
-    testsuite = TestLoader().discover('.')
+if __name__ == "__main__":
+    testsuite = TestLoader().discover(".")
     TextTestRunner(resultclass=TimedTextTestResult).run(testsuite)
