@@ -90,30 +90,26 @@ def set_spaces_if_it_is_not_retorno(fields):
                 field.value = field.value_to_cnab
 
 
-def set_fill_value_to_cnab(fields):
+def set_fill_value_to_cnab(fields, _custom_fill_value=None):
     """
     Preenche o :attr:`.value` do campo até o :attr:`.length` com o :attr:`.fill_value`.
 
     Args:
         fields: campos
+        _custom_fill_value: um fill_value customizado
     """
     for field in fields:
 
-        # TODO: verificar pq quebra
-        #  if field.value is None or not isinstance(field.value, str)\
-        #     or not isinstance(field.value, int):
-        #     raise ValueError(f'Error: field = {field}')
-        #
-        # if isinstance(field.value, int):
-        #     field.value = str(field.value)
-
-        if not isinstance(field.value, str):
+        if field.value is None:
+            field.value = ''
+        elif not isinstance(field.value, str):
             field.value = str(field.value)
 
         total_length = field.length + default_decimals(field)
         if len(field.value) < total_length:
             if field.num_or_str == "Num":
                 length = total_length
+                # if _custom_fill_value is None:
                 # if _custom_fill_value is None:
                 _custom_fill_value = '0'
                 # field.value_to_cnab = field.value.rjust(total_length, '0')
