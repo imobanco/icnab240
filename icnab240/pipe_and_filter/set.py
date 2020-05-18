@@ -18,29 +18,24 @@ from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
 
 
-def set_white_spaces(fields):
-    """Sets value_to_cnab to spaces if is Alfa and Brancos
+def set_fill_value(fields):
+    """
+    Atribui um valor de preenchimento o para :attr:`.value` dos campos.
+
+    Se o :attr:`.num_or_str` for "Alfa" e
+    (:attr:`.default` for "brancos" ou :attr:`.reasonable_default` for "Vazio")
+    o valor de preenchimento será :attr:`.fill_value`.
 
     TODO: listar todos os campos que essa função modifica
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
+
+    Args:
+        fields: campos
     """
     for field in fields:
-        if field.num_or_str == "Alfa" and field.default == "Brancos":
-            field.value_to_cnab = "#" * field.length
-            field.value = field.value_to_cnab
-
-
-def set_white_spaces_reasonable_default(fields):
-    """Sets value_to_cnab to spaces if is Alfa and Vazio
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
-    """
-    for field in fields:
-        if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
+        if field.num_or_str == "Alfa" and (
+                field.default == "Brancos" or
+                field.reasonable_default == "Vazio"
+        ):
             field.value_to_cnab = "#" * field.length
             field.value = field.value_to_cnab
 
