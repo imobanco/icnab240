@@ -1,7 +1,6 @@
 from ..pipe_and_filter.check import check_start_and_end, check_duplicated_identifiers
 from ..pipe_and_filter.set import (
     set_registry_type,
-    set_reasonable_default_for_all,
     set_numero_do_lote_de_servico_header_and_footer,
     set_numero_do_lote_de_servico_not_header_footer,
     set_default_value,
@@ -19,8 +18,6 @@ def common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO):
     check_duplicated_identifiers(fields)
 
     set_registry_type(fields)
-
-    set_reasonable_default_for_all(fields)
 
     # TODO essas funções devem ter que ser chamadas
     #  depois da inserção dos segmentos P, Q, e R para

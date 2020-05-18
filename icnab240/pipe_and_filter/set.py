@@ -48,6 +48,8 @@ def set_default_value(fields):
             field.value = "0"
         elif field.default != "" and field.default != "Brancos":
             field.value = field.default
+        elif field.reasonable_default != "Calculavél" and field.reasonable_default != "":
+            field.value = field.reasonable_default
 
 
 def set_generic_field(
@@ -170,17 +172,6 @@ def set_field(fields, value_to_search, value_to_set):
     for field in fields:
         if field.identifier == value_to_search:
             field.value = value_to_set
-
-
-def set_reasonable_default_for_all(fields):
-    """Sets all fields that have reasonable default values
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.reasonable_default != "Calculavél" and field.reasonable_default != "":
-            field.value = field.reasonable_default
 
 
 def set_cpf_or_cnpj(fields, identifier_inscription_type, identifier_cpf_or_cnpj):
