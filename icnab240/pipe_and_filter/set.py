@@ -16,6 +16,7 @@ from .count import (
 )
 from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
+from ..constants import fill_value
 
 
 def set_white_spaces(fields):
@@ -28,7 +29,7 @@ def set_white_spaces(fields):
     """
     for field in fields:
         if field.num_or_str == "Alfa" and field.default == "Brancos":
-            field.value_to_cnab = "#" * field.length
+            field.value_to_cnab = fill_value * field.length
             field.value = field.value_to_cnab
 
 
@@ -41,7 +42,7 @@ def set_white_spaces_reasonable_default(fields):
     """
     for field in fields:
         if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
-            field.value_to_cnab = "#" * field.length
+            field.value_to_cnab = fill_value * field.length
             field.value = field.value_to_cnab
 
 
@@ -94,6 +95,30 @@ def set_defaults(fields):
             field.value = field.default
 
 
+def set_fill_value_to_cnab(fields):
+    for field in fields:
+
+        # TODO: verificar pq quebra
+        #  if field.value is None or not isinstance(field.value, str)\
+        #     or not isinstance(field.value, int):
+        #     raise ValueError(f'Error: field = {field}')
+        #
+        # if isinstance(field.value, int):
+        #     field.value = str(field.value)
+
+        if not isinstance(field.value, str):
+            field.value = str(field.value)
+
+        total_length = field.length + default_decimals(field)
+        if len(field.value) < total_length:
+            if field.num_or_str == "Num":
+                field.value_to_cnab = field.value.zfill(total_length)
+            else:
+                field.value_to_cnab = field.value.rjust(field.length, fill_value)
+        else:
+            field.value_to_cnab = field.value
+
+
 def set_spaces_if_it_is_not_retorno(fields):
     """Seta no Registro Trailer de Lote se não for do tipo retorno espaços
     em campos que não são usados quando o CNAB é do tipo retorno
@@ -110,8 +135,6 @@ def set_spaces_if_it_is_not_retorno(fields):
     identificador contenha a string .5.
 
     :param fields: uma lista em que cada elemento é do tipo Field
-    :return: uma lista em que cada elemento é do tipo Field com os
-             campos filtrados preenchidos com @ (por hora, mas serão espaços)
     """
     for field in fields:
         if field.start == 9 and field.end == 9 and field.value == "T":
@@ -123,7 +146,7 @@ def set_spaces_if_it_is_not_retorno(fields):
     for field in fields:
         if 24 <= field.start <= 116 and ".5" in field.identifier:
 
-            field.value_to_cnab = "@" * (field.length + default_decimals(field))
+            field.value_to_cnab = fill_value * (field.length + default_decimals(field))
             field.value = field.value_to_cnab
             continue
 
@@ -362,30 +385,6 @@ def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
     )
 
     set_data_to_fields(fields, data)
-
-
-def set_fill_value_to_cnab(fields):
-    for field in fields:
-
-        # TODO: verificar pq quebra
-        #  if field.value is None or not isinstance(field.value, str)\
-        #     or not isinstance(field.value, int):
-        #     raise ValueError(f'Error: field = {field}')
-        #
-        # if isinstance(field.value, int):
-        #     field.value = str(field.value)
-
-        if not isinstance(field.value, str):
-            field.value = str(field.value)
-
-        total_length = field.length + default_decimals(field)
-        if len(field.value) < total_length:
-            if field.num_or_str == "Num":
-                field.value_to_cnab = field.value.zfill(total_length)
-            else:
-                field.value_to_cnab = field.value.rjust(field.length, "#")
-        else:
-            field.value_to_cnab = field.value
 
 
 def set_insert_segments(
