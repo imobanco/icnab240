@@ -95,6 +95,30 @@ def set_defaults(fields):
             field.value = field.default
 
 
+def set_fill_value_to_cnab(fields):
+    for field in fields:
+
+        # TODO: verificar pq quebra
+        #  if field.value is None or not isinstance(field.value, str)\
+        #     or not isinstance(field.value, int):
+        #     raise ValueError(f'Error: field = {field}')
+        #
+        # if isinstance(field.value, int):
+        #     field.value = str(field.value)
+
+        if not isinstance(field.value, str):
+            field.value = str(field.value)
+
+        total_length = field.length + default_decimals(field)
+        if len(field.value) < total_length:
+            if field.num_or_str == "Num":
+                field.value_to_cnab = field.value.zfill(total_length)
+            else:
+                field.value_to_cnab = field.value.rjust(field.length, fill_value)
+        else:
+            field.value_to_cnab = field.value
+
+
 def set_spaces_if_it_is_not_retorno(fields):
     """Seta no Registro Trailer de Lote se não for do tipo retorno espaços
     em campos que não são usados quando o CNAB é do tipo retorno
@@ -361,30 +385,6 @@ def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
     )
 
     set_data_to_fields(fields, data)
-
-
-def set_fill_value_to_cnab(fields):
-    for field in fields:
-
-        # TODO: verificar pq quebra
-        #  if field.value is None or not isinstance(field.value, str)\
-        #     or not isinstance(field.value, int):
-        #     raise ValueError(f'Error: field = {field}')
-        #
-        # if isinstance(field.value, int):
-        #     field.value = str(field.value)
-
-        if not isinstance(field.value, str):
-            field.value = str(field.value)
-
-        total_length = field.length + default_decimals(field)
-        if len(field.value) < total_length:
-            if field.num_or_str == "Num":
-                field.value_to_cnab = field.value.zfill(total_length)
-            else:
-                field.value_to_cnab = field.value.rjust(field.length, fill_value)
-        else:
-            field.value_to_cnab = field.value
 
 
 def set_insert_segments(
