@@ -45,6 +45,4 @@ class SantanderTestCase(MockedFillerTestCase):
                         lenght = 40
                         start = index * lenght
                         end = start + lenght
-                        self.assertEqual(
-                            expected[start:end], result[start:end]
-                        )
+                        self.assertEqual(expected[start:end], result[start:end])

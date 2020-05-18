@@ -16,7 +16,7 @@ class MockedFillerTestCase(TestCase):
     def setUp(self):
         super().setUp()
 
-        self.filler_patch = patch('pyCNAB240.pipe_and_filter.set.fill_value', '#')
+        self.filler_patch = patch("pyCNAB240.pipe_and_filter.set.fill_value", "#")
 
         self.mocked_filler = self.filler_patch.start()
 
