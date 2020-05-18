@@ -39,6 +39,7 @@ def set_default_value(fields):
     Args:
         fields: campos
     """
+
     for field in fields:
         if field.num_or_str == "Alfa" and (
             field.default == "Brancos" or field.reasonable_default == "Vazio"
@@ -52,6 +53,41 @@ def set_default_value(fields):
             field.reasonable_default != "Calculavél" and field.reasonable_default != ""
         ):
             field.value = field.reasonable_default
+
+
+def set_spaces_if_it_is_not_retorno(fields):
+    """
+    Atribui alguns campos com o :attr:`.fill_value` SE e somente se
+    o CNAB não for de retorno.
+
+    O :attr:`.value` "T" indica tipo RETORNO no santander.
+
+    Na listagem abaixo encontram-se os campos em que a função modifica
+    e as descrições destes:
+    Campos: 06.5, 07.5, 08.5, 09.5, 10.5, 11.5, 12.5, 13.5, 14.5
+    Descrição: C070, C071, C072
+
+    Todos os campos listados pertencem ao segmento trailer de lote.
+    E por serem em sequência, basta que se filtre no intervalo entre
+    começo igual a 24, e fim igual a 116, usando ainda o filtro de
+    que seja o segmento trailer de lote, ou seja, que o fim do
+    identificador contenha a string .5.
+
+    Attributes:
+        fields (lista de :class:`.Field`): campos
+    """
+    is_retorno = False
+    for field in fields:
+        if field.start == 9 and field.end == 9 and field.value == "T":
+            is_retorno = True
+
+    if not is_retorno:
+        for field in fields:
+            if 24 <= field.start <= 116 and ".5" in field.identifier:
+                # field.value = fill_value
+                # set_fill_value_to_cnab([field])
+                field.value_to_cnab = fill_value * (field.length + default_decimals(field))
+                field.value = field.value_to_cnab
 
 
 def set_fill_value_to_cnab(fields):
@@ -105,40 +141,6 @@ def set_registry_type(fields):
     for field in fields:
         if field.start == 8 and field.end == 8:
             field.value_to_cnab = field.default
-
-
-def set_spaces_if_it_is_not_retorno(fields):
-    """
-    Atribui alguns campos com o :attr:`.fill_value` SE e somente se
-    o CNAB não for de retorno.
-
-    O :attr:`.value` "T" indica tipo RETORNO no santander.
-
-    Na listagem abaixo encontram-se os campos em que a função modifica
-    e as descrições destes:
-    Campos: 06.5, 07.5, 08.5, 09.5, 10.5, 11.5, 12.5, 13.5, 14.5
-    Descrição: C070, C071, C072
-
-    Todos os campos listados pertencem ao segmento trailer de lote.
-    E por serem em sequência, basta que se filtre no intervalo entre
-    começo igual a 24, e fim igual a 116, usando ainda o filtro de
-    que seja o segmento trailer de lote, ou seja, que o fim do
-    identificador contenha a string .5.
-
-    Attributes:
-        fields (lista de :class:`.Field`): campos
-    """
-    is_retorno = False
-    for field in fields:
-        if field.start == 9 and field.end == 9 and field.value == "T":
-            is_retorno = True
-
-    if not is_retorno:
-        for field in fields:
-            if 24 <= field.start <= 116 and ".5" in field.identifier:
-
-                field.value_to_cnab = fill_value * (field.length + default_decimals(field))
-                field.value = field.value_to_cnab
 
 
 def set_numero_do_lote_de_servico_header_and_footer(fields, value):
