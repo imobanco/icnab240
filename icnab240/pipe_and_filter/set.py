@@ -36,8 +36,7 @@ def set_fill_value(fields):
                 field.default == "Brancos" or
                 field.reasonable_default == "Vazio"
         ):
-            field.value_to_cnab = "#" * field.length
-            field.value = field.value_to_cnab
+            field.value = "#"
 
 
 def set_zeros_reasonable_default(fields):
