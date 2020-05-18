@@ -128,19 +128,17 @@ def set_spaces_if_it_is_not_retorno(fields):
     Attributes:
         fields (lista de :class:`.Field`): campos
     """
+    is_retorno = False
     for field in fields:
         if field.start == 9 and field.end == 9 and field.value == "T":
-            raise ValueError(
-                "This function should not be called in this"
-                " type of CNABs_retorno it is not a RETORNO one."
-            )
+            is_retorno = True
 
-    for field in fields:
-        if 24 <= field.start <= 116 and ".5" in field.identifier:
+    if not is_retorno:
+        for field in fields:
+            if 24 <= field.start <= 116 and ".5" in field.identifier:
 
-            field.value_to_cnab = fill_value * (field.length + default_decimals(field))
-            field.value = field.value_to_cnab
-            continue
+                field.value_to_cnab = fill_value * (field.length + default_decimals(field))
+                field.value = field.value_to_cnab
 
 
 def set_numero_do_lote_de_servico_header_and_footer(fields, value):
