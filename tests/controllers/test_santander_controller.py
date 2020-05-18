@@ -16,7 +16,9 @@ class SantanderTestCase(MockedFillerTestCase):
 
         path_to_diretory = os.path.dirname(__file__)
 
-        header_de_arquivo = os.path.join(path_to_diretory, "data", "header_de_arquivo_2.json")
+        header_de_arquivo = os.path.join(
+            path_to_diretory, "data", "header_de_arquivo_2.json"
+        )
         with open(header_de_arquivo) as f:
             header_de_arquivo = json.load(f)
 
