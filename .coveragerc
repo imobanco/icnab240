@@ -5,3 +5,6 @@ omit =
 	*/examples/*
 	*/scripts/*
 	*/tests/*
+	*/__init__.py
+	*/_version.py
+	*/constants.py
