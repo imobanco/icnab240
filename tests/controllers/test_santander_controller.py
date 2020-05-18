@@ -1,15 +1,15 @@
 import os
 import json
-import unittest
 
 from freezegun import freeze_time
 
 from pyCNAB240.controllers.santander import _santander_controller
 
-from tests.controllers.santander_example import expected_santander
+from .santander_example import expected_santander
+from ..utils import MockedFillerTestCase
 
 
-class SantanderTestCase(unittest.TestCase):
+class SantanderTestCase(MockedFillerTestCase):
     def test_santander_controller(self):
 
         NÚMERO_LOTE_DE_SERVIÇO = 1  # G002
@@ -41,11 +41,10 @@ class SantanderTestCase(unittest.TestCase):
 
             for line_number, (result, expected) in enumerate(zip(results, expecteds)):
                 for index in range(6):
-                    with self.subTest():
+                    with self.subTest(f"Line: {line_number} && index: {index}"):
                         lenght = 40
                         start = index * lenght
                         end = start + lenght
-                        msg = f"The line number is {line_number}, and the index is {index}"
                         self.assertEqual(
-                            expected[start:end], result[start:end], msg=msg
+                            expected[start:end], result[start:end]
                         )

@@ -9,7 +9,7 @@ class SetTrailerDeLoteTestCase(CNABLinesTestCase):
         expected = (
             "03300015#########"
             f"{total_lines_1_2_3_4_5}"
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+            "############################"
         )
 
         fields = self._main_fields
@@ -20,7 +20,7 @@ class SetTrailerDeLoteTestCase(CNABLinesTestCase):
         self.assertEqual(expected, result)
 
     def test_set_trailer_de_lote_2(self):
-        expected = "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        expected = "#####################################################"
 
         fields = self._main_fields
         set_trailer_de_lote(fields)
@@ -30,7 +30,7 @@ class SetTrailerDeLoteTestCase(CNABLinesTestCase):
         self.assertEqual(expected, result)
 
     def test_set_trailer_de_lote_3(self):
-        expected = "@@@@@@@@@@@@@@@@@@@######################################"
+        expected = "#########################################################"
 
         fields = self._main_fields
         set_trailer_de_lote(fields)
