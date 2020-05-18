@@ -1,6 +1,6 @@
 import unittest
 
-from pyCNAB240.pipe_and_filter.build import build_cnab_lines
+from icnab240.pipe_and_filter.build import build_cnab_lines
 
 
 class CNABTestCase(unittest.TestCase):

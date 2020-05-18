@@ -1,4 +1,4 @@
-# pyCNAB240
+# icnab240
 
 
 - página 11 na tabela "Para Tipo de Impressão 1" existe um erro, 10.3S 

@@ -1,6 +1,6 @@
 import unittest
 
-from pyCNAB240.pipe_and_filter.check import check_lines_length
+from icnab240.pipe_and_filter.check import check_lines_length
 
 
 class CheckNoneValueTestCase(unittest.TestCase):

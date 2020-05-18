@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.build import build_pieces_of_value_to_cnab
+from icnab240.core import Field
+from icnab240.pipe_and_filter.build import build_pieces_of_value_to_cnab
 
 
 class BuildPiecesOfValueToCNABTestCase(unittest.TestCase):

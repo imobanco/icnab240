@@ -1,7 +1,7 @@
 from ...utils import MockedFillerTestCase
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.set import set_spaces_if_it_is_not_retorno
+from icnab240 import Field
+from icnab240.pipe_and_filter.set import set_spaces_if_it_is_not_retorno
 
 
 class SetSpacesIfItIsNotRetornoTestCase(MockedFillerTestCase):

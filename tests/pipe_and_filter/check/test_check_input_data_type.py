@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyCNAB240.pipe_and_filter.check import check_input_data_type
+from icnab240.pipe_and_filter.check import check_input_data_type
 
 
 class CheckValueTypeTestCase(TestCase):

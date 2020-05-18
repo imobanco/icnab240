@@ -3,7 +3,7 @@ import json
 
 from freezegun import freeze_time
 
-from pyCNAB240.controllers.santander import _santander_controller
+from icnab240.controllers.santander import _santander_controller
 
 from .santander_example import expected_santander
 from ..utils import MockedFillerTestCase

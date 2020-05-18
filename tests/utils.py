@@ -3,20 +3,20 @@ import json
 from unittest import TestCase
 from unittest.mock import patch
 
-from pyCNAB240.controllers.common import common_initial_controller
-from pyCNAB240.pipe_and_filter.build import (
+from icnab240.controllers.common import common_initial_controller
+from icnab240.pipe_and_filter.build import (
     build_main_fields,
     build_cnab_lines,
     build_pieces_of_value_to_cnab,
 )
-from pyCNAB240.pipe_and_filter.set import set_fill_value_to_cnab
+from icnab240.pipe_and_filter.set import set_fill_value_to_cnab
 
 
 class MockedFillerTestCase(TestCase):
     def setUp(self):
         super().setUp()
 
-        self.filler_patch = patch("pyCNAB240.pipe_and_filter.set.fill_value", "#")
+        self.filler_patch = patch("icnab240.pipe_and_filter.set.fill_value", "#")
 
         self.mocked_filler = self.filler_patch.start()
 
