@@ -52,6 +52,36 @@ def set_default_value(fields):
             field.value = field.reasonable_default
 
 
+def set_fill_value_to_cnab(fields):
+    """
+    Preenche o :attr:`.value` do campo até o :attr:`.length` com o :attr:`.fill_value`.
+
+    Args:
+        fields: campos
+    """
+    for field in fields:
+
+        # TODO: verificar pq quebra
+        #  if field.value is None or not isinstance(field.value, str)\
+        #     or not isinstance(field.value, int):
+        #     raise ValueError(f'Error: field = {field}')
+        #
+        # if isinstance(field.value, int):
+        #     field.value = str(field.value)
+
+        if not isinstance(field.value, str):
+            field.value = str(field.value)
+
+        total_length = field.length + default_decimals(field)
+        if len(field.value) < total_length:
+            if field.num_or_str == "Num":
+                field.value_to_cnab = field.value.zfill(total_length)
+            else:
+                field.value_to_cnab = field.value.rjust(field.length, "#")
+        else:
+            field.value_to_cnab = field.value
+
+
 def set_generic_field(
     fields, atribute_to_search, value_to_search, atribute_to_set, value_to_set
 ):
@@ -332,30 +362,6 @@ def set_p_q_r(fields, data: dict, patterns, identifier_for_insertion):
     )
 
     set_data_to_fields(fields, data)
-
-
-def set_fill_value_to_cnab(fields):
-    for field in fields:
-
-        # TODO: verificar pq quebra
-        #  if field.value is None or not isinstance(field.value, str)\
-        #     or not isinstance(field.value, int):
-        #     raise ValueError(f'Error: field = {field}')
-        #
-        # if isinstance(field.value, int):
-        #     field.value = str(field.value)
-
-        if not isinstance(field.value, str):
-            field.value = str(field.value)
-
-        total_length = field.length + default_decimals(field)
-        if len(field.value) < total_length:
-            if field.num_or_str == "Num":
-                field.value_to_cnab = field.value.zfill(total_length)
-            else:
-                field.value_to_cnab = field.value.rjust(field.length, "#")
-        else:
-            field.value_to_cnab = field.value
 
 
 def set_insert_segments(
