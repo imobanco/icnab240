@@ -18,9 +18,11 @@ from .filter import filter_segment
 from .utils import default_decimals, inscription_type, index_to_insert
 
 
-def set_fill_value(fields):
+def set_default_value(fields):
     """
-    Atribui um valor de preenchimento o para :attr:`.value` dos campos.
+    Atribui um valor padrão o para :attr:`.value` dos campos.
+
+    Esse valor pode ser um valor: de preenchiento, :attr:`.default` ou :attr:`.reasonable_default`.
 
     Se o :attr:`.num_or_str` for "Alfa" e
     (:attr:`.default` for "brancos" ou :attr:`.reasonable_default` for "Vazio")
@@ -44,6 +46,8 @@ def set_fill_value(fields):
             field.value = "#"
         elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
             field.value = "0"
+        elif field.default != "" and field.default != "Brancos":
+            field.value = field.default
 
 
 def set_generic_field(
@@ -67,17 +71,6 @@ def set_registry_type(fields):
     for field in fields:
         if field.start == 8 and field.end == 8:
             field.value_to_cnab = field.default
-
-
-def set_defaults(fields):
-    """
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.default != "" and field.default != "Brancos":
-            field.value = field.default
 
 
 def set_spaces_if_it_is_not_retorno(fields):
