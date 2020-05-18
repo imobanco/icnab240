@@ -16,7 +16,7 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="c"),
             Field(identifier="d"),
         ]
-        # TODO: checar porque o valor esta sendo transformado em string no processo
+
         data = {"b": ["1", "2", "3"], "c": ["X", "Y", "Z"]}
 
         expected = [
@@ -30,5 +30,15 @@ class SetInsertSegmentsTestCase(unittest.TestCase):
             Field(identifier="d"),
         ]
 
-        result = set_data_to_fields(fields, data)
-        self.assertEqual(expected, result)
+        for index, field in enumerate(fields):
+            with self.subTest(index):
+                expec = expected[index]
+
+                set_data_to_fields([field], data)
+                self.assertEqual(
+                    [expec],
+                    [field],
+                    msg=f"O valor esperado é diferente! "
+                    f"{type(expec.value)}({expec.value}) != "
+                    f"{type(field.value)}({field.value})",
+                )
