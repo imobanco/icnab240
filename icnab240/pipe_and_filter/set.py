@@ -85,7 +85,9 @@ def set_spaces_if_it_is_not_retorno(fields):
         for field in fields:
             if 24 <= field.start <= 116 and ".5" in field.identifier:
                 field.value = fill_value
-                set_fill_value_to_cnab([field], _custom_fill_value=fill_value, overwrite_value=True)
+                set_fill_value_to_cnab(
+                    [field], _custom_fill_value=fill_value, overwrite_value=True
+                )
 
 
 def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=False):
@@ -95,32 +97,37 @@ def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=Fals
     Args:
         fields: campos
         _custom_fill_value: um fill_value customizado
+        overwrite_value: flag para sobreescrever o :attr:`.value` com o :attr:`.value_to_cnab`
     """
     for field in fields:
+        my_fill_value = None
+
         if field.value is None:
-            field.value = ''
+            field.value = ""
         else:
             field.value = str(field.value)
 
         total_length = field.length + default_decimals(field)
-        if len(field.value) < total_length:
+
+        if len(field.value) == total_length:
+            field.value_to_cnab = field.value
+        elif len(field.value) > total_length:
+            raise ValueError("Tamanho do valor é maior do que o esperado!")
+        else:
+            if _custom_fill_value is not None:
+                my_fill_value = _custom_fill_value
+
             if field.num_or_str == "Num":
                 length = total_length
-                if _custom_fill_value is not None:
-                    my_fill_value = _custom_fill_value
-                else:
-                    my_fill_value = '0'
+
+                if my_fill_value is None:
+                    my_fill_value = "0"
             else:
                 length = field.length
-                if _custom_fill_value is not None:
-                    my_fill_value = _custom_fill_value
-                else:
+                if my_fill_value is None:
                     my_fill_value = fill_value
 
             field.value_to_cnab = field.value.rjust(length, my_fill_value)
-
-        else:
-            field.value_to_cnab = field.value
 
         if overwrite_value:
             field.value = field.value_to_cnab
