@@ -17,8 +17,13 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/imobanco/icnab240",
-    packages=["icnab240", "icnab240.controllers", "icnab240.data", "icnab240.pipe_and_filter"],
-    package_data={'icnab240': ['data/*']},
+    packages=[
+        "icnab240",
+        "icnab240.controllers",
+        "icnab240.data",
+        "icnab240.pipe_and_filter",
+    ],
+    package_data={"icnab240": ["data/*"]},
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
