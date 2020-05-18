@@ -26,7 +26,12 @@ def set_fill_value(fields):
     (:attr:`.default` for "brancos" ou :attr:`.reasonable_default` for "Vazio")
     o valor de preenchimento será :attr:`.fill_value`.
 
+    Se o :attr:`.num_or_str` for "Num" e :attr:`.reasonable_default` for "Vazio"
+    o valor de preenchimento será "0".
+
     TODO: listar todos os campos que essa função modifica
+
+    TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
 
     Args:
         fields: campos
@@ -37,21 +42,8 @@ def set_fill_value(fields):
                 field.reasonable_default == "Vazio"
         ):
             field.value = "#"
-
-
-def set_zeros_reasonable_default(fields):
-    """Sets value_to_cnab to spaces if is Num and Vazio
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
-
-    TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
-    """
-    for field in fields:
-        if field.num_or_str == "Num" and field.reasonable_default == "Vazio":
-            field.value_to_cnab = "0" * field.length
-            field.value = field.value_to_cnab
+        elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
+            field.value = "0"
 
 
 def set_generic_field(

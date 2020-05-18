@@ -3,7 +3,6 @@ from ..pipe_and_filter.set import (
     set_defaults,
     set_registry_type,
     set_reasonable_default_for_all,
-    set_zeros_reasonable_default,
     set_numero_do_lote_de_servico_header_and_footer,
     set_numero_do_lote_de_servico_not_header_footer,
     set_fill_value,
@@ -24,7 +23,6 @@ def common_initial_controller(fields, NÚMERO_LOTE_DE_SERVIÇO):
     set_registry_type(fields)
 
     set_reasonable_default_for_all(fields)
-    set_zeros_reasonable_default(fields)
 
     # TODO essas funções devem ter que ser chamadas
     #  depois da inserção dos segmentos P, Q, e R para
