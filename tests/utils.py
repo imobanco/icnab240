@@ -1,6 +1,7 @@
 import os
 import json
-import unittest
+from unittest import TestCase
+from unittest.mock import patch
 
 from icnab240.controllers.common import common_initial_controller
 from icnab240.pipe_and_filter.build import (
@@ -11,7 +12,18 @@ from icnab240.pipe_and_filter.build import (
 from icnab240.pipe_and_filter.set import set_fill_value_to_cnab
 
 
-class CNABLinesTestCase(unittest.TestCase):
+class MockedFillerTestCase(TestCase):
+    def setUp(self):
+        super().setUp()
+
+        self.filler_patch = patch("icnab240.pipe_and_filter.set.fill_value", "#")
+
+        self.mocked_filler = self.filler_patch.start()
+
+        self.addCleanup(self.filler_patch.stop)
+
+
+class CNABLinesTestCase(MockedFillerTestCase):
     def setUp(self):
         super().setUp()
 
