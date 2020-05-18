@@ -84,13 +84,11 @@ def set_spaces_if_it_is_not_retorno(fields):
     if not is_retorno:
         for field in fields:
             if 24 <= field.start <= 116 and ".5" in field.identifier:
-                # field.value = fill_value
-                # set_fill_value_to_cnab([field])
-                field.value_to_cnab = fill_value * (field.length + default_decimals(field))
-                field.value = field.value_to_cnab
+                field.value = fill_value
+                set_fill_value_to_cnab([field], _custom_fill_value=fill_value, overwrite_value=True)
 
 
-def set_fill_value_to_cnab(fields, _custom_fill_value=None):
+def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=False):
     """
     Preenche o :attr:`.value` do campo até o :attr:`.length` com o :attr:`.fill_value`.
 
@@ -99,28 +97,33 @@ def set_fill_value_to_cnab(fields, _custom_fill_value=None):
         _custom_fill_value: um fill_value customizado
     """
     for field in fields:
-
         if field.value is None:
             field.value = ''
-        elif not isinstance(field.value, str):
+        else:
             field.value = str(field.value)
 
         total_length = field.length + default_decimals(field)
         if len(field.value) < total_length:
             if field.num_or_str == "Num":
                 length = total_length
-                # if _custom_fill_value is None:
-                # if _custom_fill_value is None:
-                _custom_fill_value = '0'
-                # field.value_to_cnab = field.value.rjust(total_length, '0')
+                if _custom_fill_value is not None:
+                    my_fill_value = _custom_fill_value
+                else:
+                    my_fill_value = '0'
             else:
                 length = field.length
-                _custom_fill_value = fill_value
+                if _custom_fill_value is not None:
+                    my_fill_value = _custom_fill_value
+                else:
+                    my_fill_value = fill_value
 
-            field.value_to_cnab = field.value.rjust(length, _custom_fill_value)
+            field.value_to_cnab = field.value.rjust(length, my_fill_value)
 
         else:
             field.value_to_cnab = field.value
+
+        if overwrite_value:
+            field.value = field.value_to_cnab
 
 
 def set_generic_field(
