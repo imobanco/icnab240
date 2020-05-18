@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.count import count_cnab_lines_0_1_3_5_9
+from icnab240.core import Field
+from icnab240.pipe_and_filter.count import count_cnab_lines_0_1_3_5_9
 
 
 class CNABTestCase(unittest.TestCase):

@@ -1,7 +1,7 @@
 import unittest
 
-from pyCNAB240.core import Field
-from pyCNAB240.pipe_and_filter.extract import extract_identifiers
+from icnab240.core import Field
+from icnab240.pipe_and_filter.extract import extract_identifiers
 
 
 class ExtractIdentifiersTestCase(unittest.TestCase):

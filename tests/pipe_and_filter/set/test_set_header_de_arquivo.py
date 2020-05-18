@@ -1,7 +1,7 @@
 from freezegun import freeze_time
 
 from ...utils import CNABLinesTestCase
-from pyCNAB240.pipe_and_filter.set import set_header_de_arquivo
+from icnab240.pipe_and_filter.set import set_header_de_arquivo
 
 
 class SetHeaderDeArquivoTestCase(CNABLinesTestCase):

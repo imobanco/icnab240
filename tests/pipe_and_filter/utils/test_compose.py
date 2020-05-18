@@ -1,6 +1,6 @@
 import unittest
 
-from pyCNAB240.pipe_and_filter.utils import compose
+from icnab240.pipe_and_filter.utils import compose
 
 
 class ComposeTestCase(unittest.TestCase):
