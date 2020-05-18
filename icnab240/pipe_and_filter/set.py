@@ -108,8 +108,11 @@ def set_registry_type(fields):
 
 
 def set_spaces_if_it_is_not_retorno(fields):
-    """Seta no Registro Trailer de Lote se não for do tipo retorno espaços
-    em campos que não são usados quando o CNAB é do tipo retorno
+    """
+    Atribui alguns campos com o :attr:`.fill_value` SE e somente se
+    o CNAB não for de retorno.
+
+    O :attr:`.value` "T" indica tipo RETORNO no santander.
 
     Na listagem abaixo encontram-se os campos em que a função modifica
     e as descrições destes:
@@ -122,7 +125,8 @@ def set_spaces_if_it_is_not_retorno(fields):
     que seja o segmento trailer de lote, ou seja, que o fim do
     identificador contenha a string .5.
 
-    :param fields: uma lista em que cada elemento é do tipo Field
+    Attributes:
+        fields (lista de :class:`.Field`): campos
     """
     for field in fields:
         if field.start == 9 and field.end == 9 and field.value == "T":
