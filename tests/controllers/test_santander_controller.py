@@ -5,7 +5,7 @@ from freezegun import freeze_time
 
 from icnab240.controllers.santander import _santander_controller
 
-from .santander_example import expected_santander
+from .data.santander_example import expected_santander
 from ..utils import MockedFillerTestCase
 
 
@@ -16,15 +16,17 @@ class SantanderTestCase(MockedFillerTestCase):
 
         path_to_diretory = os.path.dirname(__file__)
 
-        header_de_arquivo = os.path.join(path_to_diretory, "header_de_arquivo_2.json")
+        header_de_arquivo = os.path.join(
+            path_to_diretory, "data", "header_de_arquivo_2.json"
+        )
         with open(header_de_arquivo) as f:
             header_de_arquivo = json.load(f)
 
-        header_de_lote = os.path.join(path_to_diretory, "header_de_lote.json")
+        header_de_lote = os.path.join(path_to_diretory, "data", "header_de_lote.json")
         with open(header_de_lote) as f:
             header_de_lote = json.load(f)
 
-        p_q_r = os.path.join(path_to_diretory, "data_segmentos_P_Q_R.json")
+        p_q_r = os.path.join(path_to_diretory, "data", "data_segmentos_P_Q_R.json")
         with open(p_q_r) as f:
             p_q_r = json.load(f)
 
