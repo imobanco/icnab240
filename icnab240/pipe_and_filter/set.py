@@ -135,11 +135,22 @@ def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=Fals
 
 
 def set_generic_field(
-    fields, atribute_to_search, value_to_search, atribute_to_set, value_to_set
+    fields, attribute_to_search, value_to_search, attribute_to_set, value_to_set
 ):
+    """
+    Preenche o :attr:`attribute_to_set` dos :class:`.Field`'s (que são 'batem'
+    com o filtro :attr:`value_to_search`) com o valor :attr:`value_to_set`.
+
+    Args:
+        fields: campos
+        attribute_to_search: nome do atributo que será utilizado na busca
+        value_to_search: valor do atributo que será utiliza na busca
+        attribute_to_set: nome do atributo que será preenchido
+        value_to_set: valor do atributo a ser preenchido
+    """
     for field in fields:
-        if getattr(field, atribute_to_search) == value_to_search:
-            setattr(field, atribute_to_set, value_to_set)
+        if getattr(field, attribute_to_search) == value_to_search:
+            setattr(field, attribute_to_set, value_to_set)
 
 
 def set_registry_type(fields):
