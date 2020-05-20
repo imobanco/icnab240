@@ -25,16 +25,14 @@ def set_default_value(fields):
 
     Esse valor pode ser um valor: de preenchiento, :attr:`.default` ou :attr:`.reasonable_default`.
 
-    Se o :attr:`.num_or_str` for "Alfa" e
-    (:attr:`.default` for "brancos" ou :attr:`.reasonable_default` for "Vazio")
-    o valor de preenchimento será :attr:`.fill_value`.
+    Se o :attr:`.num_or_str` for "Alfa" ou "Num" podemos utilizar um valor de preenchimento
+    adequado para o caso. Se for "Num" o preenchimento será "0". Se for "Alfa" (e outras validações) o
+    preenchimento será :attr:`.fill_value`
 
-    Se o :attr:`.num_or_str` for "Num" e :attr:`.reasonable_default` for "Vazio"
-    o valor de preenchimento será "0".
+    Se não, precisamos verificar :attr:`.default` e :attr:`.reasonable_default` para decidir
+    qual será o preenchimento baseado neles mesmo.
 
     TODO: listar todos os campos que essa função modifica
-
-    TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
 
     Args:
         fields: campos
@@ -47,6 +45,7 @@ def set_default_value(fields):
             field.value = fill_value
         elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
             field.value = "0"
+
         elif field.default != "" and field.default != "Brancos":
             field.value = field.default
         elif (
@@ -93,6 +92,8 @@ def set_spaces_if_it_is_not_retorno(fields):
 def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=False):
     """
     Preenche o :attr:`.value` do campo até o :attr:`.length` com o :attr:`.fill_value`.
+
+    TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
 
     Args:
         fields: campos
