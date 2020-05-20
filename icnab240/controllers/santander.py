@@ -60,11 +60,7 @@ def _santander_controller(
 
 
 def create_santander_cnab(
-    service_lote_number,
-    header_de_arquivo,
-    header_de_lote,
-    p_q_r,
-    full_cnab_file_name,
+    service_lote_number, header_de_arquivo, header_de_lote, p_q_r, full_cnab_file_name,
 ):
 
     lines = _santander_controller(
