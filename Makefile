@@ -2,7 +2,7 @@ pip.install:
 	pip install -r requirements-dev.txt
 
 test:
-	python -m unittest
+	python -m tests.runner
 
 black.check:
 	black --check .

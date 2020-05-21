@@ -2,5 +2,9 @@
 omit =
 	*/env/*
 	*/venv/*
-	*/tests/*
 	*/examples/*
+	*/scripts/*
+	*/tests/*
+	*/__init__.py
+	*/_version.py
+	*/constants.py

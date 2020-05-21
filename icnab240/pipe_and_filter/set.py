@@ -15,58 +15,143 @@ from .count import (
     count_cnab_lines_1_E,
 )
 from .filter import filter_segment
-from .utils import default_decimals, inscription_type, index_to_insert
+from .utils import default_decimals, inscription_type, index_to_insert, is_value_empty
 from ..constants import fill_value
 
 
-def set_white_spaces(fields):
-    """Sets value_to_cnab to spaces if is Alfa and Brancos
+def set_default_value(fields):
+    """
+    Atribui um valor padrão o para :attr:`.value` dos campos.
+
+    Esse valor pode ser um valor de preenchimento, :attr:`.default` ou :attr:`.reasonable_default`.
+
+    Se o :attr:`.num_or_str` for "Alfa" ou "Num" podemos utilizar um valor de preenchimento
+    adequado para o caso. Se for "Num" o preenchimento será "0". Se for "Alfa" (e outras validações) o
+    preenchimento será :attr:`.fill_value`
+
+    Se não, precisamos verificar :attr:`.default` e :attr:`.reasonable_default` para decidir
+    qual será o preenchimento baseado neles.
 
     TODO: listar todos os campos que essa função modifica
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
+
+    Args:
+        fields: campos
     """
+
     for field in fields:
-        if field.num_or_str == "Alfa" and field.default == "Brancos":
-            field.value_to_cnab = fill_value * field.length
-            field.value = field.value_to_cnab
+        if field.num_or_str == "Alfa" and (
+            field.default == "Brancos" or field.reasonable_default == "Vazio"
+        ):
+            field.value = fill_value
+        elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
+            field.value = "0"
+
+        elif not is_value_empty(field.default) and field.default != "Brancos":
+            field.value = field.default
+        elif (
+            not is_value_empty(field.reasonable_default)
+            and field.reasonable_default != "Calculável"
+        ):
+            field.value = field.reasonable_default
 
 
-def set_white_spaces_reasonable_default(fields):
-    """Sets value_to_cnab to spaces if is Alfa and Vazio
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
+def set_spaces_if_it_is_not_retorno(fields):
     """
+    Atribui alguns campos com o :attr:`.fill_value` SE e somente se
+    o CNAB não for de retorno.
+
+    O :attr:`.value` "T" indica tipo RETORNO no santander.
+
+    Na listagem abaixo encontram-se os campos em que a função modifica
+    e as descrições destes:
+    Campos: 06.5, 07.5, 08.5, 09.5, 10.5, 11.5, 12.5, 13.5, 14.5
+    Descrição: C070, C071, C072
+
+    Todos os campos listados pertencem ao segmento trailer de lote.
+    E por serem em sequência, basta que se filtre no intervalo entre
+    começo igual a 24, e fim igual a 116, usando ainda o filtro de
+    que seja o segmento trailer de lote, ou seja, que o fim do
+    identificador contenha a string .5.
+
+    Attributes:
+        fields (lista de :class:`.Field`): campos
+    """
+    is_retorno = False
     for field in fields:
-        if field.num_or_str == "Alfa" and field.reasonable_default == "Vazio":
-            field.value_to_cnab = fill_value * field.length
-            field.value = field.value_to_cnab
+        if field.start == 9 and field.end == 9 and field.value == "T":
+            is_retorno = True
+
+    if not is_retorno:
+        for field in fields:
+            if 24 <= field.start <= 116 and ".5" in field.identifier:
+                field.value = fill_value
+                set_fill_value_to_cnab(
+                    [field], _custom_fill_value=fill_value, overwrite_value=True
+                )
 
 
-def set_zeros_reasonable_default(fields):
-    """Sets value_to_cnab to spaces if is Num and Vazio
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field with value_to_cnab
-             set to spaces
+def set_fill_value_to_cnab(fields, _custom_fill_value=None, overwrite_value=False):
+    """
+    Preenche o :attr:`.value` do campo até o :attr:`.length` com o :attr:`.fill_value`.
 
     TODO: checar se num_decimals == 2 ou 2/5 interfere em algum caso
+
+    Args:
+        fields: campos
+        _custom_fill_value: um fill_value customizado
+        overwrite_value: flag para sobreescrever o :attr:`.value` com o :attr:`.value_to_cnab`
     """
     for field in fields:
-        if field.num_or_str == "Num" and field.reasonable_default == "Vazio":
-            field.value_to_cnab = "0" * field.length
+        my_fill_value = None
+
+        if field.value is None:
+            field.value = ""
+        else:
+            field.value = str(field.value)
+
+        total_length = field.length + default_decimals(field)
+
+        if len(field.value) == total_length:
+            field.value_to_cnab = field.value
+        elif len(field.value) > total_length:
+            raise ValueError("Tamanho do valor é maior do que o esperado!")
+        else:
+            if _custom_fill_value is not None:
+                my_fill_value = _custom_fill_value
+
+            if field.num_or_str == "Num":
+                length = total_length
+
+                if my_fill_value is None:
+                    my_fill_value = "0"
+            else:
+                length = field.length
+                if my_fill_value is None:
+                    my_fill_value = fill_value
+
+            field.value_to_cnab = field.value.rjust(length, my_fill_value)
+
+        if overwrite_value:
             field.value = field.value_to_cnab
 
 
 def set_generic_field(
-    fields, atribute_to_search, value_to_search, atribute_to_set, value_to_set
+    fields, attribute_to_search, value_to_search, attribute_to_set, value_to_set
 ):
+    """
+    Preenche o :attr:`attribute_to_set` dos :class:`.Field`'s (que são 'batem'
+    com o filtro :attr:`value_to_search`) com o valor :attr:`value_to_set`.
+
+    Args:
+        fields: campos
+        attribute_to_search: nome do atributo que será utilizado na busca
+        value_to_search: valor do atributo que será utiliza na busca
+        attribute_to_set: nome do atributo que será preenchido
+        value_to_set: valor do atributo a ser preenchido
+    """
     for field in fields:
-        if getattr(field, atribute_to_search) == value_to_search:
-            setattr(field, atribute_to_set, value_to_set)
+        if getattr(field, attribute_to_search) == value_to_search:
+            setattr(field, attribute_to_set, value_to_set)
 
 
 def set_registry_type(fields):
@@ -82,73 +167,6 @@ def set_registry_type(fields):
     for field in fields:
         if field.start == 8 and field.end == 8:
             field.value_to_cnab = field.default
-
-
-def set_defaults(fields):
-    """
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.default != "" and field.default != "Brancos":
-            field.value = field.default
-
-
-def set_fill_value_to_cnab(fields):
-    for field in fields:
-
-        # TODO: verificar pq quebra
-        #  if field.value is None or not isinstance(field.value, str)\
-        #     or not isinstance(field.value, int):
-        #     raise ValueError(f'Error: field = {field}')
-        #
-        # if isinstance(field.value, int):
-        #     field.value = str(field.value)
-
-        if not isinstance(field.value, str):
-            field.value = str(field.value)
-
-        total_length = field.length + default_decimals(field)
-        if len(field.value) < total_length:
-            if field.num_or_str == "Num":
-                field.value_to_cnab = field.value.zfill(total_length)
-            else:
-                field.value_to_cnab = field.value.rjust(field.length, fill_value)
-        else:
-            field.value_to_cnab = field.value
-
-
-def set_spaces_if_it_is_not_retorno(fields):
-    """Seta no Registro Trailer de Lote se não for do tipo retorno espaços
-    em campos que não são usados quando o CNAB é do tipo retorno
-
-    Na listagem abaixo encontram-se os campos em que a função modifica
-    e as descrições destes:
-    Campos: 06.5, 07.5, 08.5, 09.5, 10.5, 11.5, 12.5, 13.5, 14.5
-    Descrição: C070, C071, C072
-
-    Todos os campos listados pertencem ao segmento trailer de lote.
-    E por serem em sequência, basta que se filtre no intervalo entre
-    começo igual a 24, e fim igual a 116, usando ainda o filtro de
-    que seja o segmento trailer de lote, ou seja, que o fim do
-    identificador contenha a string .5.
-
-    :param fields: uma lista em que cada elemento é do tipo Field
-    """
-    for field in fields:
-        if field.start == 9 and field.end == 9 and field.value == "T":
-            raise ValueError(
-                "This function should not be called in this"
-                " type of CNABs_retorno it is not a RETORNO one."
-            )
-
-    for field in fields:
-        if 24 <= field.start <= 116 and ".5" in field.identifier:
-
-            field.value_to_cnab = fill_value * (field.length + default_decimals(field))
-            field.value = field.value_to_cnab
-            continue
 
 
 def set_numero_do_lote_de_servico_header_and_footer(fields, value):
@@ -214,17 +232,6 @@ def set_field(fields, value_to_search, value_to_set):
     for field in fields:
         if field.identifier == value_to_search:
             field.value = value_to_set
-
-
-def set_reasonable_default_for_all(fields):
-    """Sets all fields that have reasonable default values
-
-    :param fields: a list in that each element is type Field
-    :return: a list in that each element is type Field
-    """
-    for field in fields:
-        if field.reasonable_default != "Calculavél" and field.reasonable_default != "":
-            field.value = field.reasonable_default
 
 
 def set_cpf_or_cnpj(fields, identifier_inscription_type, identifier_cpf_or_cnpj):

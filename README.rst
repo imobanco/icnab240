@@ -49,9 +49,6 @@
 
 Gerador e leitor de CNAB's 240 feito em Python.
 
-`Documentação da Febrabran 240 <https://portal.febraban.org.br/pagina/3053/33/pt-br/layout-240>`_
-
-
 Instalando
 ===========
 
@@ -66,3 +63,11 @@ Configuração
 ==================
 
 Em progresso!
+
+
+Referências
+==================
+
+`Documentação da Febrabran 240 <https://portal.febraban.org.br/pagina/3053/33/pt-br/layout-240>`_
+
+`Documento do Santander 240 <https://cms.santander.com.br/sites/WPS/documentos/arq-layout-de-arquivos-2/17-10-26_172236_149-382-cobranca+layout+cnab+240+febraban+puro+versao+setembro+2017.pdf>`_
