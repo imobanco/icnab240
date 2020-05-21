@@ -23,7 +23,7 @@ def set_default_value(fields):
     """
     Atribui um valor padrão o para :attr:`.value` dos campos.
 
-    Esse valor pode ser um valor de preenchiento, :attr:`.default` ou :attr:`.reasonable_default`.
+    Esse valor pode ser um valor de preenchimento, :attr:`.default` ou :attr:`.reasonable_default`.
 
     Se o :attr:`.num_or_str` for "Alfa" ou "Num" podemos utilizar um valor de preenchimento
     adequado para o caso. Se for "Num" o preenchimento será "0". Se for "Alfa" (e outras validações) o
