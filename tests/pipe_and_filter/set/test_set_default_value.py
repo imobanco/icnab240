@@ -7,7 +7,7 @@ from icnab240.pipe_and_filter.set import set_default_value
 class SetDefaultValueTestCase(MockedFillerTestCase):
     def test_alfa(self):
         """
-        Dado uma lista de campo Alfa que não tenha `default` 'Brancos' ou "Vazio"
+        Dado uma lista que tem o campo `num_or_str` igual a Alfa que não tenha `default` igual a "Brancos" ou "Vazio"
         Quando eu setar o valor default
         Então o valor não é alterado
         """
