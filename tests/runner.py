@@ -7,7 +7,7 @@ class TimedTextTestResult(TextTestResult):
     def __init__(self, *args, **kwargs):
         super(TimedTextTestResult, self).__init__(*args, **kwargs)
         self.clocks = dict()
-        self.showAll = True
+        self.showAll = False
 
     def startTest(self, test):
         self.clocks[test] = time()
