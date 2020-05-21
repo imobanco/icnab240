@@ -7,7 +7,7 @@ from icnab240.pipe_and_filter.set import set_default_value
 class SetDefaultValueTestCase(MockedFillerTestCase):
     def test_alfa(self):
         """
-        Dado uma lista que tem o campo `num_or_str` igual a Alfa que não tenha `default` igual a "Brancos" ou "Vazio"
+        Dado uma lista de Fields que tem o campo `num_or_str` igual a Alfa que não tenha `default` igual a "Brancos" ou "Vazio"
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -21,7 +21,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_alfa_brancos(self):
         """
-        Dado uma lista que tem o campo `num_or_str` igual a Alfa que tenha `default` igual a "Brancos"
+        Dado uma lista de Fields que tem o campo `num_or_str` igual a "Alfa" e que tenha `default` igual a "Brancos"
         Quando eu setar o valor default
         Então o valor é alterado para o valor de preenchimento
         """
@@ -35,7 +35,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_alfa_vazio(self):
         """
-        Dado uma lista que tem o campo `num_or_str` igual Alfa que tenha `default` "Vazio"
+        Dado uma lista de Fields que tem o campo `num_or_str` igual a "Alfa" e que tenha `default` "Vazio"
         Quando eu setar o valor default
         Então o valor é alterado para o valor de preenchimento
         """
@@ -49,7 +49,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_num(self):
         """
-        Dado uma lista de campo Num que não tenha `reasonable_default` "Vazio"
+        Dado uma lista de Fields que tenha o campo `num_or_str` igual a Num e que não tenha `reasonable_default` "Vazio"
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -63,7 +63,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_num_vazio(self):
         """
-        Dado uma lista de campo Num que tenha `reasonable_default` "Vazio"
+        Dado uma lista de Fields que tenha o campo `num_or_str` igual a Num que tenha `reasonable_default` "Vazio"
         Quando eu setar o valor default
         Então o valor é alterado '0' (preenchimento numérico)
         """
@@ -77,7 +77,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_default(self):
         """
-        Dado uma lista de campo que tenha `default` que não seja `None` ou `''` ou 'Brancos'
+        Dado uma lista de Fields que tenha campo `default` não igual a `None` ou `''` ou 'Brancos'
         Quando eu setar o valor default
         Então o valor é alterado para o `default`
         """
@@ -91,7 +91,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_default_empty(self):
         """
-        Dado uma lista de campo que tenha `default` que seja `''`
+        Dado uma lista de Fields que tenha campo `default` igual a `''`
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -105,7 +105,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_default_none(self):
         """
-        Dado uma lista de campo que tenha `default` que seja `None`
+        Dado uma lista de Fields que tenha campo `default` igual a `None`
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -119,7 +119,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_default_brancos(self):
         """
-        Dado uma lista de campo que tenha `default` que seja 'Brancos'
+        Dado uma lista de Fields que tenha campo `default` igual a 'Brancos'
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -133,7 +133,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_reasonable_default(self):
         """
-        Dado uma lista de campo que tenha `reasonable_default` que não seja `None` ou `''` ou 'Calculável'
+        Dado uma lista de Fields que tena o campo `reasonable_default` que não igual a `None` ou `''` ou 'Calculável'
         Quando eu setar o valor default
         Então o valor é alterado para o `reasonable_default`
         """
@@ -147,7 +147,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_reasonable_default_empty(self):
         """
-        Dado uma lista de campo que tenha `reasonable_default` que seja `''`
+        Dado uma lista de Fields que tena o campo `reasonable_default` que igual a `''`
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -161,7 +161,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_reasonable_default_none(self):
         """
-        Dado uma lista de campo que tenha `reasonable_default` que seja `None`
+        Dado uma lista de Fields que tena o campo `reasonable_default` que igual a `None`
         Quando eu setar o valor default
         Então o valor não é alterado
         """
@@ -175,7 +175,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_reasonable_default_calculavel(self):
         """
-        Dado uma lista de campo que tenha `reasonable_default` que seja 'Calculável'
+        Dado uma lista de Fields que tena o campo `reasonable_default` que igual a 'Calculável'
         Quando eu setar o valor default
         Então o valor não é alterado
         """
