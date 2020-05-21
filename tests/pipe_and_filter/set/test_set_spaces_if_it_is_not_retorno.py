@@ -32,7 +32,7 @@ class SetSpacesIfItIsNotRetornoTestCase(MockedFillerTestCase):
         set_spaces_if_it_is_not_retorno([field])
 
         self.assertIsNone(field.value_to_cnab)
-        self.assertEqual('1', field.value)
+        self.assertEqual("1", field.value)
 
     def test_24(self):
         field = Field(start=24, end=44, value=1, length=4, identifier=".5")
@@ -62,4 +62,4 @@ class SetSpacesIfItIsNotRetornoTestCase(MockedFillerTestCase):
         set_spaces_if_it_is_not_retorno([field])
 
         self.assertIsNone(field.value_to_cnab)
-        self.assertEqual('1', field.value)
+        self.assertEqual("1", field.value)
