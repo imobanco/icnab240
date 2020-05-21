@@ -26,7 +26,7 @@ class IsValueEmptyTestCase(unittest.TestCase):
         Quando eu verificar se esse valor é vazio
         Então deve retornar falso
         """
-        other_values = ["a", 1, 0, -1, [], {}, set()]
+        other_values = ["a", 1, 0, -1, [], {}, set(), True, False]
         for value in other_values:
             with self.subTest(value):
                 self.assertFalse(is_value_empty(value))
