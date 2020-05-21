@@ -21,7 +21,7 @@ class SetDefaultValueTestCase(MockedFillerTestCase):
 
     def test_alfa_brancos(self):
         """
-        Dado uma lista de campo Alfa que tenha `default` 'Brancos'
+        Dado uma lista que tem o campo `num_or_str` igual a Alfa que tenha `default` igual a "Brancos"
         Quando eu setar o valor default
         Então o valor é alterado para o valor de preenchimento
         """
