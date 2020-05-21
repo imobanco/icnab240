@@ -2,6 +2,15 @@ from pycpfcnpj import cpfcnpj
 
 
 def is_value_empty(value):
+    """
+    Verifica se o valor é vazio.
+
+    Args:
+        value: valor a ser verificado
+
+    Returns:
+        booleano da verificação
+    """
     return value is None or value == ""
 
 
