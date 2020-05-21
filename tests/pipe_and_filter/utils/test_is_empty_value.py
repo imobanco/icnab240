@@ -10,7 +10,7 @@ class IsValueEmptyTestCase(unittest.TestCase):
         Quando eu verificar se esse valor é vazio
         Então deve retornar verdadeiro
         """
-        self.assertTrue(is_value_empty(''))
+        self.assertTrue(is_value_empty(""))
 
     def test_none(self):
         """
@@ -26,15 +26,7 @@ class IsValueEmptyTestCase(unittest.TestCase):
         Quando eu verificar se esse valor é vazio
         Então deve retornar falso
         """
-        other_values = [
-            'a',
-            1,
-            0,
-            -1,
-            [],
-            {},
-            set()
-        ]
+        other_values = ["a", 1, 0, -1, [], {}, set()]
         for value in other_values:
             with self.subTest(value):
                 self.assertFalse(is_value_empty(value))
