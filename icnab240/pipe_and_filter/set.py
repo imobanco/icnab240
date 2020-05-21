@@ -15,7 +15,7 @@ from .count import (
     count_cnab_lines_1_E,
 )
 from .filter import filter_segment
-from .utils import default_decimals, inscription_type, index_to_insert
+from .utils import default_decimals, inscription_type, index_to_insert, is_value_empty
 from ..constants import fill_value
 
 
@@ -46,10 +46,11 @@ def set_default_value(fields):
         elif field.num_or_str == "Num" and field.reasonable_default == "Vazio":
             field.value = "0"
 
-        elif field.default != "" and field.default != "Brancos":
+        elif not is_value_empty(field.default) and field.default != "Brancos":
             field.value = field.default
         elif (
-            field.reasonable_default != "Calculavél" and field.reasonable_default != ""
+            not is_value_empty(field.reasonable_default)
+            and field.reasonable_default != "Calculavél"
         ):
             field.value = field.reasonable_default
 

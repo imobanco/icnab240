@@ -1,6 +1,10 @@
 from pycpfcnpj import cpfcnpj
 
 
+def is_value_empty(value):
+    return value is None or value == ""
+
+
 def compose(*args):
     def inner(value):
         final_value = value
