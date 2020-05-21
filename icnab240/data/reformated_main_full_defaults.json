@@ -52,7 +52,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "06.0",
@@ -184,7 +184,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "18.0",
@@ -195,7 +195,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "19.0",
@@ -360,7 +360,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "10.1",
@@ -492,7 +492,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "22.1",
@@ -536,7 +536,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "03.3P",
@@ -558,7 +558,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "05.3P",
@@ -2483,7 +2483,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "06.9",
@@ -2494,7 +2494,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "07.9",
@@ -2505,7 +2505,7 @@
         "num_decimals": "-",
         "num_or_str": "Num",
         "default": "",
-        "reasonable_default": "Calculav\u00e9l"
+        "reasonable_default": "Calculável"
     },
     {
         "identifier": "08.9",

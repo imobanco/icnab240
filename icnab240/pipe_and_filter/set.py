@@ -50,7 +50,7 @@ def set_default_value(fields):
             field.value = field.default
         elif (
             not is_value_empty(field.reasonable_default)
-            and field.reasonable_default != "Calculavél"
+            and field.reasonable_default != "Calculável"
         ):
             field.value = field.reasonable_default
 
