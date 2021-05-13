@@ -1,2 +1,2 @@
 pycpfcnpj==1.5.1
-pydantic==1.5
+pydantic==1.6.2
